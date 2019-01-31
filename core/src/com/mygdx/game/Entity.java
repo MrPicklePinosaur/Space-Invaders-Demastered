@@ -2,6 +2,7 @@ package com.mygdx.game;
 //The superclass of player, enemy and objects
 //Helps sync the entity's fixture with the sprite
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Entity {
@@ -18,8 +19,8 @@ public class Entity {
         this.posY = 0;
         this.rotation = 0;
     }
-    public Entity(Sprite sprite, float posX, float posY, float rotation) {
-        this.sprite = sprite;
+    public Entity(Texture texture, float posX, float posY, float rotation) {
+        this.sprite = new Sprite(texture);
         this.posX = posX;
         this.posY = posY;
         this.rotation = rotation;
