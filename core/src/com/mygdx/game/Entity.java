@@ -29,11 +29,14 @@ public abstract class Entity {
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.position.set(this.posX/Global.PPM,this.posY/Global.PPM);
         Body new_body = Global.world.createBody(bdef);
-        new_body.createFixture(fdef);
+        new_body.createFixture(fdef); //DONT FORGET TO DISPOSE OF fdef
 
         return new_body;
     }
-    public abstract void update();
+    public void update() { //Sync sprite with body
+
+    }
+
     public abstract void destroy();
 
     //Getters
