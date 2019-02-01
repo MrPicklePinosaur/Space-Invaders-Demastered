@@ -17,8 +17,8 @@ public class Enemy extends Entity {
         fdef.shape = circle;
         this.body =  this.create(fdef);
         System.out.println(this.posX);
-        this.sprite = new Sprite(new Texture("ship-blue.png"));
-        this.sprite.setSize(64,64*(this.sprite.getHeight()/this.sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
+        //this.sprite = new Sprite(new Texture("ship-blue.png"));
+        //this.sprite.setSize(64,64*(this.sprite.getHeight()/this.sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
 
 
         this.sprite.setOrigin(this.sprite.getWidth()/2f,this.sprite.getHeight()/2f); //allows sprite to rotate around center
