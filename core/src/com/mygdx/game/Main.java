@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.*;
 
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -26,10 +27,18 @@ public class Main extends ApplicationAdapter {
 		batch.draw(img, 0, 0);
 		batch.end();
 	}
-	
+
+	public void handleInput() {
+		//Accelerate / deccelerate
+
+		//Rotate ship using mouse
+	}
+
 	@Override
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
 	}
+
+
 }
