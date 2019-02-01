@@ -4,6 +4,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -29,13 +30,14 @@ public abstract class Entity {
 
         return new_body;
     }
+
     public void update() { //Sync sprite with body (sprite follows body)
         //Sync position
         Vector2 bodyPos = this.body.getPosition(); //get body position
         this.sprite.setPosition(bodyPos.x*Global.PPM,bodyPos.y*Global.PPM);
 
         //Sync rotation
-
+        sprite.setRotation(body.getAngle()*MathUtils.radiansToDegrees);
     }
 
     public abstract void destroy();
