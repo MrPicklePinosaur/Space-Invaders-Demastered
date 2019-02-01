@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Main extends ApplicationAdapter {
+	World world;
 	SpriteBatch batch;
 	Texture img;
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
 	
 	@Override
 	public void create () {
+		Global.world = new World(0,true);
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}

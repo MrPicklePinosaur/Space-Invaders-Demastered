@@ -16,20 +16,19 @@ public abstract class Entity {
     protected float posY;
     protected float rotation;
 
-    //NOTE: i dont like having world as an argument
-    public Entity(World world, Texture texture) { //NOTE: superclass never uses world
+    public Entity(Texture texture) { //NOTE: superclass never uses world
         this.sprite = new Sprite(texture);
         this.posX = 0;
         this.posY = 0;
         this.rotation = 0;
     }
-    //NOTE: i dont like having world as an argument
-    public Body create(World world, FixtureDef fdef) { ///takes in a fixture definition and creates a body
+
+    public Body create(FixtureDef fdef) { ///takes in a fixture definition and creates a body
         //Create the body
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set(this.posX/Constants.PPM,this.posY/Constants.PPM);
-        Body new_body = world.createBody(bdef);
+        bdef.position.set(this.posX/Global.PPM,this.posY/Global.PPM);
+        Body new_body = Global.world.createBody(bdef);
         new_body.createFixture(fdef);
 
         return new_body;

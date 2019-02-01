@@ -8,8 +8,8 @@ public class Player extends Entity {
     private float max_hp;
     private float hp;
 
-    public Player(World world, Texture texture) {
-        super(world, texture);
+    public Player(Texture texture) {
+        super(texture);
 
         //=-=-=-=-=-= Define fixture for body =-=-=-=-=-=-=-
         //Figure out fixrure size depending on size of sprite etc
