@@ -16,7 +16,7 @@ public class Enemy extends Entity {
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         this.body =  this.create(fdef);
-        System.out.println(this.posX);
+        System.out.println(this.getX());
         //this.sprite = new Sprite(new Texture("ship-blue.png"));
         //this.sprite.setSize(64,64*(this.sprite.getHeight()/this.sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
 

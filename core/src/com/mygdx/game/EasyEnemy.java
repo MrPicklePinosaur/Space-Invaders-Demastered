@@ -24,16 +24,16 @@ public class EasyEnemy extends Enemy{
     }
     public void move(float pX, float pY){
         //System.out.println(true);
-        if(Math.sqrt(Math.pow(pX-this.posX,2)+Math.pow(pY-this.posY,2))>150){
+        if(Math.sqrt(Math.pow(pX-this.getX(),2)+Math.pow(pY-this.getY(),2))>150){
             //First stage: Running directly at the player
-            System.out.println(true);
-            this.rotation = (float) Math.atan2(pX-this.posX,pY-this.posY);
-            this.posX+=this.r*Math.cos(this.rotation);
-            this.posY+=this.r*Math.sin(this.rotation);
+            //System.out.println(true);
+            this.rotation = (float) Math.atan2(pX-this.body.getPosition().x,pY-this.body.getPosition().x);
+            this.body.getPosition().x+=this.r*Math.cos(this.rotation);
+            this.body.getPosition().y+=this.r*Math.sin(this.rotation);
 
         }else{
             //Second stage: When close enough, revolve around player in circle
-            
+
         }
     }
     public void draw(SpriteBatch batch){
