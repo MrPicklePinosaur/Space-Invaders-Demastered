@@ -27,7 +27,7 @@ public class Player extends Entity {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             //Accelerate
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             //Deccelerate
         }
 
