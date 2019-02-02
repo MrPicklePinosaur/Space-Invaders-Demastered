@@ -44,6 +44,8 @@ public class Player extends Entity {
         if (mouseAngle - shipAngle > 180) shipAngle += 360;
         sprite.setRotation((shipAngle+(mouseAngle-shipAngle)*0.07f)%360);
         */
+
+        this.update(); //sync
     }
 
     @Override

@@ -48,6 +48,7 @@ public abstract class Entity {
     public float getRotation() { return this.sprite.getRotation(); } //make decision on rotation being in radians or degrees
 
     //Setters
+    //NOTE: SETTER SHOULD CHANGE THE LOCATION OF BODY FIRST, AND THEN USE update() to sync sprite
     public void init(float posX, float posY, float rotation) { //used to place an entity in a specific orientation in the world
         this.sprite.setX(posX);
         this.sprite.setY(posY);
