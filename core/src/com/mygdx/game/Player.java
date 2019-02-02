@@ -1,5 +1,14 @@
-package com.mygdx.game;
+//     =-=-=-=-=-=-=-= SPACE INVADERS: DEMASTERED =-=-=-=-=-=-=-=
+/*
+ ______   __         ______     __  __     ______     ______
+/\  == \ /\ \       /\  __ \   /\ \_\ \   /\  ___\   /\  == \
+\ \  _-/ \ \ \____  \ \  __ \  \ \____ \  \ \  __\   \ \  __<
+ \ \_\    \ \_____\  \ \_\ \_\  \/\_____\  \ \_____\  \ \_\ \_\
+  \/_/     \/_____/   \/_/\/_/   \/_____/   \/_____/   \/_/ /_/
+ */
+//Handles player input
 
+package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;

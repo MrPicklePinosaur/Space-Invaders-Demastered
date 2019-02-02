@@ -1,5 +1,13 @@
-package com.mygdx.game;
+//     =-=-=-=-=-=-=-= SPACE INVADERS: DEMASTERED =-=-=-=-=-=-=-=
+/*
+ __    __     ______     __     __   __
+/\ "-./  \   /\  __ \   /\ \   /\ "-.\ \
+\ \ \-./\ \  \ \  __ \  \ \ \  \ \ \-.  \
+ \ \_\ \ \_\  \ \_\ \_\  \ \_\  \ \_\\"\_\
+  \/_/  \/_/   \/_/\/_/   \/_/   \/_/ \/_/
+ */
 
+package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -25,7 +33,8 @@ public class Main extends ApplicationAdapter {
 
 		//Create Plater
 		player = new Player(new Texture("ship-blue.png")); //create player object
-
+		System.out.println(player.sprite.getX()+" "+player.sprite.getY());
+		System.out.println(player.body.getPosition().x+" "+player.body.getPosition().y);
 	}
 
 	@Override
@@ -35,7 +44,7 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1); //refresh screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-
+		player.sprite.draw(batch);
 		batch.end();
 
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER

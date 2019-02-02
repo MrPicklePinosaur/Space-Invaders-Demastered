@@ -1,15 +1,23 @@
-package com.mygdx.game;
+//     =-=-=-=-=-=-=-= SPACE INVADERS: DEMASTERED =-=-=-=-=-=-=-=
+/*
+ ______     __   __     ______   __     ______   __  __
+/\  ___\   /\ "-.\ \   /\__  _\ /\ \   /\__  _\ /\ \_\ \
+\ \  __\   \ \ \-.  \  \/_/\ \/ \ \ \  \/_/\ \/ \ \____ \
+ \ \_____\  \ \_\\"\_\    \ \_\  \ \_\    \ \_\  \/\_____\
+  \/_____/   \/_/ \/_/     \/_/   \/_/     \/_/   \/_____/
+ */
 //The superclass of player, enemy and objects (like projectiles!)
 //Helps sync the entity's fixture with the sprite
+//     'An entity is anything that has position and texture'
+//      All entities are DYNAMIC BODIES
 
+package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-//     'An entity is anything that has position and texture'
-//      All entities are DYNAMIC BODIES
 public abstract class Entity {
     //NOTE: I dont think you need to have protected variables in an abstract class, look into further later
     protected Sprite sprite;
