@@ -1,15 +1,23 @@
-package com.mygdx.game;
+//     =-=-=-=-=-=-=-= SPACE INVADERS: DEMASTERED =-=-=-=-=-=-=-=
+/*
+ ______     __   __     ______   __     ______   __  __
+/\  ___\   /\ "-.\ \   /\__  _\ /\ \   /\__  _\ /\ \_\ \
+\ \  __\   \ \ \-.  \  \/_/\ \/ \ \ \  \/_/\ \/ \ \____ \
+ \ \_____\  \ \_\\"\_\    \ \_\  \ \_\    \ \_\  \/\_____\
+  \/_____/   \/_/ \/_/     \/_/   \/_/     \/_/   \/_____/
+ */
 //The superclass of player, enemy and objects (like projectiles!)
 //Helps sync the entity's fixture with the sprite
+//     'An entity is anything that has position and texture'
+//      All entities are DYNAMIC BODIES
 
+package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-//     'An entity is anything that has position and texture'
-//      All entities are DYNAMIC BODIES
 public abstract class Entity {
     //NOTE: I dont think you need to have protected variables in an abstract class, look into further later
     protected Sprite sprite;
@@ -48,6 +56,7 @@ public abstract class Entity {
     public float getRotation() { return this.sprite.getRotation(); } //make decision on rotation being in radians or degrees
 
     //Setters
+    //NOTE: SETTER SHOULD CHANGE THE LOCATION OF BODY FIRST, AND THEN USE update() to sync sprite
     public void init(float posX, float posY, float rotation) { //used to place an entity in a specific orientation in the world
         this.sprite.setX(posX);
         this.sprite.setY(posY);

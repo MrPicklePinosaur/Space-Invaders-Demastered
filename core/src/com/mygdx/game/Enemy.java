@@ -1,5 +1,15 @@
-package com.mygdx.game;
+//     =-=-=-=-=-=-=-= SPACE INVADERS: DEMASTERED =-=-=-=-=-=-=-=
+/*
+ ______     __   __     ______     __    __     __  __
+/\  ___\   /\ "-.\ \   /\  ___\   /\ "-./  \   /\ \_\ \
+\ \  __\   \ \ \-.  \  \ \  __\   \ \ \-./\ \  \ \____ \
+ \ \_____\  \ \_\\"\_\  \ \_____\  \ \_\ \ \_\  \/\_____\
+  \/_____/   \/_/ \/_/   \/_____/   \/_/  \/_/   \/_____/
+ */
+//Subclass of Entity
+// Handles all enemy shaninigans
 
+package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.CircleShape;
