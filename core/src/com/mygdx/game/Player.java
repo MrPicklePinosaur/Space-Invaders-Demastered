@@ -10,6 +10,7 @@ public class Player extends Entity {
     private String name;
     private float max_hp;
     private float hp;
+    private float SHIP_SIZE = 64;
 
     public Player(Texture texture) {
         super(texture);
@@ -20,6 +21,13 @@ public class Player extends Entity {
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         this.body =  this.create(fdef);
+
+        sprite.setSize(SHIP_SIZE,SHIP_SIZE*(sprite.getHeight()/sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
+
+        sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
+        sprite.setPosition(Global.CAM_SIZE_X/2f-sprite.getWidth()/2f,Global.CAM_SIZE_Y/2f-sprite.getHeight()/2f); //set sprite as starting in center of screen
+        sprite.setRotation(-90);
+
     }
 
     public void handleInput() {

@@ -19,7 +19,7 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 
 		Global.world = new World(new Vector2(0,0),true);
-		Renderer r =
+		Renderer r = new Renderer(batch);
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}

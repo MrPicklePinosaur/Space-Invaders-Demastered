@@ -27,24 +27,25 @@ public class Renderer {
         cam = new OrthographicCamera(400,400);
         WINDOW_SIZE_X = Gdx.graphics.getWidth();
         WINDOW_SIZE_Y = Gdx.graphics.getHeight();
-        CAM_SIZE_X = cam.viewportWidth;
-        CAM_SIZE_Y = cam.viewportHeight;
-        RESOLUTION = (WINDOW_SIZE_Y/WINDOW_SIZE_X);
+        Global.CAM_SIZE_X = cam.viewportWidth;
+        Global.CAM_SIZE_Y = cam.viewportHeight;
+        Global.RESOLUTION = (WINDOW_SIZE_Y/WINDOW_SIZE_X);
         //System.out.println(CAM_SIZE_X+" "+CAM_SIZE_Y);
 
-        sprite = new Sprite(new Texture("ship-blue.png"));
-        background = new Sprite(new Texture("librotation/space.jpg"));
-        sprite.setSize(SHIP_SIZE,SHIP_SIZE*(sprite.getHeight()/sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
+        //sprite = new Sprite(new Texture("ship-blue.png"));
+        background = new Sprite(new Texture("space.jpg"));
+        //sprite.setSize(SHIP_SIZE,SHIP_SIZE*(sprite.getHeight()/sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
         background.setSize(MAP_SIZE,MAP_SIZE*RESOLUTION); //fix height with resolution
 
-        e = new EasyEnemy(new Texture("ship-blue.png"));
+        Player player = new Player(new Texture("ship-blue.png"));
+        e = new EasyEnemy(new Texture("ship-blue.png"),player);
 
-        sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
-        sprite.setPosition(CAM_SIZE_X/2f-sprite.getWidth()/2f,CAM_SIZE_Y/2f-sprite.getHeight()/2f); //set sprite as starting in center of screen
-        sprite.setRotation(-90);
+        //sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
+        //sprite.setPosition(CAM_SIZE_X/2f-sprite.getWidth()/2f,CAM_SIZE_Y/2f-sprite.getHeight()/2f); //set sprite as starting in center of screen
+        //sprite.setRotation(-90);
         background.setPosition(0,0);
 
-        cam.position.set(CAM_SIZE_X/2f-sprite.getWidth()/2f,CAM_SIZE_Y/2f-sprite.getHeight()/2f,0); //offset camera to center of screen
+        cam.position.set(CAM_SIZE_X/2f-player.sprite.getWidth()/2f,CAM_SIZE_Y/2f-player.sprite.getHeight()/2f,0); //offset camera to center of screen
         cam.zoom = 3f;
         cam.update();
     }
