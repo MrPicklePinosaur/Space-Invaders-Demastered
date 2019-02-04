@@ -18,6 +18,9 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class Renderer {
     OrthographicCamera cam;
+    Box2DDebugRenderer debugCam;
+
+    /*
     float WINDOW_SIZE_X;
     float WINDOW_SIZE_Y;
     float CAM_SIZE_X;
@@ -27,11 +30,13 @@ public class Renderer {
     int SHIP_SIZE = 64;
     int MAP_SIZE = 40000;
     EasyEnemy e;
-
     float speed = 10;
+    */
 
-    public Renderer(SpriteBatch batch){
-        cam = new OrthographicCamera(400,400);
+    public Renderer(SpriteBatch batch) {
+        cam = new OrthographicCamera(400/Global.PPM,400/Global.PPM); //NOTE: GET RID OF HARDCODED VALUES LATER
+        debugCam = new Box2DDebugRenderer();
+        /*
         WINDOW_SIZE_X = Gdx.graphics.getWidth();
         WINDOW_SIZE_Y = Gdx.graphics.getHeight();
         Global.CAM_SIZE_X = cam.viewportWidth;
@@ -54,8 +59,9 @@ public class Renderer {
 
         cam.position.set(CAM_SIZE_X/2f-player.sprite.getWidth()/2f,CAM_SIZE_Y/2f-player.sprite.getHeight()/2f,0); //offset camera to center of screen
         cam.zoom = 3f;
-        cam.update();
+        */
     }
+    /*
     public void draw(SpriteBatch batch) {
         //handleInput();
         //System.out.println(sprite.getX()+" "+sprite.getY());
@@ -68,11 +74,7 @@ public class Renderer {
         //rest of draw will come here later, with more objs being added
         Box2DDebugRenderer debugCam;
     }
-    public Renderer() {
-        cam = new OrthographicCamera(400/Global.PPM,400/Global.PPM); //NOTE: GET RID OF HARDCODED VALUES LATER
-        //debugCam = new Box2DDebugRenderer();
-    }
-
+    */
     public void clampCamera() { //makes sure that camera cant zoom in or out too far
 
     }
