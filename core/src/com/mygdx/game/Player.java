@@ -19,7 +19,7 @@ public class Player extends Entity {
     private String name;
     private float max_hp;
     private float hp;
-    private float ship_speed = 1f; //in m/s
+    private float ship_speed = 3f; //in m/s
     private float SHIP_SIZE = 64;
 
     public Player(Texture texture) {

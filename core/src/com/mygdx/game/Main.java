@@ -57,6 +57,7 @@ public class Main extends ApplicationAdapter {
 
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		r.debugCam.render(Global.world,r.cam.combined);
+		r.moveCamera(player.sprite.getX(),player.sprite.getY());
 		r.cam.update(); //refresh camera
 	}
 

@@ -76,20 +76,21 @@ public class Renderer {
         Box2DDebugRenderer debugCam;
     }
     */
-    public void clampCamera() { //makes sure that camera cant zoom in or out too far
-
+    public void moveCamera(float px, float py) { //makes sure that camera cant zoom in or out too far and cant stray too far from player
+        //Shift camera towards direction of mouse
+        //NOTE: The code below is repetitive, possibly move to global
+        //Find out how far mouse is from center of screen
+        float mx = Gdx.input.getX()-Global.SCREEN_WIDTH/2f;
+        float my = Global.SCREEN_HEIGHT/2f-Gdx.input.getY();
+        float angle = MathUtils.atan2(my,mx); //calculate degree of mouse relative to center of screen
+        float camShiftSpeed = 3f;
+        this.cam.translate(camShiftSpeed*MathUtils.cos(angle)/Global.PPM,camShiftSpeed*MathUtils.sin(angle)/Global.PPM);
+        //Camera follows player
+        float maxCamDist = 150/Global.PPM; //TODO: GET RID OF HARDCODED STUFF
+        this.cam.position.x = MathUtils.clamp(this.cam.position.x,px-maxCamDist,px+maxCamDist);
+        this.cam.position.y = MathUtils.clamp(this.cam.position.y,py-maxCamDist,py+maxCamDist);
     }
 
-    public void shiftCamera() { //camera shifts in direction of mouse
-
-    }
-
-    public void followPlayer(float px,float py) { //Camera follows player
-        /*
-        this.cam.position.x = MathUtils.clamp(cam.position.x,spriteCX-maxCamDist,spriteCX+maxCamDist);
-        this.cam.position.y = MathUtils.clamp(cam.position.y,spriteCY-maxCamDist,spriteCY+maxCamDist);
-        */
-    }
 
     //JUST FOR FUN --> IMPLEMENT LATER
     public void screenShake() {
