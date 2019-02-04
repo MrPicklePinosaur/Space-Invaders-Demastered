@@ -19,6 +19,7 @@ public class Player extends Entity {
     private String name;
     private float max_hp;
     private float hp;
+    private float ship_speed = 1f; //in m/s
     private float SHIP_SIZE = 64;
 
     public Player(Texture texture) {
@@ -31,41 +32,42 @@ public class Player extends Entity {
         fdef.shape = circle;
         this.body =  this.create(fdef);
 
-        System.out.println(this.sprite.getWidth());
         this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
-        System.out.println(this.sprite.getWidth());
         //sprite.setSize(SHIP_SIZE,SHIP_SIZE*(sprite.getHeight()/sprite.getWidth()); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
         this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
-        this.sprite.setPosition(Global.CAM_SIZE_X/2f-sprite.getWidth()/2f,Global.CAM_SIZE_Y/2f-sprite.getHeight()/2f); //set sprite as starting in center of screen
-        this.sprite.setRotation(-90);
-
-
+        //this.sprite.setPosition(Global.CAM_SIZE_X/2f-sprite.getWidth()/2f,Global.CAM_SIZE_Y/2f-sprite.getHeight()/2f); //set sprite as starting in center of screen
     }
 
     public void handleInput() {
         //Accelerate / deccelerate
+        /*  NOTE: There may be no need for acceleration / decceleration, instead possibly use impulses and linear damping
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            //Accelerate
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            //Deccelerate
         }
-
-        /*
-        //Rotate ship using mouse
-        //Find out how far mouse is from center of screen
-        float shiftX = Gdx.input.getX()-Global.SCREEN_WIDTH/2f;
-        float shiftY = Global.SCREEN_HEIGHT/2f-Gdx.input.getY();
-        float angle = MathUtils.atan2(shiftY,shiftX); //calculate degree of mouse relative to center of screen
-        //THIS BLOCK OF CODE IS FROM https://gamedev.stackexchange.com/questions/108795/libgdx-rotatetoaction-does-not-directly-rotate-between-179-and-179
-        float mouseAngle = angle*MathUtils.radiansToDegrees-90;
-        float shipAngle = (body.getRotation()+360)%360;
-        if (shipAngle - mouseAngle > 180) mouseAngle += 360;
-        if (mouseAngle - shipAngle > 180) shipAngle += 360;
-        sprite.setRotation((shipAngle+(mouseAngle-shipAngle)*0.07f)%360);
         */
 
-        this.update(); //sync
+        //Rotate ship using mouse
+        //Find out how far mouse is from center of screen
+        float mx = Gdx.input.getX()-Global.SCREEN_WIDTH/2f;
+        float my = Global.SCREEN_HEIGHT/2f-Gdx.input.getY();
+        float angle = MathUtils.atan2(my,mx); //calculate degree of mouse relative to center of screen
+        //THIS BLOCK OF CODE IS FROM https://gamedev.stackexchange.com/questions/108795/libgdx-rotatetoaction-does-not-directly-rotate-between-179-and-179
+        float mouseAngle = angle;
+        float shipAngle = (this.body.getAngle()+MathUtils.PI2)%MathUtils.PI2;
+        if (shipAngle - mouseAngle > MathUtils.PI) mouseAngle += MathUtils.PI2;
+        if (mouseAngle - shipAngle > MathUtils.PI) shipAngle += MathUtils.PI2;
+        float rotate = (shipAngle+(mouseAngle-shipAngle)*0.07f)%MathUtils.PI2; //the amount the ship rotates
+
+        //The amount the ship moves
+        float shiftX = this.ship_speed*MathUtils.cos(this.body.getAngle())/Global.PPM;
+        float shiftY = this.ship_speed*MathUtils.sin(this.body.getAngle())/Global.PPM;
+
+        //Move and rotate player
+        this.body.setTransform(this.body.getPosition().x+shiftX,this.body.getPosition().y+shiftY,rotate); //the 0.07f is the turnSpeed
+        //this.body.setTransform(this.ship_speed);
+
+        this.update(); //sync texture with body
     }
 
     @Override

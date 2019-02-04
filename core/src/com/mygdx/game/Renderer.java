@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Renderer {
@@ -81,6 +82,13 @@ public class Renderer {
 
     public void shiftCamera() { //camera shifts in direction of mouse
 
+    }
+
+    public void followPlayer(float px,float py) { //Camera follows player
+        /*
+        this.cam.position.x = MathUtils.clamp(cam.position.x,spriteCX-maxCamDist,spriteCX+maxCamDist);
+        this.cam.position.y = MathUtils.clamp(cam.position.y,spriteCY-maxCamDist,spriteCY+maxCamDist);
+        */
     }
 
     //JUST FOR FUN --> IMPLEMENT LATER

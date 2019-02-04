@@ -22,6 +22,7 @@ public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
 	Renderer r;
 	Player player;
+	Sprite map; //temp variable; clean up later
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
 	
 	@Override
@@ -33,17 +34,27 @@ public class Main extends ApplicationAdapter {
 
 		//Create Player
 		player = new Player(new Texture("ship-blue.png")); //create player object
+		map = new Sprite(new Texture("space.jpg"));
 	}
 
 	@Override
 	public void render () {
+
 		//DRAWING SPRITES TO SCREEN
 		Gdx.gl.glClearColor(1, 0, 0, 1); //refresh screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.setProjectionMatrix(r.cam.combined);
-		player.sprite.draw(batch);
+		map.draw(batch);
+		player.sprite.draw(batch); //draw player
 		batch.end();
+
+		//UPDATE STUFF
+		//Update Entities
+		player.handleInput();
+		//player.body.applyForceToCenter(0.01f,0,true); //TESTING CODE
+		player.body.setAngularDamping(1f);
+
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		r.debugCam.render(Global.world,r.cam.combined);
 		r.cam.update(); //refresh camera

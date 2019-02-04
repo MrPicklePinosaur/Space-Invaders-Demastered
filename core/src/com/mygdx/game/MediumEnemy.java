@@ -1,3 +1,4 @@
+/*
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
@@ -31,12 +32,12 @@ public class MediumEnemy extends Enemy{
         this.sprite.setSize(SHIP_SIZE,SHIP_SIZE*(this.sprite.getHeight()/this.sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
         this.sprite.setOrigin(this.sprite.getWidth()/2f,this.sprite.getHeight()/2f); //allows sprite to rotate around center
 
-        /*
+
         Resources:
         https://libgdx.badlogicgames.com/ci/nightlies/docs/api/com/badlogic/gdx/physics/box2d/joints/RevoluteJoint.html
         https://libgdx.badlogicgames.com/ci/nightlies/docs/api/com/badlogic/gdx/physics/box2d/joints/RevoluteJointDef.html
         http://www.iforce2d.net/b2dtut/joints-revolute
-        */
+
 
         this.jDef = new RevoluteJointDef(); //need this to define what joint is actually between
 
@@ -76,3 +77,4 @@ public class MediumEnemy extends Enemy{
     }
 
 }
+*/
