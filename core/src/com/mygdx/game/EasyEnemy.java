@@ -16,7 +16,7 @@ public class EasyEnemy extends Enemy{
     //private int y;
     //private int hp;
     //private float theta;
-    private int r=2;//,speed=3;
+    private float r=2.5f;//,speed=3;
     //private b2RevoluteJointDef b2DJ;
     //private Sprite sprite;
     static int SHIP_SIZE = 64;
@@ -57,10 +57,10 @@ public class EasyEnemy extends Enemy{
 
         this.j = new RevoluteJoint(Global.world,0000);
 
-        this.sprite.setPosition(400f/2f-this.sprite.getWidth()/2f,400f/2f-this.sprite.getHeight()/2f); //set sprite as starting in center of screen
+        this.sprite.setPosition(this.body.getPosition().x-this.sprite.getWidth()/2f,this.body.getPosition().y-this.sprite.getHeight()/2f);///Global.PPM,this.body.getPosition().y/Global.PPM);//(400f/2f-this.sprite.getWidth()/2f,400f/2f-this.sprite.getHeight()/2f); //set sprite as starting in center of screen
         this.sprite.setRotation(-90);
     }
-    public void move(Body p){//float pX, float pY){
+    public void move(SpriteBatch batch, Body p){//float pX, float pY){
         //System.out.println(true);
         //double dist = Math.sqrt(Math.pow(pX-this.body.getPosition().x,2)+Math.pow(pY-this.body.getPosition().y,2));
         double dist = Math.sqrt(Math.pow(p.getWorldCenter().x-this.body.getWorldCenter().x,2)+Math.pow(p.getWorldCenter().y-this.body.getWorldCenter().y,2));
@@ -75,8 +75,13 @@ public class EasyEnemy extends Enemy{
 
         }else{
             System.out.println(dist);
+
+
+            //Possible solution: complete setup of motor isnt finished before it is enabled?
+
+
             //if(!this.j.isMotorEnabled()){
-                this.j.enableMotor(true);
+                //this.j.enableMotor(true);
             //}
             //Second stage: When close enough, revolve around player in circle
 

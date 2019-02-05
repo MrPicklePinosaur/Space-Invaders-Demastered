@@ -55,14 +55,13 @@ public class Main extends ApplicationAdapter {
 		//UPDATE STUFF
 		//Update Entities
 		player.handleInput();
-		e.move(player.body);//player.body.getWorldCenter());//getPosition().x,player.body.getPosition().y);
+		e.move(batch,player.body);//player.body.getWorldCenter());//getPosition().x,player.body.getPosition().y);
 		//player.body.applyForceToCenter(0.01f,0,true); //TESTING CODE
 		player.body.setAngularDamping(1f);
 
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		r.debugCam.render(Global.world,r.cam.combined);
 		r.moveCamera(player.sprite.getX(),player.sprite.getY());
-		r.cam.update(); //refresh camera
 	}
 
 	public void handleInput() {
