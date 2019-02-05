@@ -28,10 +28,10 @@ public abstract class Entity {
         this.sprite = new Sprite(texture);
     }
 
-    public Body create(FixtureDef fdef) { ///takes in a fixture definition and creates a body
+    public Body create(FixtureDef fdef, BodyDef.BodyType bodyType) { ///takes in a fixture definition and creates a body
         //Create the body
         BodyDef bdef = new BodyDef();
-        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.type = bodyType;
         bdef.position.set(this.getX()/Global.PPM,this.getY()/Global.PPM);
         Body new_body = Global.world.createBody(bdef);
         new_body.createFixture(fdef); //DONT FORGET TO DISPOSE OF fdef
