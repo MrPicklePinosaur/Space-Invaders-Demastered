@@ -19,11 +19,17 @@ public class Player extends Entity {
     private String name;
     private float max_hp;
     private float hp;
+    private float max_speed;
+    private int xp;
+    private int lvl;
+
     private float ship_speed = 3f; //in m/s
     private float SHIP_SIZE = 64;
 
     public Player(Texture texture) {
         super(texture);
+        this.xp = 0;
+        this.lvl = 0;
 
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
@@ -76,7 +82,21 @@ public class Player extends Entity {
     }
 
     //Getters
+    public int getXp() { return this.xp; }
+    public int getLvl() {return this.lvl; }
     public float getHp() { return this.hp; }
 
     //Setters
+    public void addXp(float xpAmount) { //handles leveling up
+        int lvlupReq = 1000; //amount of xp required to level up (its fixed for now, but make it so that the higher level you are, the harder it is to lvl up)
+
+        if (this.xp+xpAmount >= lvlupReq) { //if the player levels up
+            //hp goes back to full
+            //TODO: level caps at 45 or sm
+            this.lvl += 1;
+            this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
+        } else { //otherwise level up like normal
+            this.xp += xpAmount;
+        }
+    }
 }
