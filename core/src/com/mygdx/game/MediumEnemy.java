@@ -27,7 +27,7 @@ public class MediumEnemy extends Enemy{
     public MediumEnemy(Texture texture, Player player){
         super(texture);
         //x=0;y=0;hp=3;
-        this.sprite = new Sprite(new Texture("ship-blue.png"));
+        //this.sprite = new Sprite(new Texture("ship-blue.png"));
         this.sprite.setSize(SHIP_SIZE,SHIP_SIZE*(this.sprite.getHeight()/this.sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
         this.sprite.setOrigin(this.sprite.getWidth()/2f,this.sprite.getHeight()/2f); //allows sprite to rotate around center
 
@@ -60,7 +60,7 @@ public class MediumEnemy extends Enemy{
             this.body.getPosition().y+=this.r*Math.sin(this.rotation);
 
         }else{
-            System.out.println('collision');
+            System.out.println("collision");
             //Second stage: Explode
 
         }

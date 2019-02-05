@@ -24,7 +24,8 @@ public class Main extends ApplicationAdapter {
 	Player player;
 	Sprite map; //temp variable; clean up later
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
-	
+	EasyEnemy e;
+
 	@Override
 	public void create() {
 		Gdx.graphics.setWindowedMode(Global.SCREEN_WIDTH, Global.SCREEN_HEIGHT); //change window resolution
@@ -33,7 +34,8 @@ public class Main extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		//Create Player
-		player = new Player(new Texture("ship-blue.png")); //create player object
+		player = new Player(new Texture("ship-green.png")); //create player object
+		e = new EasyEnemy(new Texture("ship-blue.png"),player);
 		map = new Sprite(new Texture("space.jpg"));
 	}
 
@@ -41,17 +43,19 @@ public class Main extends ApplicationAdapter {
 	public void render () {
 
 		//DRAWING SPRITES TO SCREEN
-		Gdx.gl.glClearColor(1, 0, 0, 1); //refresh screen
+		Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.setProjectionMatrix(r.cam.combined);
 		map.draw(batch);
 		player.sprite.draw(batch); //draw player
+		e.sprite.draw(batch); //draw enemy
 		batch.end();
 
 		//UPDATE STUFF
 		//Update Entities
 		player.handleInput();
+		e.move(player.body);//player.body.getWorldCenter());//getPosition().x,player.body.getPosition().y);
 		//player.body.applyForceToCenter(0.01f,0,true); //TESTING CODE
 		player.body.setAngularDamping(1f);
 
