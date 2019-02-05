@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
@@ -31,7 +32,7 @@ public class EasyEnemy extends Enemy{
         circle.setRadius((this.sprite.getWidth()/2f)/Global.PPM); //The fixture for the player is a circle with radius spriteWidth/2
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
-        this.body =  this.create(fdef);
+        this.body =  this.create(fdef, BodyDef.BodyType.DynamicBody);
         this.body.getPosition().x = player.body.getPosition().x-100;
         this.body.getPosition().y = player.body.getPosition().y-100;
 
