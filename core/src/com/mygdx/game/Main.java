@@ -30,6 +30,7 @@ public class Main extends ApplicationAdapter {
 	public void create() {
 		Gdx.graphics.setWindowedMode(Global.SCREEN_WIDTH, Global.SCREEN_HEIGHT); //change window resolution
 		Global.world = new World(new Vector2(0,0),true);
+		Global.world.setContactListener(new CollisionListener());
 		r = new Renderer(batch);
 		batch = new SpriteBatch();
 

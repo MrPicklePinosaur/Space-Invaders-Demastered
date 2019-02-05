@@ -9,7 +9,6 @@
 //The superclass of player, enemy and objects (like projectiles!)
 //Helps sync the entity's fixture with the sprite
 //     'An entity is anything that has position and texture'
-//      All entities are DYNAMIC BODIES
 
 package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,7 +23,7 @@ public abstract class Entity {
     protected Body body;
     protected float rotation;
 
-    public Entity(Texture texture) { //NOTE: superclass never uses world
+    public Entity(Texture texture) {
         this.sprite = new Sprite(texture);
     }
 
@@ -51,16 +50,14 @@ public abstract class Entity {
     public abstract void destroy();
 
     //Getters
-    public float getX() { return this.sprite.getX(); }
+    public float getX() { return this.sprite.getX(); } //TODO: getters should get body positions
     public float getY() { return this.sprite.getY(); }
-    public float getRotation() { return this.sprite.getRotation(); } //make decision on rotation being in radians or degrees
+    public float getRotation() { return this.body.getAngle(); } //make decision on rotation being in radians or degrees
 
     //Setters
-    //NOTE: SETTER SHOULD CHANGE THE LOCATION OF BODY FIRST, AND THEN USE update() to sync sprite
+    //NOTE: DECIDE WETHER OR NOT THE ARGUMENTS SHOULD BE IN PIXELS OR METERS
     public void init(float posX, float posY, float rotation) { //used to place an entity in a specific orientation in the world
-        this.sprite.setX(posX);
-        this.sprite.setY(posY);
-        this.sprite.setRotation(rotation);
+        this.body.setTransform(posX,posY,rotation);
     }
 
 }
