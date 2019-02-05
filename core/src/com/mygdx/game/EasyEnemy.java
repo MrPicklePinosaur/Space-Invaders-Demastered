@@ -60,7 +60,7 @@ public class EasyEnemy extends Enemy{
         this.sprite.setPosition(this.body.getPosition().x-this.sprite.getWidth()/2f,this.body.getPosition().y-this.sprite.getHeight()/2f);///Global.PPM,this.body.getPosition().y/Global.PPM);//(400f/2f-this.sprite.getWidth()/2f,400f/2f-this.sprite.getHeight()/2f); //set sprite as starting in center of screen
         this.sprite.setRotation(-90);
     }
-    public void move(SpriteBatch batch, Body p){//float pX, float pY){
+    public void move(Body p){//float pX, float pY){
         //System.out.println(true);
         //double dist = Math.sqrt(Math.pow(pX-this.body.getPosition().x,2)+Math.pow(pY-this.body.getPosition().y,2));
         double dist = Math.sqrt(Math.pow(p.getWorldCenter().x-this.body.getWorldCenter().x,2)+Math.pow(p.getWorldCenter().y-this.body.getWorldCenter().y,2));

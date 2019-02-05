@@ -78,23 +78,18 @@ public class Renderer {
     */
     public void moveCamera(float px, float py) { //makes sure that camera cant zoom in or out too far and cant stray too far from player
         //Shift camera towards direction of mouse
-        //NOTE: The code below is repetitive, possibly move to global
-        //Find out how far mouse is from center of screen
-        float mx = Gdx.input.getX()-Global.SCREEN_WIDTH/2f;
-        float my = Global.SCREEN_HEIGHT/2f-Gdx.input.getY();
-        float angle = MathUtils.atan2(my,mx); //calculate degree of mouse relative to center of screen
-        float camShiftSpeed = 3f;
-        this.cam.translate(camShiftSpeed*MathUtils.cos(angle)/Global.PPM,camShiftSpeed*MathUtils.sin(angle)/Global.PPM);
-        //Camera follows player
+        float camShiftSpeed = 1f/Global.PPM;
+        this.cam.translate(camShiftSpeed*Global.mx/Global.PPM,camShiftSpeed*Global.my/Global.PPM);
+        //Lock camera to not go beyond a certain distance away from player
         float maxCamDist = 150/Global.PPM; //TODO: GET RID OF HARDCODED STUFF
         this.cam.position.x = MathUtils.clamp(this.cam.position.x,px-maxCamDist,px+maxCamDist);
         this.cam.position.y = MathUtils.clamp(this.cam.position.y,py-maxCamDist,py+maxCamDist);
     }
 
-
     //JUST FOR FUN --> IMPLEMENT LATER
-    public void screenShake() {
-
+    public void screenShake(float intensity) { //intensity is the amount the camera shifts (in meters)
+        float shakeAngle = Global.rand.nextInt(360)*MathUtils.degreesToRadians;
+        this.cam.translate(intensity*MathUtils.cos(shakeAngle)/Global.PPM,intensity*MathUtils.sin(shakeAngle)/Global.PPM);
     }
 
 
