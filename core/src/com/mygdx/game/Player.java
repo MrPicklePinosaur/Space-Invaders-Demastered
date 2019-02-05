@@ -5,7 +5,7 @@
 \ \  _-/ \ \ \____  \ \  __ \  \ \____ \  \ \  __\   \ \  __<
  \ \_\    \ \_____\  \ \_\ \_\  \/\_____\  \ \_____\  \ \_\ \_\
   \/_/     \/_____/   \/_/\/_/   \/_____/   \/_____/   \/_/ /_/
- */
+*/
 //Handles player input
 
 package com.mygdx.game;
@@ -39,27 +39,16 @@ public class Player extends Entity {
         this.body =  this.create(fdef);
 
         this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
-        //sprite.setSize(SHIP_SIZE,SHIP_SIZE*(sprite.getHeight()/sprite.getWidth()); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
         this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
-        //this.sprite.setPosition(Global.CAM_SIZE_X/2f-sprite.getWidth()/2f,Global.CAM_SIZE_Y/2f-sprite.getHeight()/2f); //set sprite as starting in center of screen
     }
 
     public void handleInput() {
         //Accelerate / deccelerate
-        /*  NOTE: There may be no need for acceleration / decceleration, instead possibly use impulses and linear damping
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        }
-        */
+        //  NOTE: There may be no need for acceleration / decceleration, instead possibly use impulses and linear damping
 
         //Rotate ship using mouse
-        //Find out how far mouse is from center of screen
-        float mx = Gdx.input.getX()-Global.SCREEN_WIDTH/2f;
-        float my = Global.SCREEN_HEIGHT/2f-Gdx.input.getY();
-        float angle = MathUtils.atan2(my,mx); //calculate degree of mouse relative to center of screen
         //THIS BLOCK OF CODE IS FROM https://gamedev.stackexchange.com/questions/108795/libgdx-rotatetoaction-does-not-directly-rotate-between-179-and-179
-        float mouseAngle = angle;
+        float mouseAngle = Global.angle;
         float shipAngle = (this.body.getAngle()+MathUtils.PI2)%MathUtils.PI2;
         if (shipAngle - mouseAngle > MathUtils.PI) mouseAngle += MathUtils.PI2;
         if (mouseAngle - shipAngle > MathUtils.PI) shipAngle += MathUtils.PI2;
@@ -68,10 +57,8 @@ public class Player extends Entity {
         //The amount the ship moves
         float shiftX = this.ship_speed*MathUtils.cos(this.body.getAngle())/Global.PPM;
         float shiftY = this.ship_speed*MathUtils.sin(this.body.getAngle())/Global.PPM;
-
         //Move and rotate player
         this.body.setTransform(this.body.getPosition().x+shiftX,this.body.getPosition().y+shiftY,rotate); //the 0.07f is the turnSpeed
-        //this.body.setTransform(this.ship_speed);
 
         this.update(); //sync texture with body
     }
@@ -92,11 +79,16 @@ public class Player extends Entity {
 
         if (this.xp+xpAmount >= lvlupReq) { //if the player levels up
             //hp goes back to full
+            this.hp = this.max_hp;
             //TODO: level caps at 45 or sm
             this.lvl += 1;
             this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
         } else { //otherwise level up like normal
             this.xp += xpAmount;
         }
+    }
+    public void modHp(float deltaHp) {
+        this.hp += deltaHp;
+        MathUtils.clamp(this.hp,0,this.max_hp);
     }
 }

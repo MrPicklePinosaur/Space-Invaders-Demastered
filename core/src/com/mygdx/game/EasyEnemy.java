@@ -76,7 +76,7 @@ public class EasyEnemy extends Enemy{
         }else{
             System.out.println(dist);
             //if(!this.j.isMotorEnabled()){
-                this.j.enableMotor(true);
+                //this.j.enableMotor(true);
             //}
             //Second stage: When close enough, revolve around player in circle
 

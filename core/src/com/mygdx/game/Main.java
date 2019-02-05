@@ -45,6 +45,7 @@ public class Main extends ApplicationAdapter {
 		//DRAWING SPRITES TO SCREEN
 		Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		batch.begin();
 		batch.setProjectionMatrix(r.cam.combined);
 		map.draw(batch);
@@ -55,14 +56,14 @@ public class Main extends ApplicationAdapter {
 		//UPDATE STUFF
 		//Update Entities
 		player.handleInput();
-		e.move(player.body);//player.body.getWorldCenter());//getPosition().x,player.body.getPosition().y);
-		//player.body.applyForceToCenter(0.01f,0,true); //TESTING CODE
-		player.body.setAngularDamping(1f);
+		e.move(player.body);
 
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		r.debugCam.render(Global.world,r.cam.combined);
 		r.moveCamera(player.sprite.getX(),player.sprite.getY());
+		//r.screenShake(2f);
 		r.cam.update(); //refresh camera
+		Global.updateInput();
 	}
 
 	public void handleInput() {
