@@ -41,5 +41,8 @@ public class Global {
         Global.angle = MathUtils.atan2(my,mx); //calculate degree of mouse relative to center of screen
     }
 
+    public static double getDist(double x1,double y1,double x2,double y2){
+        return Math.hypot((x2-x1),(y2-y1));
+    }
 
 }
