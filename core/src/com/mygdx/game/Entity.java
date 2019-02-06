@@ -47,6 +47,11 @@ public abstract class Entity {
         sprite.setRotation(body.getAngle()*MathUtils.radiansToDegrees-90);
     }
 
+    //dx and dy arethe distance the object is from the destination
+    public void move(float dx,float dy) { //moves entity given target destination by applying forces
+
+    }
+
     public abstract void destroy();
 
     //Getters

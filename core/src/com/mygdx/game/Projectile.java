@@ -38,6 +38,10 @@ public class Projectile extends Entity{
         body.setUserData("projectile"); //TODO: differentiate between player projeciltes and enemy projectiles (to prevent enemy friendly fire)
     }
 
+    public void init() {
+
+    }
+
     public void destroy() {
 
     }

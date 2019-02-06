@@ -75,7 +75,7 @@ public class EasyEnemy extends Enemy{
             this.body.setTransform(this.body.getPosition().x+(float)(this.r*Math.cos(this.rotation)/Global.PPM),this.body.getPosition().y+(float)(this.r*Math.sin(this.rotation)/Global.PPM),rotation);
 
         }else{
-            System.out.println(dist);
+            //System.out.println(dist);
 
 
             //Possible solution: complete setup of motor isnt finished before it is enabled?
