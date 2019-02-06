@@ -55,9 +55,12 @@ public class Player extends Entity {
         float rotate = (shipAngle+(mouseAngle-shipAngle)*0.07f)%MathUtils.PI2; //the amount the ship rotates
 
         //The amount the ship moves
+
         float shiftX = this.ship_speed*MathUtils.cos(this.body.getAngle())/Global.PPM;
         float shiftY = this.ship_speed*MathUtils.sin(this.body.getAngle())/Global.PPM;
+
         //Move and rotate player
+        //this.applyForce(Global.angle);
         this.body.setTransform(this.body.getPosition().x+shiftX,this.body.getPosition().y+shiftY,rotate); //the 0.07f is the turnSpeed
 
         this.update(); //sync texture with body

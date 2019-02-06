@@ -22,6 +22,7 @@ public abstract class Entity {
     protected Sprite sprite;
     protected Body body;
     protected float rotation;
+    protected float speed = 1000f/Global.PPM;
 
     public Entity(Texture texture) {
         this.sprite = new Sprite(texture);
@@ -47,9 +48,9 @@ public abstract class Entity {
         sprite.setRotation(body.getAngle()*MathUtils.radiansToDegrees-90);
     }
 
-    //dx and dy arethe distance the object is from the destination
-    public void move(float dx,float dy) { //moves entity given target destination by applying forces
-
+    //dx and dy are the distance the object is from the destination
+    public void applyForce(float forceDirect) { //moves entity given target destination by applying forces
+        this.body.applyForceToCenter(new Vector2(this.speed*MathUtils.cos(forceDirect),this.speed*MathUtils.sin(forceDirect)),true);
     }
 
     public abstract void destroy();
