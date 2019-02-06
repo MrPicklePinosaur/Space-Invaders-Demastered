@@ -12,6 +12,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.Input;
 
@@ -23,6 +24,7 @@ public class Player extends Entity {
     private int xp;
     private int lvl;
 
+    private Vector2 force;
     private float ship_speed = 3f; //in m/s
     private float SHIP_SIZE = 64;
 
@@ -53,15 +55,29 @@ public class Player extends Entity {
         if (shipAngle - mouseAngle > MathUtils.PI) mouseAngle += MathUtils.PI2;
         if (mouseAngle - shipAngle > MathUtils.PI) shipAngle += MathUtils.PI2;
         float rotate = (shipAngle+(mouseAngle-shipAngle)*0.07f)%MathUtils.PI2; //the amount the ship rotates
+        this.body.setTransform(new Vector2(0.0f,0.0f),rotate);
 
         //The amount the ship moves
 
         float shiftX = this.ship_speed*MathUtils.cos(this.body.getAngle())/Global.PPM;
         float shiftY = this.ship_speed*MathUtils.sin(this.body.getAngle())/Global.PPM;
 
+        /*
+
+        try:
+        apply force to center to move, then if it feels weird try to impulse against the force to slow down
+
+        */
+
+        //float magnitude=2.5f;
+        //Vector2 force = Vector2(Math.cos(this.getRotation()) * 1 , Math.sin(this.getRotation()) * 1);
+        //this.applyForce(force, this.body.getPosition());
+
         //Move and rotate player
         //this.applyForce(Global.angle);
-        this.body.setTransform(this.body.getPosition().x+shiftX,this.body.getPosition().y+shiftY,rotate); //the 0.07f is the turnSpeed
+        this.body.setLinearVelocity(shiftX,shiftY);
+        //this.body.setTransform(this.body.getPosition().x+shiftX,this.body.getPosition().y+shiftY,rotate); //the 0.07f is the turnSpeed
+        //this.body.setLinearVelocity(this.body.getPosition().x-Global.mx,this.body.getPosition().y-Global.my);
 
         this.update(); //sync texture with body
     }
