@@ -48,8 +48,8 @@ public class EasyEnemy extends Enemy{
         */
 
         this.jDef = new RevoluteJointDef(); //need this to define what joint is actually between
-        jDef.bodyA = player.body;
-        jDef.bodyB = this.body;
+        jDef.bodyA = this.body;
+        jDef.bodyB = player.body;
         Global.world.createJoint(jDef);
         this.jDef.initialize(this.body,player.body,player.body.getWorldCenter()); //defining what joint is actually between
 
@@ -76,7 +76,10 @@ public class EasyEnemy extends Enemy{
 
         }else{
             //System.out.println(dist);
-
+            this.rotation = (float) Math.atan2(p.getPosition().y-this.body.getPosition().y,p.getPosition().x-this.body.getPosition().x);
+            //this.body.getPosition().x+=this.r*Math.cos(this.rotation);
+            //this.body.getPosition().y+=this.r*Math.sin(this.rotation);
+            this.body.setTransform(this.body.getPosition().x+(float)(this.r*Math.cos(this.rotation)/Global.PPM),this.body.getPosition().y+(float)(this.r*Math.sin(this.rotation)/Global.PPM),rotation);
 
             //Possible solution: complete setup of motor isnt finished before it is enabled?
 

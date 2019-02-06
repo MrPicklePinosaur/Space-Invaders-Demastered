@@ -49,7 +49,7 @@ public class Main extends ApplicationAdapter {
 
 		batch.begin();
 		batch.setProjectionMatrix(r.cam.combined);
-		map.draw(batch);
+		//map.draw(batch);
 		player.sprite.draw(batch); //draw player
 		e.sprite.draw(batch); //draw enemy
 		batch.end();
