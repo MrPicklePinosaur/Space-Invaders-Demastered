@@ -17,31 +17,44 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 
+import java.util.ArrayList;
+
 public class Enemy extends Entity {
 
-    protected int r=3,maxSpeed=3,minSpeed=1;
-    public Enemy(Texture texture) {
-        super(texture);
+    private ArrayList<Enemy> active_enemy = new ArrayList<Enemy>();
+
+    public Enemy(Texture texture,float max_speed) {
+        super(texture,float max_speed);
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
         circle.setRadius((this.sprite.getWidth()/2f)/Global.PPM);
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         this.body = this.create(fdef, BodyDef.BodyType.DynamicBody);
-        System.out.println(this.getX());
-        //this.sprite = new Sprite(new Texture("ship-blue.png"));
-        //this.sprite.setSize(64,64*(this.sprite.getHeight()/this.sprite.getWidth())); //ALSO GET SHIP RESOLUTION IN CASE THE SPRITE IS NOT A SQUARE
 
+        this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
+        this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
+    }
 
-        this.sprite.setOrigin(this.sprite.getWidth()/2f,this.sprite.getHeight()/2f); //allows sprite to rotate around center
-        this.sprite.setPosition(400f/2f-this.sprite.getWidth()/2f,400f/2f-this.sprite.getHeight()/2f); //set sprite as starting in center of screen
-        this.sprite.setRotation(-90);
+    //Enemy Creation
+    public void place_enemy(Player player,float distFromPlayer) { //spawns an enemy between d and 2d from player
 
     }
 
-    @Override
-    public void update() {
-        //AI stuff goes here
+    //Move
+    public void move_circle(Player player,float distFromPlayer) { //enemy flies in direction of player, until it reaches a certain distance from player, then it will circle
+        float px = player.body.getPosition().x;
+        float py = player.body.getPosition().y;
+        float targetAngle =
+
+    }
+    public void move_drift() { //used for asteroids
+
+    }
+
+    public void move() {
+
+        this.update();
     }
 
     @Override

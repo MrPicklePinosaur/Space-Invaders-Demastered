@@ -21,11 +21,11 @@ public abstract class Entity {
     //NOTE: I dont think you need to have protected variables in an abstract class, look into further later
     protected Sprite sprite;
     protected Body body;
-    protected float rotation;
-    protected float speed = 1000f/Global.PPM;
+    protected float max_speed;
 
-    public Entity(Texture texture) {
+    public Entity(Texture texture,float max_speed) {
         this.sprite = new Sprite(texture);
+        this.max_speed = max_speed;
     }
 
     public Body create(FixtureDef fdef, BodyDef.BodyType bodyType) { ///takes in a fixture definition and creates a body
@@ -37,6 +37,9 @@ public abstract class Entity {
         new_body.createFixture(fdef); //DONT FORGET TO DISPOSE OF fdef
 
         return new_body;
+    }
+
+    public void createJoint() {
     }
 
     public void update() { //Sync sprite with body (sprite follows body)
