@@ -23,7 +23,7 @@ public abstract class Entity {
     protected Body body;
     protected float speed;
 
-    public Entity(Texture texture,float max_speed) {
+    public Entity(Texture texture,float speed) {
         this.sprite = new Sprite(texture);
         this.speed = speed;
     }

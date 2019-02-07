@@ -35,8 +35,8 @@ public class Main extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		//Create Player
-		player = new Player(new Texture("ship-green.png"),10f); //create player object
-		e = new Enemy(new Texture("ship-blue.png"),10f);
+		player = new Player(new Texture("ship-green.png"),300f); //create player object
+		e = new Enemy(new Texture("ship-blue.png"),150f);
 		map = new Sprite(new Texture("space.jpg"));
 	}
 

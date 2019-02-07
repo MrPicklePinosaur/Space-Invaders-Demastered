@@ -35,6 +35,7 @@ public class Enemy extends Entity {
 
         this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
         this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
+        //this.body.setTransform(2f,2f,0);
     }
 
     //Enemy Creation
@@ -49,8 +50,8 @@ public class Enemy extends Entity {
         float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
 
         //Update enemy
-        this.body.setTransform(0,0,targetAngle); //enemy also faces player
-        this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle),this.speed*MathUtils.sin(targetAngle)); //apply force towards that direction
+        //this.body.setTransform(0,0,targetAngle); //enemy also faces player
+        this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle)/Global.PPM,this.speed*MathUtils.sin(targetAngle)/Global.PPM); //apply force towards that direction
 
     }
     public void move_drift() { //used for asteroids

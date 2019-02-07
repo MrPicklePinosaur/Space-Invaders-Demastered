@@ -51,21 +51,19 @@ public class Player extends Entity {
         float shipAngle = (this.body.getAngle()+MathUtils.PI2)%MathUtils.PI2;
         if (shipAngle - mouseAngle > MathUtils.PI) mouseAngle += MathUtils.PI2;
         if (mouseAngle - shipAngle > MathUtils.PI) shipAngle += MathUtils.PI2;
-        float rotate = (shipAngle+(mouseAngle-shipAngle)*0.07f)%MathUtils.PI2; //the amount the ship rotates
-        this.body.setTransform(new Vector2(0.0f,0.0f),rotate); //rotate player body
+        float rotate = (shipAngle+(mouseAngle-shipAngle)*0.055f)%MathUtils.PI2; //the amount the ship rotates
+        this.body.setTransform(this.body.getPosition().x,this.body.getPosition().y,rotate); //rotate player body
 
         //Move player depending on the direction its facing
         float vx = this.speed*MathUtils.cos(this.body.getAngle());
         float vy = this.speed*MathUtils.sin(this.body.getAngle());
-        this.body.setLinearVelocity(vx,vy);
+
+        this.body.setLinearVelocity(vx/Global.PPM,vy/Global.PPM);
 
         /*
-
         try:
         apply force to center to move, then if it feels weird try to impulse against the force to slow down
-
         */
-
         //float magnitude=2.5f;
         //Vector2 force = Vector2(Math.cos(this.getRotation()) * 1 , Math.sin(this.getRotation()) * 1);
         //this.applyForce(force, this.body.getPosition());
