@@ -52,9 +52,8 @@ public class Enemy extends Entity {
         float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
 
         //Update enemy
-        this.body.setTransform(this.body.getPosition().x,this.body.getPosition().y,targetAngle); //enemy also faces player
+        this.rotate(targetAngle,0.055f); //enemy tries to face player
         this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle)/Global.PPM,this.speed*MathUtils.sin(targetAngle)/Global.PPM); //apply force towards that direction
-
     }
     public void move_drift() { //used for asteroids
 

@@ -48,33 +48,12 @@ public class Player extends Entity {
         //  NOTE: There may be no need for acceleration / decceleration, instead possibly use impulses and linear damping
 
         //Rotate ship using mouse
-        //THIS BLOCK OF CODE IS FROM https://gamedev.stackexchange.com/questions/108795/libgdx-rotatetoaction-does-not-directly-rotate-between-179-and-179
-        float mouseAngle = Global.angle;
-        float shipAngle = (this.body.getAngle()+MathUtils.PI2)%MathUtils.PI2;
-        if (shipAngle - mouseAngle > MathUtils.PI) mouseAngle += MathUtils.PI2;
-        if (mouseAngle - shipAngle > MathUtils.PI) shipAngle += MathUtils.PI2;
-        float rotate = (shipAngle+(mouseAngle-shipAngle)*0.055f)%MathUtils.PI2; //the amount the ship rotates
-        this.body.setTransform(this.body.getPosition().x,this.body.getPosition().y,rotate); //rotate player body
-
+        this.rotate(Global.angle,0.055f);
         //Move player depending on the direction its facing
         float vx = this.speed*MathUtils.cos(this.body.getAngle());
         float vy = this.speed*MathUtils.sin(this.body.getAngle());
 
         this.body.setLinearVelocity(vx/Global.PPM,vy/Global.PPM);
-
-        /*
-        try:
-        apply force to center to move, then if it feels weird try to impulse against the force to slow down
-        */
-        //float magnitude=2.5f;
-        //Vector2 force = Vector2(Math.cos(this.getRotation()) * 1 , Math.sin(this.getRotation()) * 1);
-        //this.applyForce(force, this.body.getPosition());
-
-        //Move and rotate player
-        //this.applyForce(Global.angle);
-        //this.body.setTransform(this.body.getPosition().x+shiftX,this.body.getPosition().y+shiftY,rotate); //the 0.07f is the turnSpeed
-        //this.body.setLinearVelocity(this.body.getPosition().x-Global.mx,this.body.getPosition().y-Global.my);
-
         this.update(); //sync texture with body
     }
 

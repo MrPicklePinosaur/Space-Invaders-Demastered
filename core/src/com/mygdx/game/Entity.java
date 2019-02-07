@@ -51,9 +51,14 @@ public abstract class Entity {
         sprite.setRotation(body.getAngle()*MathUtils.radiansToDegrees-90);
     }
 
-    //dx and dy are the distance the object is from the destination
-    public void applyForce(float forceDirect) { //moves entity given target destination by applying forces
-        this.body.applyForceToCenter(new Vector2(this.speed*MathUtils.cos(forceDirect),this.speed*MathUtils.sin(forceDirect)),true);
+    public void rotate(float targetAngle,float rotateSpeed) { //non-instateous rotation of body
+        //THIS BLOCK OF CODE IS FROM https://gamedev.stackexchange.com/questions/108795/libgdx-rotatetoaction-does-not-directly-rotate-between-179-and-179
+        float endAngle = targetAngle;
+        float startAngle = (this.body.getAngle()+MathUtils.PI2)%MathUtils.PI2;
+        if (startAngle - endAngle > MathUtils.PI) endAngle += MathUtils.PI2;
+        if (endAngle - startAngle > MathUtils.PI) startAngle += MathUtils.PI2;
+        float rotate = (startAngle+(endAngle-startAngle)*rotateSpeed)%MathUtils.PI2; //the amount the ship rotates
+        this.body.setTransform(this.body.getPosition().x,this.body.getPosition().y,rotate); //rotate player body without touching position
     }
 
     public abstract void destroy();

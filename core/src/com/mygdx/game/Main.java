@@ -10,6 +10,7 @@
 package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -59,6 +60,13 @@ public class Main extends ApplicationAdapter {
 		player.handleInput();
 		e.move(player);
 
+		//Update all projectiles
+		if (Gdx.input.isKeyPressed(Input.Keys.F)) { //spawn projectile
+
+		}
+
+
+		//Update world and viewport
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		r.debugCam.render(Global.world,r.cam.combined);
 		r.moveCamera(player.sprite.getX(),player.sprite.getY());
