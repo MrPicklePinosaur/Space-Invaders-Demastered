@@ -4,7 +4,7 @@ Created by Shrey Mahey and Daniel Liu
 Class Breakdown  
 --> Main  
 --> Entity - Abstract class; creates box2d body by taking in a sprite  
-	- Player
+	- Player  
 	- Enemy - includes AI  
 	- Projectile  
 --> Renderer - includes debugRenderer and camera  
