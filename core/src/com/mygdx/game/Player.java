@@ -39,6 +39,8 @@ public class Player extends Entity {
 
         this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
         this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
+
+        this.body.setUserData(CollisionListener.player_id);
     }
 
     public void handleInput() {

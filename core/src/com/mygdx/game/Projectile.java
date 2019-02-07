@@ -35,7 +35,7 @@ public class Projectile extends Entity{
         fdef.shape = rect;
         fdef.isSensor = true;
         this.body = this.create(fdef, BodyDef.BodyType.KinematicBody);
-        body.setUserData("projectile"); //TODO: differentiate between player projeciltes and enemy projectiles (to prevent enemy friendly fire)
+        body.setUserData(CollisionListener.player_projectile_id); //TODO: differentiate between player projeciltes and enemy projectiles (to prevent enemy friendly fire)
     }
 
     public void init() {
