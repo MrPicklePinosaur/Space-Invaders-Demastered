@@ -20,16 +20,13 @@ public class Player extends Entity {
     private String name;
     private float max_hp;
     private float hp;
-    private float max_speed;
     private int xp;
     private int lvl;
 
     private Vector2 force;
-    private float ship_speed = 3f; //in m/s
-    private float SHIP_SIZE = 64;
 
-    public Player(Texture texture) {
-        super(texture);
+    public Player(Texture texture,float speed) {
+        super(texture,speed);
         this.xp = 0;
         this.lvl = 0;
 
@@ -55,12 +52,12 @@ public class Player extends Entity {
         if (shipAngle - mouseAngle > MathUtils.PI) mouseAngle += MathUtils.PI2;
         if (mouseAngle - shipAngle > MathUtils.PI) shipAngle += MathUtils.PI2;
         float rotate = (shipAngle+(mouseAngle-shipAngle)*0.07f)%MathUtils.PI2; //the amount the ship rotates
-        this.body.setTransform(new Vector2(0.0f,0.0f),rotate);
+        this.body.setTransform(new Vector2(0.0f,0.0f),rotate); //rotate player body
 
-        //The amount the ship moves
-
-        float shiftX = this.ship_speed*MathUtils.cos(this.body.getAngle())/Global.PPM;
-        float shiftY = this.ship_speed*MathUtils.sin(this.body.getAngle())/Global.PPM;
+        //Move player depending on the direction its facing
+        float vx = this.speed*MathUtils.cos(this.body.getAngle());
+        float vy = this.speed*MathUtils.sin(this.body.getAngle());
+        this.body.setLinearVelocity(vx,vy);
 
         /*
 
@@ -75,7 +72,6 @@ public class Player extends Entity {
 
         //Move and rotate player
         //this.applyForce(Global.angle);
-        this.body.setLinearVelocity(shiftX,shiftY);
         //this.body.setTransform(this.body.getPosition().x+shiftX,this.body.getPosition().y+shiftY,rotate); //the 0.07f is the turnSpeed
         //this.body.setLinearVelocity(this.body.getPosition().x-Global.mx,this.body.getPosition().y-Global.my);
 

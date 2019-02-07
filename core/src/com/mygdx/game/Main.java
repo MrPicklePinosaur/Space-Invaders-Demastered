@@ -24,7 +24,7 @@ public class Main extends ApplicationAdapter {
 	Player player;
 	Sprite map; //temp variable; clean up later
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
-	EasyEnemy e;
+	Enemy e;
 
 	@Override
 	public void create() {
@@ -35,8 +35,8 @@ public class Main extends ApplicationAdapter {
 		batch = new SpriteBatch();
 
 		//Create Player
-		player = new Player(new Texture("ship-green.png")); //create player object
-		e = new EasyEnemy(new Texture("ship-blue.png"),player);
+		player = new Player(new Texture("ship-green.png"),10f); //create player object
+		e = new Enemy(new Texture("ship-blue.png"),10f);
 		map = new Sprite(new Texture("space.jpg"));
 	}
 
@@ -49,7 +49,7 @@ public class Main extends ApplicationAdapter {
 
 		batch.begin();
 		batch.setProjectionMatrix(r.cam.combined);
-		//map.draw(batch);
+		map.draw(batch);
 		player.sprite.draw(batch); //draw player
 		e.sprite.draw(batch); //draw enemy
 		batch.end();
@@ -57,8 +57,7 @@ public class Main extends ApplicationAdapter {
 		//UPDATE STUFF
 		//Update Entities
 		player.handleInput();
-		e.move(player.body);//player.body.getWorldCenter());//getPosition().x,player.body.getPosition().y);
-		//e.move(player.body);
+		e.move(player);
 
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		r.debugCam.render(Global.world,r.cam.combined);
@@ -66,12 +65,6 @@ public class Main extends ApplicationAdapter {
 		//r.screenShake(2f);
 		r.cam.update(); //refresh camera
 		Global.updateInput();
-	}
-
-	public void handleInput() {
-		//Accelerate / deccelerate
-
-		//Rotate ship using mouse
 	}
 
 	@Override

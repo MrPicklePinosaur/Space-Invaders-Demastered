@@ -21,11 +21,11 @@ public abstract class Entity {
     //NOTE: I dont think you need to have protected variables in an abstract class, look into further later
     protected Sprite sprite;
     protected Body body;
-    protected float max_speed;
+    protected float speed;
 
     public Entity(Texture texture,float max_speed) {
         this.sprite = new Sprite(texture);
-        this.max_speed = max_speed;
+        this.speed = speed;
     }
 
     public Body create(FixtureDef fdef, BodyDef.BodyType bodyType) { ///takes in a fixture definition and creates a body

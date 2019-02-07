@@ -24,7 +24,7 @@ public class Projectile extends Entity{
     private float angle;
 
     public Projectile(Texture texture,float speed,float angle) {
-        super(texture);
+        super(texture,speed);
         this.speed = speed;
         this.angle = angle;
 
