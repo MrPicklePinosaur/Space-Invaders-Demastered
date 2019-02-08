@@ -13,6 +13,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -45,10 +46,11 @@ public class Enemy extends Entity {
     }
 
     //Enemy Creation
-    public static void place_enemy(Player player,float maxDist,int difficulty) { //spawns an enemy between d and 2d from player
+    public static void place_enemy(Player player, Vector2 pos, int difficulty) { //spawns an enemy between d and 2d from player
         float speed = 0.5f*difficulty;
         Texture ship = new Texture(""+difficulty+".png");
-        new Enemy(ship,speed,difficulty);
+        Enemy e = new Enemy(ship,speed,difficulty);
+        e.init(pos.x,pos.y,0f);
     }   //might not be necessary
         //this method bleeds over in map
 

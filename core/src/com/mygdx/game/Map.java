@@ -28,11 +28,12 @@ public class Map {
     private static BufferedImage mapPixels;
     private static int UpperBound=2,LowerBound=1;    //min/max amt of enemies spawn in a certain sector; inclusive
     private static Random randObj;//eNum,eX,eY;   //eNum amt of enemies spawning in sector, eX/eY is starting location
-    private static int eNum,eX,eY;
+    private static int eNum,eX,eY,eAng;
     private static final int NOVICE = 0;
     private static final int ADEPT = 1;
     private static final int EXPERT = 2;
     private static final int LEGENDARY = 3;
+    private static final int radius = 1500/Global.PPM;
     private static HashMap<Integer,Integer> mapHash = new HashMap<Integer,Integer>();
 
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<Enemy>();
@@ -106,15 +107,35 @@ public class Map {
                     Proper logic for getting eX,eY from randObj needs to be calculated
 
                     UPDATE: replaced pX,pY with player to give use to place_enemy method in Enemy class
+
+
+                    LOGIC:
+                    choose position by circle of arbitrary radius with center being player coordinates
+
+                    FOR KILLLIST:
+                    instead of doing for Enemy e : enemyList
+                    loop by index (i.e. for loop or while with indexes) that goes in reverse to avoid crash
+
+                    When removing:
+                    trashcan.flagforpurge
+                    trashcan.removebody(e.getBody)
+                    THEN remove from enemy list
+
+
+                    MAKE SURE TO TAKE IT OUT OF WHILE LOOP WE DONT NEED TO CHECK SPAWN COLLIDE ANYMORE
                     */
                     while(!placed) {
-                        eX = randObj.nextInt((((int)player.getX() + Map.DIVISION_SIZE) - ((int)player.getX() - Map.DIVISION_SIZE)) + 1) + ((int)player.getX() - Map.DIVISION_SIZE);//((int)sector.x*Map.DIVISION_SIZE);  //how to convert from sector back to number
-                        eY = randObj.nextInt((((int)player.getY() + Map.DIVISION_SIZE) - ((int)player.getY() - Map.DIVISION_SIZE)) + 1) + ((int)player.getY() - Map.DIVISION_SIZE);
-                        if ((eX + Enemy.SHIP_SIZE/2F)>Enemy.SHIP_SIZE) {
+                        //eX = randObj.nextInt((((int)player.getX() + Map.DIVISION_SIZE) - ((int)player.getX() - Map.DIVISION_SIZE)) + 1) + ((int)player.getX() - Map.DIVISION_SIZE);//((int)sector.x*Map.DIVISION_SIZE);  //how to convert from sector back to number
+                        //eY = randObj.nextInt((((int)player.getY() + Map.DIVISION_SIZE) - ((int)player.getY() - Map.DIVISION_SIZE)) + 1) + ((int)player.getY() - Map.DIVISION_SIZE);
+                        eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
+                        //if (){//(eX + Enemy.SHIP_SIZE/2F)>Enemy.SHIP_SIZE) {
                             //enemyArrayList.add(new Enemy(,difficulty));
-                            Enemy.place_enemy(player,(float)Global.getDist(player.getX(),player.getY(),player.getX()-Global.SCREEN_WIDTH,player.getY()-Global.SCREEN_HEIGHT),difficulty);
-                            placed = true;
-                        }
+                            //Enemy.place_enemy(player,(float)Global.getDist(player.getX(),player.getY(),player.getX()-Global.SCREEN_WIDTH,player.getY()-Global.SCREEN_HEIGHT),difficulty);
+                        float posX = Math.cos(eAng);
+                        float posY = ;
+                        Enemy.place_enemy(player,new Vector2(posX,posY),difficulty);
+                        placed = true;
+                        //}
                     }
                 }
 
