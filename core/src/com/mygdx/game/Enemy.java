@@ -28,13 +28,10 @@ public class Enemy extends Entity {
         super(texture,speed);
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
-        circle.setRadius((this.sprite.getWidth()/2f)/Global.PPM);
+        circle.setRadius(this.sprite.getWidth()/2f);
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         this.body = this.create(fdef, BodyDef.BodyType.DynamicBody);
-
-        this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
-        this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
 
         this.body.setUserData(CollisionListener.enemy_id);
     }

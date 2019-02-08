@@ -38,6 +38,7 @@ public class Main extends ApplicationAdapter {
 		//Create Player
 		player = new Player(new Texture("ship-green.png"),300f); //create player object
 		e = new Enemy(new Texture("ship-blue.png"),150f);
+		e.init(2f,2f,0); //place enemy in certain spot in world (replace later with spawning code)
 		map = new Sprite(new Texture("space.jpg"));
 	}
 
@@ -53,6 +54,7 @@ public class Main extends ApplicationAdapter {
 		map.draw(batch);
 		player.sprite.draw(batch); //draw player
 		e.sprite.draw(batch); //draw enemy
+		Projectile.drawAll(batch);
 		batch.end();
 
 		//UPDATE STUFF
@@ -60,11 +62,15 @@ public class Main extends ApplicationAdapter {
 		player.handleInput();
 		e.move(player);
 
-		//Update all projectiles
-		if (Gdx.input.isKeyPressed(Input.Keys.F)) { //spawn projectile
-
+		//Check for player shooting projectiles
+		//TODO: make this more effieient and move it to player class later
+		if (Gdx.input.isKeyJustPressed(Input.Keys.F)) { //spawn projectile
+			//Create new projectile object
+			Projectile p = new Projectile(new Texture("player_bullet.png"),5f);
+			p.init(player.getX(),player.getY(),player.getRotation());
 		}
-
+		//update projectiles
+		Projectile.updateAll();
 
 		//Update world and viewport
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER

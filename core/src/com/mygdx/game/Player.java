@@ -32,13 +32,10 @@ public class Player extends Entity {
 
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
-        circle.setRadius((this.sprite.getWidth()/2f)/Global.PPM); //The fixture for the player is a circle with radius spriteWidth/2
+        circle.setRadius(this.sprite.getWidth()/2f); //The fixture for the player is a circle with radius spriteWidth/2
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         this.body =  this.create(fdef,BodyDef.BodyType.DynamicBody);
-
-        this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
-        this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
 
         this.body.setUserData(CollisionListener.player_id);
     }

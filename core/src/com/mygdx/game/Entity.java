@@ -26,20 +26,18 @@ public abstract class Entity {
     public Entity(Texture texture,float speed) {
         this.sprite = new Sprite(texture);
         this.speed = speed;
+        this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
+        this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
     }
 
     public Body create(FixtureDef fdef, BodyDef.BodyType bodyType) { ///takes in a fixture definition and creates a body
         //Create the body
         BodyDef bdef = new BodyDef();
         bdef.type = bodyType;
-        bdef.position.set(this.getX()/Global.PPM,this.getY()/Global.PPM);
         Body new_body = Global.world.createBody(bdef);
         new_body.createFixture(fdef); //DONT FORGET TO DISPOSE OF fdef
 
         return new_body;
-    }
-
-    public void createJoint() {
     }
 
     public void update() { //Sync sprite with body (sprite follows body)
@@ -64,14 +62,16 @@ public abstract class Entity {
     public abstract void destroy();
 
     //Getters
-    public float getX() { return this.sprite.getX(); } //TODO: getters should get body positions
-    public float getY() { return this.sprite.getY(); }
+    public float getX() { return this.body.getPosition().x; }
+    public float getY() { return this.body.getPosition().y; }
     public float getRotation() { return this.body.getAngle(); } //make decision on rotation being in radians or degrees
+    public Body getBody() { return this.body; }
 
     //Setters
     //NOTE: DECIDE WETHER OR NOT THE ARGUMENTS SHOULD BE IN PIXELS OR METERS
-    public void init(float posX, float posY, float rotation) { //used to place an entity in a specific orientation in the world
-        this.body.setTransform(posX,posY,rotation);
+    //SHOULD BE CALLED ONLY ONCE
+    public void init(float posX, float posY, float angle) { //used to place an entity in a specific orientation in the world
+        this.body.setTransform(posX,posY,angle);
     }
 
 }
