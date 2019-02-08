@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class Enemy extends Entity {
 
     private ArrayList<Enemy> active_enemy = new ArrayList<Enemy>();
+    static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
     static int SHIP_SIZE=16;
     private int hp;
@@ -50,7 +51,9 @@ public class Enemy extends Entity {
         float speed = 0.5f*difficulty;
         Texture ship = new Texture(""+difficulty+".png");
         Enemy e = new Enemy(ship,speed,difficulty);
+
         e.init(pos.x,pos.y,0f);
+        enemies.add(e);
     }   //might not be necessary
         //this method bleeds over in map
 
@@ -74,8 +77,17 @@ public class Enemy extends Entity {
         this.update();
     }
 
+    public int getHP(){
+        return this.hp;
+    }
+
+    public double getDistFromPlayer(Player player){
+        return Global.getDist(player.getX(),player.getY(),this.getX(),this.getY());
+    }
+
     @Override
     public void destroy() {
         //Remove enemy from list or whatever here
+
     }
 }

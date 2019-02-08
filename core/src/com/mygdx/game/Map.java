@@ -28,7 +28,7 @@ public class Map {
     private static BufferedImage mapPixels;
     private static int UpperBound=2,LowerBound=1;    //min/max amt of enemies spawn in a certain sector; inclusive
     private static Random randObj;//eNum,eX,eY;   //eNum amt of enemies spawning in sector, eX/eY is starting location
-    private static int eNum,eX,eY,eAng;
+    private static float eNum,eX,eY,eAng;
     private static final int NOVICE = 0;
     private static final int ADEPT = 1;
     private static final int EXPERT = 2;
@@ -38,7 +38,7 @@ public class Map {
 
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<Enemy>();
 
-    private static boolean placed = false; //used to determine if the random enemy position is valid
+    //private static boolean placed = false; //used to determine if the random enemy position is valid
 
     private static int DIVISION_SIZE = 1200;//1024; //size of each sector of map (in meters)
                                     //changed to 1200 over 1024 as window size is 1200x800
@@ -124,7 +124,7 @@ public class Map {
 
                     MAKE SURE TO TAKE IT OUT OF WHILE LOOP WE DONT NEED TO CHECK SPAWN COLLIDE ANYMORE
                     */
-                    while(!placed) {
+                    /*while(!placed) {
                         //eX = randObj.nextInt((((int)player.getX() + Map.DIVISION_SIZE) - ((int)player.getX() - Map.DIVISION_SIZE)) + 1) + ((int)player.getX() - Map.DIVISION_SIZE);//((int)sector.x*Map.DIVISION_SIZE);  //how to convert from sector back to number
                         //eY = randObj.nextInt((((int)player.getY() + Map.DIVISION_SIZE) - ((int)player.getY() - Map.DIVISION_SIZE)) + 1) + ((int)player.getY() - Map.DIVISION_SIZE);
                         eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
@@ -136,7 +136,12 @@ public class Map {
                         Enemy.place_enemy(player,new Vector2(posX,posY),difficulty);
                         placed = true;
                         //}
-                    }
+                    }*/
+                    eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
+                    float posX = (float)Math.cos(eAng)*radius;
+                    float posY = (float)Math.sin(eAng)*radius;
+                    Enemy.place_enemy(player,new Vector2(posX,posY),difficulty);
+
                 }
 
             }else{
@@ -149,8 +154,13 @@ public class Map {
         }
         if(event==0){   //kill enemies not being used!
 
-            for(Enemy e : enemyArrayList){
+            for(int i = Enemy.enemies.size();i>0;i--){
                 //AssetManager use goes HERE
+                if(Enemy.enemies.get(i).getHP()<=0 || Enemy.enemies.get(i).getDistFromPlayer(player)>1500){
+                    TrashCan.flagForPurge(Enemy.enemies.get(i).body);
+                    TrashCan.sweepBodies();
+                    Enemy.enemies.remove(Enemy.enemies.get(i));
+                }
             }
 
         }
