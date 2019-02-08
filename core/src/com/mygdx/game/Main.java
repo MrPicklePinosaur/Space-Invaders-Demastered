@@ -35,9 +35,10 @@ public class Main extends ApplicationAdapter {
 		r = new Renderer(batch);
 		batch = new SpriteBatch();
 
+		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
 		player = new Player(new Texture("ship-green.png"),300f); //create player object
-		e = new Enemy(new Texture("ship-blue.png"),150f);
+		e = new Enemy(new Texture("2.png"),150f,1);
 		e.init(2f,2f,0); //place enemy in certain spot in world (replace later with spawning code)
 		map = new Sprite(new Texture("space.jpg"));
 	}

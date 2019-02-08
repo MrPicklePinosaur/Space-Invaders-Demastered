@@ -24,8 +24,16 @@ public class Enemy extends Entity {
 
     private ArrayList<Enemy> active_enemy = new ArrayList<Enemy>();
 
-    public Enemy(Texture texture,float speed) {
+    static int SHIP_SIZE=16;
+    private int hp;
+    public Enemy(Texture texture,float speed,int difficulty) {
         super(texture,speed);
+        this.hp = difficulty;
+        /*
+
+        TODO: add difficulty scaling using difficulty arguement!
+
+        */
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
         circle.setRadius(this.sprite.getWidth()/2f);
@@ -37,9 +45,12 @@ public class Enemy extends Entity {
     }
 
     //Enemy Creation
-    public void place_enemy(Player player,float distFromPlayer) { //spawns an enemy between d and 2d from player
-
-    }
+    public static void place_enemy(Player player,float maxDist,int difficulty) { //spawns an enemy between d and 2d from player
+        float speed = 0.5f*difficulty;
+        Texture ship = new Texture(""+difficulty+".png");
+        new Enemy(ship,speed,difficulty);
+    }   //might not be necessary
+        //this method bleeds over in map
 
     //Move
     public void move_circle(Player player) { //enemy flies in direction of player, until it reaches a certain distance from player, then it will circle
