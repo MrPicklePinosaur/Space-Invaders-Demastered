@@ -19,11 +19,12 @@ import java.util.Random;
 public class Global {
     public static Random rand = new Random();
 
+    public static World world;
+    public static TrashCan trashCan = new TrashCan();
     //Some random vars
     public static int SCREEN_WIDTH = 1200;
     public static int SCREEN_HEIGHT = 800;
     public static final int PPM = 100; //pixels per meter
-    public static World world;
     public static final int MAP_SIZE = 40000;
     public static float CAM_SIZE_X = 400; //in meters, dont forget to divide by PPM later
     public static float CAM_SIZE_Y = 400;

@@ -75,6 +75,7 @@ public class Main extends ApplicationAdapter {
 
 		//Update world and viewport
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
+		TrashCan.sweepBodies();
 		r.debugCam.render(Global.world,r.cam.combined);
 		r.moveCamera(player.sprite.getX(),player.sprite.getY());
 		//r.screenShake(2f);

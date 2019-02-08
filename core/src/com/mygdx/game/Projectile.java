@@ -49,10 +49,22 @@ public class Projectile extends Entity{
 
             //check to see if projectile is to be deleted (either it hit something or it has reached its max range)
             if (Math.hypot(p.getX()-p.spawn_pos.x,p.getY()-p.spawn_pos.y) >= p.max_dist) { //if the projectile has travelled past its max range
-                Projectile.purge_projectiles.add(p); //get projectile ready for PURGING
+                TrashCan.flagForPurge(p.getBody()); //add body to purge list
+                Projectile.purge_projectiles.add(p);
+                //TODO: remove body from active list
             }
         }
-        Projectile.purgeAll(); //destroy projectiles that need to be destroyed
+        Projectile.purgeAll();
+    }
+    //public static void updateAll() {} //TODO: rewrite update all to loop in reverse
+
+
+
+    public static void purgeAll() { //removes projectiles from active list
+        for (Projectile p : Projectile.purge_projectiles) {
+            Projectile.active_projectiles.remove(p);
+        }
+        Projectile.purge_projectiles.clear(); //MAY NOT BE SAFE
     }
     //NOTEL i dont like drawing in class, possibly relocate (this code is also redundant)
     public static void drawAll(Batch batch) {
@@ -61,18 +73,6 @@ public class Projectile extends Entity{
         }
     }
 
-    public static void purgeAll() { // 'deletes' all projectiles that are to be removed
-        for (Projectile p : Projectile.purge_projectiles) {
-            Projectile.active_projectiles.remove(p);  //first, remove the projectile from the active list
-            //dispose and etc
-
-            //Global.world.destroyBody(p.getBody());
-            /*this crashes the game as the body is still being simulated, the body needs to be destroyed OUTSIDE of world.step()
-                        look here for fix
-            https://gamedev.stackexchange.com/questions/27113/how-do-i-destroy-a-box2d-body-on-contact-without-getting-an-islocked-assertion-e
-            */
-        }
-    }
 
     public void destroy() {
     }
