@@ -41,31 +41,20 @@ public class Projectile extends Entity{
         body.setUserData(CollisionListener.player_projectile_id); //TODO: differentiate between player projeciltes and enemy projectiles (to prevent enemy friendly fire)
     }
 
-    //There may be no need as physics step may move all the projectiles anyways
-    public static void updateAll() { //updates all active projectiles
-        for (Projectile p : Projectile.active_projectiles) {
+    public static void updateAll() { //TODO: rewrite update all to loop in reverse
+        for (int i = Projectile.active_projectiles.size()-1; i >= 0; i--) { //loops through enemies in reverse
+            Projectile p = Projectile.active_projectiles.get(i);
             //update projectile
             p.update(); //sync sprite
 
             //check to see if projectile is to be deleted (either it hit something or it has reached its max range)
             if (Math.hypot(p.getX()-p.spawn_pos.x,p.getY()-p.spawn_pos.y) >= p.max_dist) { //if the projectile has travelled past its max range
                 TrashCan.flagForPurge(p.getBody()); //add body to purge list
-                Projectile.purge_projectiles.add(p);
-                //TODO: remove body from active list
+                Projectile.active_projectiles.remove(p);
             }
         }
-        Projectile.purgeAll();
     }
-    //public static void updateAll() {} //TODO: rewrite update all to loop in reverse
 
-
-
-    public static void purgeAll() { //removes projectiles from active list
-        for (Projectile p : Projectile.purge_projectiles) {
-            Projectile.active_projectiles.remove(p);
-        }
-        Projectile.purge_projectiles.clear(); //MAY NOT BE SAFE
-    }
     //NOTEL i dont like drawing in class, possibly relocate (this code is also redundant)
     public static void drawAll(Batch batch) {
         for (Projectile p : Projectile.active_projectiles) {
