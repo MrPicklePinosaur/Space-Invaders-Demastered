@@ -109,6 +109,7 @@ public class Main extends ApplicationAdapter {
 		Projectile.updateAll();
 
 
+
 		//enemy spawning
 		currSector = Map.getSector(player.getX(),player.getY());
 		if((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y){

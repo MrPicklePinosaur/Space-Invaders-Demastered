@@ -30,6 +30,7 @@ public class CollisionListener implements ContactListener {
             Enemy e = (Enemy) enemyIsHit(fa,fb).getBody().getUserData();
             e.modHp(-10); //deal damage to enemy
             System.out.println("Enemy hp: "+e.getHP());
+            //if(e.getHP()>0)
         }
 
     }
