@@ -39,13 +39,14 @@ public class Main extends ApplicationAdapter {
 
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
-		player = new Player(new Texture("ship-green.png"),300f); //create player object
-		oldSector = Map.getSector(player.getX(),player.getY());
+		player = new Player(new Texture("ship-green.png"),200f); //create player object
 		e = new Enemy(new Texture("2.png"),150f,1);
 		e.init(2f,2f,0); //place enemy in certain spot in world (replace later with spawning code)
 		mapSprite = new Sprite(new Texture("space.png"));
 		ui = new UI();
 		map = new Map();
+		//player = new Player(new Texture("ship-green.png"),300f); //create player object
+		oldSector = Map.getSector(player.getX(),player.getY());
 	}
 
 	@Override
@@ -72,6 +73,7 @@ public class Main extends ApplicationAdapter {
 
 		//UPDATE STUFF
 		//Update Entities
+		//System.out.println(AssetLoader.importFromJSON("data/entity_stats.json"));
 		player.handleInput();
 		e.move(player);
 
