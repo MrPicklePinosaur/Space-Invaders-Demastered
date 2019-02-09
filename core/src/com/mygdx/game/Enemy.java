@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -27,6 +28,9 @@ public class Enemy extends Entity {
     private float max_hp;
     private int hp;
     private float theta;
+    private Body force_field; //enemies should get too close to each other
+    private static float force_field_raidus = 10f/Global.PPM;
+
     public Enemy(Texture texture,float speed,int difficulty) {
         super(texture,speed);
         this.hp = difficulty;
@@ -38,7 +42,12 @@ public class Enemy extends Entity {
         circle.setRadius(this.sprite.getWidth()/2f);
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
-        this.body = this.create(fdef, BodyDef.BodyType.DynamicBody);
+        this.body = this.create(BodyDef.BodyType.DynamicBody);
+        //Create fixture for enemies to collide with EACH OTHER
+        FixtureDef force_field_def = new FixtureDef();
+        circle.setRadius(Enemy.force_field_raidus);
+        force_field_def.shape = circle;
+        this.body = this.create(force_field_def, BodyDef.BodyType.DynamicBody);
 
         this.body.setUserData(this);
     }
@@ -77,7 +86,7 @@ public class Enemy extends Entity {
             //System.out.println("circle time!");
 
             //Shoot at player
-            this.shoot_at_player(targetAngle);
+            //this.shoot_at_player(targetAngle);
         }
     }
     public void move_drift(Player player) { //used for asteroids
@@ -86,7 +95,7 @@ public class Enemy extends Entity {
 
     //Attacking AI //CURRENTLY BROKEN (ABS VALUE NOT RIGHT)
     public void shoot_at_player(float targetAngle) { //pass in player's angle relative to enemy
-        if (Math.abs(this.getRotation()%(2*Math.PI)+2*Math.PI-targetAngle%(2*Math.PI)+2*Math.PI)<10*MathUtils.degreesToRadians) { //if enemy is pointed with 10 degrees of player, shoot
+        if (Math.abs(this.getRotation()-targetAngle)<10) { //if enemy is pointed with 10 degrees of player, shoot
             Projectile.shoot(new Texture("player_bullet.png"),5f,Projectile.tag_enemy,this.getX(),this.getY(),this.getRotation());
         }
     }
