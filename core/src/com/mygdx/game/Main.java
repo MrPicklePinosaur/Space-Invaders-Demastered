@@ -113,6 +113,7 @@ public class Main extends ApplicationAdapter {
 		currSector = Map.getSector(player.getX(),player.getY());
 		if((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y){
 			//map.generateEvent();
+
 			oldSector = currSector;
 			System.out.println("New sector");
 		}

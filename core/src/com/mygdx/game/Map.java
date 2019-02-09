@@ -88,76 +88,72 @@ public class Map {
         }
     }
 
-    public void generateEvent(Player player,Vector2 sector, int event, int numOfEvents) { //places certain events/objects such as asteroid or gas stations in a specific difficulty level
-        if(event==1){   //generate enemies!
-            int difficulty = map[(int)sector.x][(int)sector.y];
-            if(difficulty!=0){
+    public void generateEnemy(Player player,Vector2 sector) { //places certain events/objects such as asteroid or gas stations in a specific difficulty level
+        int difficulty = map[(int)sector.x][(int)sector.y];
+        if(difficulty!=0){
 
-                UpperBound = UpperBound*difficulty;
-                eNum = randObj.nextInt((UpperBound - LowerBound) + 1) + LowerBound;
-                for(int e=0;e<eNum;e++){
-                    //TODO: Logic for creating enemies randomly in the player's current sector that don't spawn inside any bodies
-                    /*
-                    pX and pY are TEMPORARY PARAMETERS/ARGUEMENTS
-                    Proper logic for getting eX,eY from randObj needs to be calculated
+            UpperBound = UpperBound*difficulty;
+            eNum = randObj.nextInt((UpperBound - LowerBound) + 1) + LowerBound;
+            for(int e=0;e<eNum;e++){
+                //TODO: Logic for creating enemies randomly in the player's current sector that don't spawn inside any bodies
+                /*
+                pX and pY are TEMPORARY PARAMETERS/ARGUEMENTS
+                Proper logic for getting eX,eY from randObj needs to be calculated
 
-                    UPDATE: replaced pX,pY with player to give use to place_enemy method in Enemy class
-
-
-                    LOGIC:
-                    choose position by circle of arbitrary radius with center being player coordinates
-
-                    FOR KILLLIST:
-                    instead of doing for Enemy e : enemyList
-                    loop by index (i.e. for loop or while with indexes) that goes in reverse to avoid crash
-
-                    When removing:
-                    trashcan.flagforpurge
-                    trashcan.removebody(e.getBody)
-                    THEN remove from enemy list
+                UPDATE: replaced pX,pY with player to give use to place_enemy method in Enemy class
 
 
-                    MAKE SURE TO TAKE IT OUT OF WHILE LOOP WE DONT NEED TO CHECK SPAWN COLLIDE ANYMORE
-                    */
-                    /*while(!placed) {
-                        //eX = randObj.nextInt((((int)player.getX() + Map.DIVISION_SIZE) - ((int)player.getX() - Map.DIVISION_SIZE)) + 1) + ((int)player.getX() - Map.DIVISION_SIZE);//((int)sector.x*Map.DIVISION_SIZE);  //how to convert from sector back to number
-                        //eY = randObj.nextInt((((int)player.getY() + Map.DIVISION_SIZE) - ((int)player.getY() - Map.DIVISION_SIZE)) + 1) + ((int)player.getY() - Map.DIVISION_SIZE);
-                        eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
-                        //if (){//(eX + Enemy.SHIP_SIZE/2F)>Enemy.SHIP_SIZE) {
-                            //enemyArrayList.add(new Enemy(,difficulty));
-                            //Enemy.place_enemy(player,(float)Global.getDist(player.getX(),player.getY(),player.getX()-Global.SCREEN_WIDTH,player.getY()-Global.SCREEN_HEIGHT),difficulty);
-                        float posX = Math.cos(eAng);
-                        float posY = ;
-                        Enemy.place_enemy(player,new Vector2(posX,posY),difficulty);
-                        placed = true;
-                        //}
-                    }*/
+                LOGIC:
+                choose position by circle of arbitrary radius with center being player coordinates
+
+                FOR KILLLIST:
+                instead of doing for Enemy e : enemyList
+                loop by index (i.e. for loop or while with indexes) that goes in reverse to avoid crash
+
+                When removing:
+                trashcan.flagforpurge
+                trashcan.removebody(e.getBody)
+                THEN remove from enemy list
+
+
+                MAKE SURE TO TAKE IT OUT OF WHILE LOOP WE DONT NEED TO CHECK SPAWN COLLIDE ANYMORE
+                */
+                /*while(!placed) {
+                    //eX = randObj.nextInt((((int)player.getX() + Map.DIVISION_SIZE) - ((int)player.getX() - Map.DIVISION_SIZE)) + 1) + ((int)player.getX() - Map.DIVISION_SIZE);//((int)sector.x*Map.DIVISION_SIZE);  //how to convert from sector back to number
+                    //eY = randObj.nextInt((((int)player.getY() + Map.DIVISION_SIZE) - ((int)player.getY() - Map.DIVISION_SIZE)) + 1) + ((int)player.getY() - Map.DIVISION_SIZE);
                     eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
-                    float posX = (float)Math.cos(eAng)*radius;
-                    float posY = (float)Math.sin(eAng)*radius;
+                    //if (){//(eX + Enemy.SHIP_SIZE/2F)>Enemy.SHIP_SIZE) {
+                        //enemyArrayList.add(new Enemy(,difficulty));
+                        //Enemy.place_enemy(player,(float)Global.getDist(player.getX(),player.getY(),player.getX()-Global.SCREEN_WIDTH,player.getY()-Global.SCREEN_HEIGHT),difficulty);
+                    float posX = Math.cos(eAng);
+                    float posY = ;
                     Enemy.place_enemy(player,new Vector2(posX,posY),difficulty);
+                    placed = true;
+                    //}
+                }*/
+                eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
+                float posX = (float)Math.cos(eAng)*radius;
+                float posY = (float)Math.sin(eAng)*radius;
+                Enemy.place_enemy(player,new Vector2(posX,posY),difficulty);
 
-                }
-
-            }else{
-                //This should never be reached
-                //ideally the generateEvent method should only be called when the player is not at the edges of the map
-                //however, we can just warn the player and let the auto boundary-rejection handle the player
-                System.out.println("You are near the border of the forcefield!");   //Right now this is printed in the console
-                                                                                    //Later will show up on-screen
             }
+
+        }else{
+            //This should never be reached
+            //ideally the generateEvent method should only be called when the player is not at the edges of the map
+            //however, we can just warn the player and let the auto boundary-rejection handle the player
+            System.out.println("You are near the border of the forcefield!");   //Right now this is printed in the console
+                                                                                //Later will show up on-screen
         }
-        if(event==0){   //kill enemies not being used!
-
-            for(int i = Enemy.enemies.size();i>0;i--){
-                //AssetManager use goes HERE
-                if(Enemy.enemies.get(i).getHP()<=0 || Enemy.enemies.get(i).getDistFromPlayer(player)>1500){
-                    AssetLoader.flagForPurge(Enemy.enemies.get(i).body);
-                    AssetLoader.sweepBodies();
-                    Enemy.enemies.remove(Enemy.enemies.get(i));
-                }
+    }
+    public void despawnEnemy(Player player){
+        for(int i = Enemy.enemies.size()-1;i>=0;i--){
+            //AssetManager use goes HERE
+            if(Enemy.enemies.get(i).getHP()<=0 || Enemy.enemies.get(i).getDistFromPlayer(player)>1500){
+                AssetLoader.flagForPurge(Enemy.enemies.get(i).body);
+                AssetLoader.sweepBodies();
+                Enemy.enemies.remove(Enemy.enemies.get(i));
             }
-
         }
     }
     //Getters
