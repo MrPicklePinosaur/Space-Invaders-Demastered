@@ -45,7 +45,7 @@ public class Enemy extends Entity {
 
     //Enemy Creation
     public static void place_enemy(Vector2 pos, int difficulty) { //spawns an enemy between d and 2d from player
-        float speed = 0.5f*difficulty;
+        float speed = 100f;
         Texture ship = new Texture(""+difficulty+".png");
         Enemy e = new Enemy(ship,speed,difficulty);
 
@@ -100,23 +100,19 @@ public class Enemy extends Entity {
     public static void updateAll(Player player) {
         for(int i = Enemy.enemies.size()-1;i>=0;i--){
             Enemy e = Enemy.enemies.get(i);
+            e.move(player);
             e.update();
-            if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500){
-                AssetLoader.flagForPurge(e.body);
-                AssetLoader.sweepBodies();
-                Enemy.enemies.remove(e);
-            }/*else{
-                e.move_circle(player);
-            }*/
+            if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500) {
+                e.dispose();
+            }
         }
     }
 
-    public static void moveAll(Player player){
-        /*for(Enemy e : Enemy.enemies){
-            e.move_circle(player);
-        }*/
-        if(Enemy.enemies.size()>0){Enemy.enemies.get(0).move_circle(player);}
+    public void dispose() { //safely deletes self
+        AssetLoader.flagForPurge(this.body);
+        Enemy.enemies.remove(this);
     }
+
     //Getters
     public int getHP(){
         return this.hp;

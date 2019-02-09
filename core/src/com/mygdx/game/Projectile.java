@@ -86,6 +86,11 @@ public class Projectile extends Entity{
 
     }
 
+    public void dispose() { //safely deletes self
+        AssetLoader.flagForPurge(this.body);
+        Projectile.active_projectiles.remove(this);
+    }
+
     //Getters
     public int getTag() { return this.tag; }
 

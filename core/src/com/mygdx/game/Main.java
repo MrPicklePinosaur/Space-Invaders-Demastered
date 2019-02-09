@@ -84,10 +84,6 @@ public class Main extends ApplicationAdapter {
 		map.getBounds(player);
 
 		//Update Enemies
-		Enemy.updateAll(player);
-		//Enemy.enemies.get(0).move_circle(player);
-		Enemy.moveAll(player);
-		//map.generateEnemy(player);
 		//enemy spawning
 		currSector = Map.getSector(player.getX(),player.getY());
 		if(((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y) && currSector.x!=0 && currSector.y!=0){
@@ -96,6 +92,8 @@ public class Main extends ApplicationAdapter {
 			oldSector = currSector;
 			System.out.println("New sector");
 		}
+		Enemy.updateAll(player);
+
 
 		//update projectiles
 		Projectile.updateAll();

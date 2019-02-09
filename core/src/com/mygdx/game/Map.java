@@ -9,6 +9,7 @@
 
 package com.mygdx.game;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 //import com.badlogic.gdx.graphics.Color;
 
@@ -133,7 +134,7 @@ public class Map {
                     placed = true;
                     //}
                 }*/
-                eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1))+(int)Math.toRadians((double)0);
+                eAng = Global.rand.nextInt(360)* MathUtils.degreesToRadians;
                 float posX = player.getX()+(float)Math.cos(eAng)*radius;
                 float posY = player.getY()+(float)Math.sin(eAng)*radius;
                 Enemy.place_enemy(new Vector2(posX,posY),difficulty);
