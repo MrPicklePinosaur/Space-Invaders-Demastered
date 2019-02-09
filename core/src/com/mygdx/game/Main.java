@@ -20,7 +20,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 import javax.xml.soap.Text;
+import java.io.*;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;//,uiBatch;
@@ -40,6 +42,16 @@ public class Main extends ApplicationAdapter {
 		Global.world.setContactListener(new CollisionListener());
 		r = new Renderer(batch);
 		batch = new SpriteBatch();
+
+		try{
+			Scanner inFile = new Scanner(new BufferedReader(new FileReader("highscore.txt")));
+			int highscore;
+			while(inFile.hasNextInt()){
+				highscore = inFile.nextInt();
+				Global.highscore = highscore;
+			}
+			inFile.close();
+		}catch(IOException ioe){System.out.println("highscore.txt does not exist");}
 
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
@@ -112,7 +124,7 @@ public class Main extends ApplicationAdapter {
 		//Update world and viewport
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		AssetLoader.sweepBodies();
-		r.debugCam.render(Global.world,r.cam.combined);
+		//r.debugCam.render(Global.world,r.cam.combined);
 		r.moveCamera(player.sprite.getX(),player.sprite.getY());
 		r.cam.update(); //refresh camera
 		//r.screenShake(2f);
@@ -123,6 +135,19 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		bg.dispose();
+		try {
+			if(Global.currScore>Global.highscore){
+				File file = new File("highscore.txt");
+				if(file.delete()){System.out.println("highscore change process started");}else{System.out.println("highscore.txt doesnt exist");}
+				if(file.createNewFile()){System.out.println("highscore.txt created");}else{System.out.println("highscore.txt already exists");}
+				PrintWriter hsWriter = new PrintWriter(new BufferedWriter (new FileWriter ("highscore.txt")));
+				Global.highscore = Global.currScore;
+				hsWriter.println(Global.currScore);
+				hsWriter.close();
+			}
+		}catch(IOException ioe){
+			System.out.println("cannot write to highscore.txt");
+		}
 	}
 
 }

@@ -23,7 +23,7 @@ import java.util.*;
 public class Map {
 
     private static BufferedImage mapPixels;
-    private static int UpperBound=10,LowerBound=2;    //min/max amt of enemies spawn in a certain sector; inclusive
+    private static int UpperBound=10,LowerBound=5;    //min/max amt of enemies spawn in a certain sector; inclusive
     private static Random randObj;//eNum,eX,eY;   //eNum amt of enemies spawning in sector, eX/eY is starting location
     private static float eNum,eX,eY,eAng;
     private static final int radius = 500/Global.PPM;
