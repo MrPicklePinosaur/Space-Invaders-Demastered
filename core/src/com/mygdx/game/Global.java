@@ -33,7 +33,8 @@ public class Global {
     public static float mx;
     public static float my;
     public static float angle; //the angle the mouse makes with the center of the screen
-    public static int highscore=0;
+    public static int highscore;
+    public static int currScore=0;
 
     public static void updateInput() { //call in every single render loop to update
         //Find out how far mouse is from center of screen

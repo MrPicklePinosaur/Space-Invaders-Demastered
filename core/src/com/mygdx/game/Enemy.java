@@ -20,6 +20,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Enemy extends Entity {
 
@@ -29,6 +30,7 @@ public class Enemy extends Entity {
     private int hp;
     private float theta;
     private int shoot_frequency = 200; //its weird, but the higher the number, the low the shoot rate
+    private Random rand = new Random();
 
     public Enemy(Texture texture,float speed,int difficulty) {
         super(texture,speed);
@@ -82,7 +84,11 @@ public class Enemy extends Entity {
         }
     }
     public void move_drift(Player player) { //used for asteroids
-
+        float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
+        float absang = (float)Math.toRadians(rand.nextInt(50+1));
+        boolean isPositive = rand.nextBoolean();
+        if(isPositive){this.theta = absang;}else{this.theta = absang*-1;}
+        this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle+this.theta)/Global.PPM,this.speed*MathUtils.sin(targetAngle+this.theta)/Global.PPM);
     }
 
     //Attacking AI - pass in player's angle relative to enemy
@@ -108,7 +114,7 @@ public class Enemy extends Entity {
             e.update();
             if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500) {
                 e.dispose();
-                Global.highscore+=10;
+                Global.currScore+=10;
             }
         }
     }
