@@ -61,7 +61,6 @@ public class Enemy extends Entity {
     //Move
     public void move(Player player) {
         this.move_circle(player);
-        this.update();
     }
 
     public void move_circle(Player player) { //enemy flies in direction of player, until it reaches a certain distance from player, then it will circle
@@ -88,6 +87,17 @@ public class Enemy extends Entity {
 
     }
 
+    public void updateAll(Player player) {
+        for(int i = Enemy.enemies.size()-1;i>=0;i--){
+            Enemy e = Enemy.enemies.get(i);
+            this.update();
+            if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500){
+                AssetLoader.flagForPurge(e.body);
+                AssetLoader.sweepBodies();
+                Enemy.enemies.remove(e);
+            }
+        }
+    }
     @Override
     public void destroy() {
         //Remove enemy from list or whatever here
