@@ -18,6 +18,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.Random;
+
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;//,uiBatch;
 	Renderer r;
@@ -39,6 +41,7 @@ public class Main extends ApplicationAdapter {
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
 		player = new Player(new Texture("ship-green.png"),200f); //create player object
+		Map.randomPlayerSpawn(player);
 		oldSector = Map.getSector(player.getX(),player.getY());
 		currSector = new Vector2(-1,-1);
 		mapSprite = new Sprite(new Texture("space.png"));
@@ -112,8 +115,8 @@ public class Main extends ApplicationAdapter {
 		map.getBounds(player);
 
 		//enemy spawning
-		//currSector = Map.getSector(player.getX(),player.getY());
-		if((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y){
+		currSector = Map.getSector(player.getX(),player.getY());
+		if(((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y) && currSector.x!=0 && currSector.y!=0){
 			map.generateEnemy(player);
 
 			oldSector = currSector;

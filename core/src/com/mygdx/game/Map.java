@@ -9,10 +9,11 @@
 
 package com.mygdx.game;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+//import com.badlogic.gdx.graphics.Color;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -65,29 +66,30 @@ public class Map {
         }catch(IOException e){
             System.out.println("map.png isn't where it should be.");
         }
-        int row = 24;int column = 24;Color colour;
+        int row = 24;int column = 24;
+        Color colour;
         for(int r=0;r<row;r++){
             for(int c=0;c<column;c++){
                 colour = new Color(mapPixels.getRGB(c,r));
-                System.out.println("R: "+Math.round(colour.r*255)+" G: "+Math.round(colour.g*255)+" B: "+Math.round(colour.b*255));
-                if(Math.round(colour.r*255)==0.0f && Math.round(colour.g*255)==0.0f && Math.round(colour.b*255)==255f){
+                //System.out.println("R: "+Math.round(colour.getRed()*255)+" G: "+Math.round(colour.getGreen()*255)+" B: "+Math.round(colour.getBlue()*255));
+                if(colour.getRed()==0 && colour.getGreen()==0 && colour.getBlue()==255){
                     map[c][r] = 0;
                 }
-                if(Math.round(colour.r*255)==0f && Math.round(colour.g*255)==255f && Math.round(colour.b*255)==0f){
+                if(colour.getRed()==0 && colour.getGreen()==255 && colour.getBlue()==0){
                     map[c][r] = 1;
                 }
-                if(Math.round(colour.r*255)==255f && Math.round(colour.g*255)==175f && Math.round(colour.b*255)==0f){
+                if(colour.getRed()==255 && colour.getGreen()==175 && colour.getBlue()==0){
                     map[c][r] = 2;
                 }
-                if(Math.round(colour.r*255)==255f && Math.round(colour.g*255)==150f && Math.round(colour.b*255)==150f){
+                if(colour.getRed()==255 && colour.getGreen()==150 && colour.getBlue()==150){
                     map[c][r] = 3;
                 }
-                if(Math.round(colour.r*255)==255f && Math.round(colour.g*255)==0f && Math.round(colour.b*255)==0f){
+                if(colour.getRed()==255 && colour.getGreen()==0 && colour.getBlue()==0){
                     map[c][r] = 4;
                 }
             }
         }
-        System.out.println(Arrays.deepToString(map));
+        //System.out.println(Arrays.deepToString(map));
     }
 
     public void generateEnemy(Player player) { //places certain events/objects such as asteroid or gas stations in a specific difficulty level
@@ -155,6 +157,16 @@ public class Map {
         if(difficulty==0){
             //handle player rejection
             System.out.println("Reached edge of map.");
+        }
+    }
+
+    public void randomPlayerSpawn(){
+        for(int i=0;i<24;i++){  //TODO: remove hardcoded dimensions
+            for(int j=0;j<24;j++){
+                if(map[i][j]==1){
+
+                }
+            }
         }
     }
 
