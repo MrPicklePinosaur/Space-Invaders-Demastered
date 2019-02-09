@@ -88,10 +88,10 @@ public class Map {
         }
     }
 
-    public void generateEnemy(Player player,Vector2 sector) { //places certain events/objects such as asteroid or gas stations in a specific difficulty level
-        int difficulty = map[(int)sector.x][(int)sector.y];
+    public void generateEnemy(Player player) { //places certain events/objects such as asteroid or gas stations in a specific difficulty level
+        Vector2 sector = Map.getSector(player.getX(),player.getY());
+        int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
         if(difficulty!=0){
-
             UpperBound = UpperBound*difficulty;
             eNum = randObj.nextInt((UpperBound - LowerBound) + 1) + LowerBound;
             for(int e=0;e<eNum;e++){
@@ -146,22 +146,13 @@ public class Map {
                                                                                 //Later will show up on-screen
         }
     }
-    public void despawnEnemy(Player player){
-        for(int i = Enemy.enemies.size()-1;i>=0;i--){
-            //AssetManager use goes HERE
-            if(Enemy.enemies.get(i).getHP()<=0 || Enemy.enemies.get(i).getDistFromPlayer(player)>1500){
-                AssetLoader.flagForPurge(Enemy.enemies.get(i).body);
-                AssetLoader.sweepBodies();
-                Enemy.enemies.remove(Enemy.enemies.get(i));
-            }
-        }
-    }
+
     //Getters
     public static Vector2 getSector(float px, float py) { //returns the current location of player
         float sectorX = px%Map.DIVISION_SIZE/Global.PPM;
         float sectorY = py%Map.DIVISION_SIZE/Global.PPM;
         return new Vector2(sectorX,sectorY);
     }
-    public int getDifficulty(int sx, int sy) { return Map.map[sy][sx]; }//takes in coordinates of a sector and returns the difficulty
+    public static int getDifficulty(int sx, int sy) { return Map.map[sy][sx]; }//takes in coordinates of a sector and returns the difficulty
 
 }

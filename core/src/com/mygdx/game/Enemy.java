@@ -11,6 +11,7 @@
 
 package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -61,7 +62,6 @@ public class Enemy extends Entity {
     //Move
     public void move(Player player) {
         this.move_circle(player);
-        this.update();
     }
 
     public void move_circle(Player player) { //enemy flies in direction of player, until it reaches a certain distance from player, then it will circle
@@ -86,6 +86,24 @@ public class Enemy extends Entity {
     }
     public void move_drift(Player player) { //used for asteroids
 
+    }
+
+    public static void drawAll(Batch batch) { //NOTE: possibly merge with updateAll
+        for (Enemy e : Enemy.enemies) {
+            e.sprite.draw(batch);
+        }
+    }
+
+    public static void updateAll(Player player) {
+        for(int i = Enemy.enemies.size()-1;i>=0;i--){
+            Enemy e = Enemy.enemies.get(i);
+            e.update();
+            if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500){
+                AssetLoader.flagForPurge(e.body);
+                AssetLoader.sweepBodies();
+                Enemy.enemies.remove(e);
+            }
+        }
     }
 
     @Override

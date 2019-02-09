@@ -26,7 +26,14 @@ public class CollisionListener implements ContactListener {
             4. enemy gets hit by enemy projectile (no one takes dmg and projectile <possibly> despawns)
         */
         //System.out.println(enemyIsHit(fa,fb));
-        if (enemyIsHit(fa,fb) != null) {
+        /*
+        if (enemyIsHit(fa,fb) != null) { //CASE 2: Player gets hit by enemy projectile
+            Enemy e = (Enemy) enemyIsHit(fa,fb).getBody().getUserData();
+            e.modHp(-10); //deal damage to enemy
+            System.out.println("Enemy hp: "+e.getHP());
+        }
+        */
+        if (enemyIsHit(fa,fb) != null) { //CASE 3: Enemy gets hit by player projectile
             Enemy e = (Enemy) enemyIsHit(fa,fb).getBody().getUserData();
             e.modHp(-10); //deal damage to enemy
             System.out.println("Enemy hp: "+e.getHP());
