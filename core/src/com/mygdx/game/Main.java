@@ -18,6 +18,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.Random;
+
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;//,uiBatch;
 	Renderer r;
@@ -44,6 +46,9 @@ public class Main extends ApplicationAdapter {
 		mapSprite = new Sprite(new Texture("space.png"));
 		ui = new UI();
 		map = new Map();
+
+		Map.randomPlayerSpawn(player);
+
 	}
 
 	@Override
@@ -80,8 +85,8 @@ public class Main extends ApplicationAdapter {
 		Enemy.updateAll(player);
 		//map.generateEnemy(player);
 		//enemy spawning
-		//currSector = Map.getSector(player.getX(),player.getY());
-		if((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y){
+		currSector = Map.getSector(player.getX(),player.getY());
+		if(((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y) && currSector.x!=0 && currSector.y!=0){
 			map.generateEnemy(player);
 
 			oldSector = currSector;
