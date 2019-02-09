@@ -85,6 +85,7 @@ public class Main extends ApplicationAdapter {
 
 		//Update Enemies
 		Enemy.updateAll(player);
+		//Enemy.enemies.get(0).move_circle(player);
 		Enemy.moveAll(player);
 		//map.generateEnemy(player);
 		//enemy spawning

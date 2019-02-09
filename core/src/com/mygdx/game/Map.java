@@ -22,7 +22,7 @@ import java.util.*;
 public class Map {
 
     private static BufferedImage mapPixels;
-    private static int UpperBound=15,LowerBound=1;    //min/max amt of enemies spawn in a certain sector; inclusive
+    private static int UpperBound=15,LowerBound=5;    //min/max amt of enemies spawn in a certain sector; inclusive
     private static Random randObj;//eNum,eX,eY;   //eNum amt of enemies spawning in sector, eX/eY is starting location
     private static float eNum,eX,eY,eAng;
     private static final int radius = 100/Global.PPM;
@@ -154,7 +154,7 @@ public class Map {
         int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
         if(difficulty==0){
             //handle player rejection
-            System.out.println("Reached edge of map.");
+            //System.out.println("Reached edge of map.");
         }
     }
 
@@ -175,7 +175,7 @@ public class Map {
         //System.out.println(randChoice+"\n"+sectors.get(randChoice));
         Vector2 startingSector = sectors.get(randChoice);
         System.out.println(startingSector);
-        player.init(startingSector.x*DIVISION_SIZE/Global.PPM,startingSector.y*DIVISION_SIZE/Global.PPM,0);
+        player.init(startingSector.x*DIVISION_SIZE/Global.PPM*10,startingSector.y*DIVISION_SIZE/Global.PPM*10,0);
         //sector + divisionsize/2
         //System.out.println(startingSector.x+" "+startingSector.y);
 
