@@ -137,7 +137,7 @@ public class Map {
                 eAng = Global.rand.nextInt(360)* MathUtils.degreesToRadians;
                 float posX = player.getX()+(float)Math.cos(eAng)*radius;
                 float posY = player.getY()+(float)Math.sin(eAng)*radius;
-                Enemy.place_enemy(new Vector2(posX,posY),difficulty);
+                Enemy.place_enemy(new Vector2(posX,posY));
 
             }
 

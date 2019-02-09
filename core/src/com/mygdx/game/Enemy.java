@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -27,17 +26,29 @@ public class Enemy extends Entity {
     static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
     private float max_hp;
-    private int hp;
+    private int shoot_frq; //its weird, but the higher the number, the low the shoot rate
+    String ai_type;
+    private float turn_speed;
+    private int contact_dmg;
+    private String fire_pattern;
+    private String bullet;
+
+    private float hp;
     private float theta;
-    private int shoot_frequency = 200; //its weird, but the higher the number, the low the shoot rate
     private Random rand = new Random();
 
-    public Enemy(Texture texture,float speed,int difficulty) {
+    public Enemy(Texture texture,float max_hp,int shoot_frq,String ai_type,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet) {
         super(texture,speed);
-        this.hp = difficulty;
-        /*
-        TODO: add difficulty scaling using difficulty arguement!
-        */
+        this.max_hp = max_hp;
+        this.shoot_frq = shoot_frq;
+        this.ai_type = ai_type;
+        this.turn_speed = turn_speed;
+        this.contact_dmg = contact_dmg;
+        this.fire_pattern = fire_pattern;
+        this.bullet = bullet;
+
+        this.hp = this.max_hp;
+
         //Create body for enemy - it is assumed that enemy has a circular fixture
         CircleShape circle = new CircleShape();
         circle.setRadius(this.sprite.getWidth()/2f);
@@ -49,10 +60,8 @@ public class Enemy extends Entity {
     }
 
     //Enemy Creation
-    public static void place_enemy(Vector2 pos, int difficulty) { //spawns an enemy between d and 2d from player
-        float speed = 100f;
-        Texture ship = new Texture(""+difficulty+".png");
-        Enemy e = new Enemy(ship,speed,difficulty);
+    public static void place_enemy(Vector2 pos) { //spawns an enemy between d and 2d from player
+        Enemy e = AssetLoader.create_enemy("grunt");
 
         e.init(pos.x,pos.y,0f);
         enemies.add(e);
@@ -60,7 +69,9 @@ public class Enemy extends Entity {
 
     //AI stuffs
     public void move(Player player) {
-        this.move_circle(player);
+        if (this.ai_type.equals(AssetLoader.ai_circle)) {
+            this.move_circle(player);
+        }
     }
 
     public void move_circle(Player player) { //enemy flies in direction of player, until it reaches a certain distance from player, then it will circle
@@ -69,7 +80,7 @@ public class Enemy extends Entity {
         float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
         //System.out.println(true);
         //Update enemy
-        this.rotate(targetAngle,0.055f); //enemy tries to face player
+        this.rotate(targetAngle,this.turn_speed); //enemy tries to face player
         if(Global.getDist(player.getX(),player.getY(),this.getX(),this.getY())>(250/Global.PPM)){
             this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle)/Global.PPM,this.speed*MathUtils.sin(targetAngle)/Global.PPM); //apply force towards that direction
         }else{
@@ -94,9 +105,9 @@ public class Enemy extends Entity {
     //Attacking AI - pass in player's angle relative to enemy
     public void shoot_at_player(float targetAngle) {//Give chance for enemy to shoot at player (if they are pointed at player of course)
         if (Math.abs(this.getRotation()-targetAngle)<10) { //if enemy is pointed with 10 degrees of player, shoot
-            boolean shoot = Global.rand.nextInt(shoot_frequency) == 0 ? true : false;
+            boolean shoot = Global.rand.nextInt(shoot_frq) == 0 ? true : false;
             if (shoot) {
-                Projectile.shoot(new Texture("player_bullet.png"), 5f, Projectile.tag_enemy, this.getX(), this.getY(), this.getRotation());
+                Projectile.shoot(this.bullet,this.fire_pattern,Projectile.tag_enemy, this.getX(), this.getY(), this.getRotation());
             }
         }
     }
@@ -125,7 +136,7 @@ public class Enemy extends Entity {
     }
 
     //Getters
-    public int getHP(){
+    public float getHP(){
         return this.hp;
     }
 

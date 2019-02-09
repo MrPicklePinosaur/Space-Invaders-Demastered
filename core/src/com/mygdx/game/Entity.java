@@ -64,6 +64,7 @@ public abstract class Entity {
     public float getX() { return this.body.getPosition().x; }
     public float getY() { return this.body.getPosition().y; }
     public float getRotation() { return this.body.getAngle(); } //make decision on rotation being in radians or degrees
+    public float getSpeed() { return this.speed; }
     public Body getBody() { return this.body; }
 
     //Setters

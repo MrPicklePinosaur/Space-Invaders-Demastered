@@ -11,6 +11,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
@@ -21,42 +22,101 @@ import java.util.HashMap;
 public class AssetLoader {
 
     public AssetManager assetManager;
-    //private JSONParser parser = new JSONParser();
-
-   // public FileReader fileReader;
     private static ArrayList<Body> purge_body = new ArrayList<Body>();
+
+    //PLAYER CLASSES
+    public static final String player_basic = "basic";
+
+    //ENEMY CONSTANTS
+    //enemy builds
+    public static final String enemy_grunt = "grunt";
+    //public static final String enemy_
+    //enemy ai types
+    public static final String ai_circle = "circle";
+
+    //PROJECTILE CONSTATNS
+    //Bullet types
+    public static final String projectile_blueRay = "blueRay";
+
+    //Fire types / fire patterns
+    public static final String fire_cannon = "cannon";
+    public static final String fire_twin = "twin";
+
+
 
     public AssetLoader() {
         this.assetManager = new AssetManager();
     }
 
+    //HARDCODED GARBAGE HELL (because stinking json wont work)
+    public static Enemy create_enemy(String enemyName) {
+        //Default stuffs
+        String path = "missing_texture.png";
+        float max_hp = 100;
+        float speed = 100;
+        float turn_speed = 0.055f;
+        int shoot_frq = 100;
+        String ai_type = AssetLoader.ai_circle;
+        int contact_dmg = 10;
+        String fire_pattern = AssetLoader.fire_cannon;
+        String bullet = AssetLoader.projectile_blueRay;
 
-    public static void importFromJSON(String path,String className) {
-        JsonReader jsonReader = new JsonReader();
-        HashMap<String,ArrayList> output = new HashMap<String, ArrayList>();
-       // ArrayList block = new ArrayList();
-        JsonValue input = jsonReader.parse(new FileHandle(path));
-
-        for (JsonValue jv : input) { //for each 'object' in json, package it into a map
-            //output.put(jv.get("name"),new ArrayList())
-            System.out.println(jv.get("name"));
+        if (enemyName.equals(AssetLoader.enemy_grunt)) { //the most basic enemy
+            path = "1.png";
+            max_hp = 100;
+            speed = 75;
+            turn_speed = 0.055f;
+            shoot_frq = 200;
+            ai_type = AssetLoader.ai_circle;
+            contact_dmg = 10;
+            fire_pattern = AssetLoader.fire_cannon;
+            bullet = AssetLoader.projectile_blueRay;
         }
 
+        return new Enemy(new Texture(path),max_hp,shoot_frq,ai_type,speed,turn_speed,contact_dmg,fire_pattern,bullet);
     }
 
-    /*
-    public static void importFromJSON(String path,HashMap library) { //uploads class creation data to library
-        Json json = new Json();
-        ArrayList<JsonValue> input = json.fromJson(ArrayList.class,Gdx.files.internal(path));
-        for (JsonValue jv : input) {
-            library.put(jv.get("name"),1);
+    public static Projectile create_projectile(String projectileName,int spawn_tag) {
+        //Defaults
+        String path = "missing_texture.png";
+        int dmg = 20;
+        float speed = 10f;
+        float max_dist = 2f;
+        int tag = spawn_tag;
+
+        if (projectileName.equals(AssetLoader.projectile_blueRay)) {
+            path = "player_bullet.png";
+            dmg = 15;
+            speed = 10f;
+            max_dist = 2f;
         }
-        //System.out.println(AssetLoader.enemy_lib.get("asteroid"));
-    }
-    */
-    //HARDCODED GARBAGE
-    public static void create_basic_enemy() {
 
+        return new Projectile(new Texture(path),dmg,speed,max_dist,tag);
+    }
+
+    public static Player create_player(String playerName) {
+        //Default stuffs
+        String path = "missing_texture.png";
+        float max_hp = 100;
+        float speed = 100;
+        float turn_speed = 0.055f;
+        int shoot_frq = 100;
+        int contact_dmg = 10;
+        String fire_pattern = AssetLoader.fire_cannon;
+        String bullet = AssetLoader.projectile_blueRay;
+
+        if (playerName.equals(AssetLoader.player_basic)) { //the most basic enemy
+            path = "2.png";
+            max_hp = 100;
+            speed = 200;
+            turn_speed = 0.07f;
+            shoot_frq = 200;
+            contact_dmg = 10;
+            fire_pattern = AssetLoader.fire_twin;
+            bullet = AssetLoader.projectile_blueRay;
+        }
+
+        return new Player(new Texture(path),max_hp,shoot_frq,speed,turn_speed,contact_dmg,fire_pattern,bullet);
     }
 
     //MAnage bodies

@@ -26,9 +26,11 @@ public class Renderer {
         debugCam = new Box2DDebugRenderer();
     }
 
-    public void moveCamera(float px, float py) { //makes sure that camera cant zoom in or out too far and cant stray too far from player
+    public void moveCamera(Player player) { //makes sure that camera cant zoom in or out too far and cant stray too far from player
         //Shift camera towards direction of mouse
-        float camShiftSpeed = 1f/Global.PPM;
+        float px = player.getX();
+        float py = player.getY();
+        float camShiftSpeed = player.getSpeed()/256f/Global.PPM;
         this.cam.translate(camShiftSpeed*Global.mx/Global.PPM,camShiftSpeed*Global.my/Global.PPM);
         //Lock camera to not go beyond a certain distance away from player
         float maxCamDist = 150/Global.PPM; //TODO: GET RID OF HARDCODED STUFF

@@ -9,22 +9,37 @@
 //Handles player input
 
 package com.mygdx.game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Player extends Entity {
-    private String name;
-    static float max_hp=100;
-    private float hp=max_hp;
+    private static float max_hp;
+    private static float shoot_frq;
+    private float turn_speed;
+    private int contact_dmg;
+    private String fire_pattern;
+    private String bullet;
+
+    private float hp;
     private int xp;
     private int lvl;
 
     private Vector2 force;
 
-    public Player(Texture texture,float speed) {
+    public Player(Texture texture,float max_hp,int shoot_frq,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet) {
         super(texture,speed);
+        this.max_hp = max_hp;
+        this.shoot_frq = shoot_frq;
+        this.turn_speed = turn_speed;
+        this.contact_dmg = contact_dmg;
+        this.fire_pattern = fire_pattern;
+        this.bullet = bullet;
+
+        this.hp = this.max_hp;
         this.xp = 0;
         this.lvl = 0;
 
@@ -51,6 +66,11 @@ public class Player extends Entity {
 
         this.body.setLinearVelocity(vx/Global.PPM,vy/Global.PPM);
         this.update(); //sync texture with body
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) { //spawn projectile
+            //Create new projectile object
+            Projectile.shoot(this.bullet,this.fire_pattern,Projectile.tag_player,this.getX(),this.getY(),this.getRotation());
+        }
     }
 
     //Getters

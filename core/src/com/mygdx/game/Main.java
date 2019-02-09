@@ -55,7 +55,7 @@ public class Main extends ApplicationAdapter {
 
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
-		player = new Player(new Texture("ship-green.png"),200f); //create player object
+		player = AssetLoader.create_player(AssetLoader.player_basic); //create player object
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);
 		mapSprite = new Sprite(new Texture("space.png"),Map.DIVISION_SIZE*24/Global.PPM,Map.DIVISION_SIZE*24/Global.PPM);
@@ -93,15 +93,6 @@ public class Main extends ApplicationAdapter {
 		//Draw UI
 		ui.draw(player);
 
-		//Check for player shooting projectiles
-		//TODO: make this more effieient and move it to player class later
-		if (Gdx.input.isKeyJustPressed(Input.Keys.F)) { //spawn projectile
-			//Create new projectile object
-			Projectile.shoot(new Texture("player_bullet.png"),5f,Projectile.tag_player,player.getX(),player.getY(),player.getRotation());
-		}
-
-		//System.out.println("X: "+player.getX()*Global.PPM+" Y: "+player.getY()*Global.PPM);
-
 		//UPDATE STUFF
 		//Update Player
 		player.handleInput();
@@ -125,7 +116,7 @@ public class Main extends ApplicationAdapter {
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		AssetLoader.sweepBodies();
 		//r.debugCam.render(Global.world,r.cam.combined);
-		r.moveCamera(player.sprite.getX(),player.sprite.getY());
+		r.moveCamera(player);
 		r.cam.update(); //refresh camera
 		//r.screenShake(2f);
 		Global.updateInput();

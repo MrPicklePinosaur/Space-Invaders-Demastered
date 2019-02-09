@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import oracle.jrockit.jfr.ActiveSettingEvent;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -26,12 +27,18 @@ public class Projectile extends Entity{
     public static final int tag_player = 0;
     public static final int tag_enemy = 1;
 
+    private float dmg;
+    private float max_dist; //max distance projectile can travel before despawning
+
+
     private Vector2 spawn_pos;
-    private float max_dist = 2f; //max distance projectile can travel before despawning
     private int tag; //determines who shot the projectile
 
-    public Projectile(Texture texture,float speed,int tag) {
+    public Projectile(Texture texture,float dmg,float speed,float max_dist,int tag) {
         super(texture,speed);
+        this.dmg = dmg;
+        this.max_dist = max_dist;
+
         this.tag = (tag == tag_player) ?  tag_player : tag_enemy; //determine who shot the projecilte
 
         //Create body for projectile - it is assumed that all projectiles have a rectangular fixtures
@@ -66,17 +73,23 @@ public class Projectile extends Entity{
     }
 
     //FIRE PATTERNS:  spawns projectiles based on the current 'weapon' selected
-    public static void shoot(Texture texture,float speed,int tag,float x,float y,float angle) {
+    public static void shoot(String bullet,String fire_pattern,int tag,float x,float y,float angle) {
         ArrayList<Vector3> spawnList = new ArrayList<Vector3>();
-        Projectile.shoot_twin(spawnList,x,y,angle);
+
+        //Determine which firepattern player/enemy has
+        if (fire_pattern.equals(AssetLoader.fire_cannon)) {
+            Projectile.shoot_cannon(spawnList, x, y, angle);
+        } else if (fire_pattern.equals(AssetLoader.fire_twin)) {
+            Projectile.shoot_twin(spawnList, x, y, angle);
+        }
 
         for (Vector3 p_data : spawnList) { //for each projecctile to be spawned
-            Projectile p = new Projectile(texture,speed,tag);
+            Projectile p = AssetLoader.create_projectile(bullet,tag);
             p.init(p_data.x,p_data.y,p_data.z);
         }
     }
 
-    public static void shoot_basic(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots a basic bulley in direction enetiy is facing
+    public static void shoot_cannon(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots a basic bulley in direction enetiy is facing
         spawnList.add(new Vector3(x,y,angle));
     }
     public static void shoot_twin(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots two bullets, 10 degrees apart
