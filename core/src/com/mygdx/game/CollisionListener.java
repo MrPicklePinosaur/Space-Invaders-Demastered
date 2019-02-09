@@ -30,7 +30,7 @@ public class CollisionListener implements ContactListener {
             Player u = (Player) CollisionListener.isInstace(fa,fb,Player.class).getBody().getUserData(); //get the object of the fixtures
             Projectile p = (Projectile) CollisionListener.isInstace(fa,fb,Projectile.class).getBody().getUserData();
             if (p.getTag() == Projectile.tag_enemy) { //make sure that player is actually hit by a enemy's projectile
-                u.modHp(-10); //deal damage to enemy
+                u.modHp(-5); //deal damage to enemy
                 UI.updateHealth(u); //update ui
                 //p.dispose();
             }

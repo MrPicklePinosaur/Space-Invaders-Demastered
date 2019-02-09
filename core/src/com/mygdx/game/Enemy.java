@@ -28,6 +28,7 @@ public class Enemy extends Entity {
     private float max_hp;
     private int hp;
     private float theta;
+    private int shoot_frequency = 200; //its weird, but the higher the number, the low the shoot rate
 
     public Enemy(Texture texture,float speed,int difficulty) {
         super(texture,speed);
@@ -41,7 +42,6 @@ public class Enemy extends Entity {
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         this.body = this.create(fdef,BodyDef.BodyType.DynamicBody);
-
 
         this.body.setUserData(this);
     }
@@ -77,20 +77,21 @@ public class Enemy extends Entity {
             if (this.theta > 360) {
                 this.theta = 0;
             }
-            //System.out.println("circle time!");
 
-            //Shoot at player
-            //this.shoot_at_player(targetAngle);
+            this.shoot_at_player(targetAngle);
         }
     }
     public void move_drift(Player player) { //used for asteroids
 
     }
 
-    //Attacking AI //CURRENTLY BROKEN (ABS VALUE NOT RIGHT)
-    public void shoot_at_player(float targetAngle) { //pass in player's angle relative to enemy
+    //Attacking AI - pass in player's angle relative to enemy
+    public void shoot_at_player(float targetAngle) {//Give chance for enemy to shoot at player (if they are pointed at player of course)
         if (Math.abs(this.getRotation()-targetAngle)<10) { //if enemy is pointed with 10 degrees of player, shoot
-            Projectile.shoot(new Texture("player_bullet.png"),5f,Projectile.tag_enemy,this.getX(),this.getY(),this.getRotation());
+            boolean shoot = Global.rand.nextInt(shoot_frequency) == 0 ? true : false;
+            if (shoot) {
+                Projectile.shoot(new Texture("player_bullet.png"), 5f, Projectile.tag_enemy, this.getX(), this.getY(), this.getRotation());
+            }
         }
     }
 

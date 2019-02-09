@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class Player extends Entity {
     private String name;
-    static float max_hp=60;
+    static float max_hp=100;
     private float hp=max_hp;
     private int xp;
     private int lvl;
