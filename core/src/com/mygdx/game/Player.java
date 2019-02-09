@@ -37,7 +37,7 @@ public class Player extends Entity {
         fdef.shape = circle;
         this.body =  this.create(fdef,BodyDef.BodyType.DynamicBody);
 
-        this.body.setUserData(CollisionListener.player_id);
+        this.body.setUserData(this);
     }
 
     public void handleInput() {
@@ -52,6 +52,20 @@ public class Player extends Entity {
 
         this.body.setLinearVelocity(vx/Global.PPM,vy/Global.PPM);
         this.update(); //sync texture with body
+    }
+
+    public void shoot() { //spawns projectiles based on the current 'weapon' selected
+
+    }
+
+    public void shoot_basic() {
+
+    }
+    public void shoot_twin() {
+
+    }
+    public void shoot_shotgun() {
+
     }
 
     @Override

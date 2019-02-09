@@ -23,10 +23,10 @@ import java.util.ArrayList;
 
 public class Enemy extends Entity {
 
-    private ArrayList<Enemy> active_enemy = new ArrayList<Enemy>();
     static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
     static int SHIP_SIZE=16;
+    private float max_hp;
     private int hp;
     private float theta;
     public Enemy(Texture texture,float speed,int difficulty) {
@@ -44,7 +44,7 @@ public class Enemy extends Entity {
         fdef.shape = circle;
         this.body = this.create(fdef, BodyDef.BodyType.DynamicBody);
 
-        this.body.setUserData(CollisionListener.enemy_id);
+        this.body.setUserData(this);
     }
 
     //Enemy Creation
@@ -59,6 +59,11 @@ public class Enemy extends Entity {
         //this method bleeds over in map
 
     //Move
+    public void move(Player player) {
+        this.move_circle(player);
+        this.update();
+    }
+
     public void move_circle(Player player) { //enemy flies in direction of player, until it reaches a certain distance from player, then it will circle
         //TODO: enemies should have a variable called distFromPlayer, which is the distance away from the player they like to stay at
         //TODO: Possibly make enemy rotation not instantenous
@@ -76,24 +81,11 @@ public class Enemy extends Entity {
             if (this.theta > 360) {
                 this.theta = 0;
             }
-            System.out.println("circle time!");
+            //System.out.println("circle time!");
         }
     }
-    public void move_drift() { //used for asteroids
+    public void move_drift(Player player) { //used for asteroids
 
-    }
-
-    public void move(Player player) {
-        this.move_circle(player);
-        this.update();
-    }
-
-    public int getHP(){
-        return this.hp;
-    }
-
-    public double getDistFromPlayer(Player player){
-        return Global.getDist(player.getX(),player.getY(),this.getX(),this.getY());
     }
 
     @Override
@@ -101,4 +93,18 @@ public class Enemy extends Entity {
         //Remove enemy from list or whatever here
 
     }
+
+    //Getters
+    public int getHP(){
+        return this.hp;
+    }
+    public double getDistFromPlayer(Player player){
+        return Global.getDist(player.getX(),player.getY(),this.getX(),this.getY());
+    }
+
+    public void modHp(float deltaHp) {
+        this.hp += deltaHp;
+        MathUtils.clamp(this.hp,0,this.max_hp);
+    }
+
 }
