@@ -11,11 +11,9 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import jdk.nashorn.internal.ir.PropertyKey;
 
 import java.util.ArrayList;
 
@@ -33,10 +31,10 @@ public class Projectile extends Entity{
 
         //Create body for projectile - it is assumed that all projectiles have a rectangular fixtures
         PolygonShape rect = new PolygonShape();
-        rect.setAsBox(this.sprite.getWidth(),this.sprite.getHeight());
+        rect.setAsBox(this.sprite.getHeight(),this.sprite.getWidth());
         FixtureDef fdef = new FixtureDef();
-        fdef.shape = rect;
         fdef.isSensor = true;
+        fdef.shape = rect;
         this.body = this.create(fdef, BodyDef.BodyType.KinematicBody);
         body.setUserData(CollisionListener.player_projectile_id); //TODO: differentiate between player projeciltes and enemy projectiles (to prevent enemy friendly fire)
     }
@@ -49,7 +47,7 @@ public class Projectile extends Entity{
 
             //check to see if projectile is to be deleted (either it hit something or it has reached its max range)
             if (Math.hypot(p.getX()-p.spawn_pos.x,p.getY()-p.spawn_pos.y) >= p.max_dist) { //if the projectile has travelled past its max range
-                TrashCan.flagForPurge(p.getBody()); //add body to purge list
+                AssetLoader.flagForPurge(p.getBody()); //add body to purge list
                 Projectile.active_projectiles.remove(p);
             }
         }

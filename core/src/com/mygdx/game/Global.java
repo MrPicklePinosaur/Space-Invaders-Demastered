@@ -12,7 +12,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import java.util.Random;
 
@@ -20,7 +19,7 @@ public class Global {
     public static Random rand = new Random();
 
     public static World world;
-    public static TrashCan trashCan = new TrashCan();
+    public static AssetLoader assetLoader = new AssetLoader();
     //Some random vars
     public static int SCREEN_WIDTH = 1200;
     public static int SCREEN_HEIGHT = 800;

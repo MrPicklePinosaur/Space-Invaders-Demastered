@@ -9,17 +9,12 @@
 
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOError;
 import java.io.IOException;
 import java.util.*;
 
@@ -157,8 +152,8 @@ public class Map {
             for(int i = Enemy.enemies.size();i>0;i--){
                 //AssetManager use goes HERE
                 if(Enemy.enemies.get(i).getHP()<=0 || Enemy.enemies.get(i).getDistFromPlayer(player)>1500){
-                    TrashCan.flagForPurge(Enemy.enemies.get(i).body);
-                    TrashCan.sweepBodies();
+                    AssetLoader.flagForPurge(Enemy.enemies.get(i).body);
+                    AssetLoader.sweepBodies();
                     Enemy.enemies.remove(Enemy.enemies.get(i));
                 }
             }

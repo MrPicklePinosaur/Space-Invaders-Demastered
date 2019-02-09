@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.graphics.g2d.freetype.*;
 
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -75,7 +74,7 @@ public class Main extends ApplicationAdapter {
 
 		//Update world and viewport
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
-		TrashCan.sweepBodies();
+		AssetLoader.sweepBodies();
 		r.debugCam.render(Global.world,r.cam.combined);
 		r.moveCamera(player.sprite.getX(),player.sprite.getY());
 		//r.screenShake(2f);
