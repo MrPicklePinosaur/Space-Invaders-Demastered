@@ -28,8 +28,6 @@ public class Enemy extends Entity {
     private float max_hp;
     private int hp;
     private float theta;
-    private Body force_field; //enemies should get too close to each other
-    private static float force_field_raidus = 10f/Global.PPM;
 
     public Enemy(Texture texture,float speed,int difficulty) {
         super(texture,speed);
@@ -42,12 +40,8 @@ public class Enemy extends Entity {
         circle.setRadius(this.sprite.getWidth()/2f);
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
-        this.body = this.create(BodyDef.BodyType.DynamicBody);
-        //Create fixture for enemies to collide with EACH OTHER
-        FixtureDef force_field_def = new FixtureDef();
-        circle.setRadius(Enemy.force_field_raidus);
-        force_field_def.shape = circle;
-        this.body = this.create(force_field_def, BodyDef.BodyType.DynamicBody);
+        this.body = this.create(fdef,BodyDef.BodyType.DynamicBody);
+
 
         this.body.setUserData(this);
     }

@@ -33,7 +33,7 @@ public class Player extends Entity {
         circle.setRadius(this.sprite.getWidth()/2f); //The fixture for the player is a circle with radius spriteWidth/2
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
-        this.body = this.create(BodyDef.BodyType.DynamicBody);
+        this.body = this.create(fdef,BodyDef.BodyType.DynamicBody);
         this.body.createFixture(fdef);
 
         this.body.setUserData(this);
