@@ -94,7 +94,7 @@ public class Enemy extends Entity {
     //Attacking AI //CURRENTLY BROKEN (ABS VALUE NOT RIGHT)
     public void shoot_at_player(float targetAngle) { //pass in player's angle relative to enemy
         if (Math.abs(this.getRotation()-targetAngle)<10*MathUtils.degreesToRadians) { //if enemy is pointed with 10 degrees of player, shoot
-            Projectile.shoot(new Texture("player_bullet.png"),5f,this.getX(),this.getY(),this.getRotation());
+            Projectile.shoot(new Texture("player_bullet.png"),5f,Projectile.tag_enemy,this.getX(),this.getY(),this.getRotation());
         }
     }
 
@@ -122,6 +122,7 @@ public class Enemy extends Entity {
     public int getHP(){
         return this.hp;
     }
+
     public double getDistFromPlayer(Player player){
         return Global.getDist(player.getX(),player.getY(),this.getX(),this.getY());
     }

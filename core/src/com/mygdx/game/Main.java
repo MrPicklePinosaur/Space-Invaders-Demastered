@@ -97,7 +97,7 @@ public class Main extends ApplicationAdapter {
 		//TODO: make this more effieient and move it to player class later
 		if (Gdx.input.isKeyJustPressed(Input.Keys.F)) { //spawn projectile
 			//Create new projectile object
-			Projectile.shoot(new Texture("player_bullet.png"),5f,player.getX(),player.getY(),player.getRotation());
+			Projectile.shoot(new Texture("player_bullet.png"),5f,Projectile.tag_player,player.getX(),player.getY(),player.getRotation());
 		}
 
 		//UPDATE STUFF
