@@ -9,8 +9,10 @@ Class Breakdown
 	- Projectile  
 --> Renderer - includes debugRenderer and camera  
 --> Global - includes and variables that need to be access from any part of the project; also handles input 
---> Map  
---> CollisionListener - implementation of ContactListener
+--> Map - handles difficulty and enemy spawning  
+--> CollisionListener - implementation of ContactListener  
+--> AssetLoader - handles body disposal, garbage collection, and async loading  
+--> UI - graphical interface  
 
 Journal
 Edit as of 2/2/19 by Shrey Mahey:
