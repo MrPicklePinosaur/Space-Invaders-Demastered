@@ -26,7 +26,6 @@ public class Main extends ApplicationAdapter {
 	Map map;
 	Sprite mapSprite; //temp variable; clean up later
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
-	Enemy e;
 	UI ui;
 
 	@Override
@@ -40,13 +39,12 @@ public class Main extends ApplicationAdapter {
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
 		player = new Player(new Texture("ship-green.png"),200f); //create player object
-		e = new Enemy(new Texture("2.png"),150f,1);
-		e.init(2f,2f,0); //place enemy in certain spot in world (replace later with spawning code)
+		oldSector = Map.getSector(player.getX(),player.getY());
+		currSector = new Vector2(-1,-1);
 		mapSprite = new Sprite(new Texture("space.png"));
 		ui = new UI();
 		map = new Map();
 		//player = new Player(new Texture("ship-green.png"),300f); //create player object
-		oldSector = Map.getSector(player.getX(),player.getY());
 	}
 
 	@Override
@@ -107,16 +105,17 @@ public class Main extends ApplicationAdapter {
 		player.handleInput();
 
 		//Update Enemies
-		e.move(player);
 		Enemy.updateAll(player);
-
+		//map.generateEnemy(player);
 		//update projectiles
 		Projectile.updateAll();
 
+		map.getBounds(player);
+
 		//enemy spawning
-		currSector = Map.getSector(player.getX(),player.getY());
+		//currSector = Map.getSector(player.getX(),player.getY());
 		if((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y){
-			//map.generateEvent();
+			map.generateEnemy(player);
 
 			oldSector = currSector;
 			System.out.println("New sector");
