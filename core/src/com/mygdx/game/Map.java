@@ -73,19 +73,19 @@ public class Map {
                 colour = new Color(mapPixels.getRGB(c,r));
                 //System.out.println("R: "+Math.round(colour.getRed()*255)+" G: "+Math.round(colour.getGreen()*255)+" B: "+Math.round(colour.getBlue()*255));
                 if(colour.getRed()==0 && colour.getGreen()==0 && colour.getBlue()==255){
-                    map[c][r] = 0;
+                    map[r][c] = 0;
                 }
                 if(colour.getRed()==0 && colour.getGreen()==255 && colour.getBlue()==0){
-                    map[c][r] = 1;
+                    map[r][c] = 1;
                 }
                 if(colour.getRed()==255 && colour.getGreen()==175 && colour.getBlue()==0){
-                    map[c][r] = 2;
+                    map[r][c] = 2;
                 }
                 if(colour.getRed()==255 && colour.getGreen()==150 && colour.getBlue()==150){
-                    map[c][r] = 3;
+                    map[r][c] = 3;
                 }
                 if(colour.getRed()==255 && colour.getGreen()==0 && colour.getBlue()==0){
-                    map[c][r] = 4;
+                    map[r][c] = 4;
                 }
             }
         }
@@ -160,14 +160,25 @@ public class Map {
         }
     }
 
-    public void randomPlayerSpawn(){
+    public static void randomPlayerSpawn(Player player){
+        //System.out.println(Arrays.deepToString(map));
+        ArrayList<Vector2> sectors = new ArrayList<Vector2>();
         for(int i=0;i<24;i++){  //TODO: remove hardcoded dimensions
             for(int j=0;j<24;j++){
-                if(map[i][j]==1){
-
+                //System.out.println(map[i][j]);
+                if(map[j][i]==1){
+                    sectors.add(new Vector2(j,i));
                 }
             }
         }
+
+        //System.out.println(sectors);
+        randObj = new Random();
+        int randChoice = randObj.nextInt(sectors.size());
+        //System.out.println(randChoice+"\n"+sectors.get(randChoice));
+        Vector2 startingSector = sectors.get(randChoice);
+        //sector + divisionsize/2
+        player.init(startingSector.x+Map.DIVISION_SIZE/2,startingSector.y+Map.DIVISION_SIZE/2,0);
     }
 
     //Getters

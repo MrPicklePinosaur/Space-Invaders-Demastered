@@ -41,12 +41,12 @@ public class Main extends ApplicationAdapter {
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
 		player = new Player(new Texture("ship-green.png"),200f); //create player object
-		Map.randomPlayerSpawn(player);
 		oldSector = Map.getSector(player.getX(),player.getY());
 		currSector = new Vector2(-1,-1);
 		mapSprite = new Sprite(new Texture("space.png"));
 		ui = new UI();
 		map = new Map();
+		Map.randomPlayerSpawn(player);
 		//player = new Player(new Texture("ship-green.png"),300f); //create player object
 	}
 
