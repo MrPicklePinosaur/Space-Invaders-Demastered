@@ -28,6 +28,7 @@ public class Enemy extends Entity {
 
     static int SHIP_SIZE=16;
     private int hp;
+    private float theta;
     public Enemy(Texture texture,float speed,int difficulty) {
         super(texture,speed);
         this.hp = difficulty;
@@ -66,7 +67,17 @@ public class Enemy extends Entity {
 
         //Update enemy
         this.rotate(targetAngle,0.055f); //enemy tries to face player
-        this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle)/Global.PPM,this.speed*MathUtils.sin(targetAngle)/Global.PPM); //apply force towards that direction
+        if(Global.getDist(player.getX(),player.getY(),this.getX(),this.getY())>(250/Global.PPM)){
+            this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle)/Global.PPM,this.speed*MathUtils.sin(targetAngle)/Global.PPM); //apply force towards that direction
+        }else{
+            this.body.getPosition().x = player.getX()+(float)Math.cos(Math.toRadians(this.theta))*(250/Global.PPM);
+            this.body.getPosition().y = player.getY()+(float)Math.sin(Math.toRadians(this.theta))*(250/Global.PPM);
+            this.theta++;
+            if (this.theta > 360) {
+                this.theta = 0;
+            }
+            System.out.println("circle time!");
+        }
     }
     public void move_drift() { //used for asteroids
 
