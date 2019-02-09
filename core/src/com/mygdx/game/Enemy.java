@@ -82,11 +82,23 @@ public class Enemy extends Entity {
                 this.theta = 0;
             }
             //System.out.println("circle time!");
+
+            //Shoot at player
+            this.shoot_at_player(targetAngle);
         }
     }
     public void move_drift(Player player) { //used for asteroids
 
     }
+
+    //Attacking AI //CURRENTLY BROKEN (ABS VALUE NOT RIGHT)
+    public void shoot_at_player(float targetAngle) { //pass in player's angle relative to enemy
+        if (Math.abs(this.getRotation()-targetAngle)<10*MathUtils.degreesToRadians) { //if enemy is pointed with 10 degrees of player, shoot
+            Projectile.shoot(new Texture("player_bullet.png"),5f,this.getX(),this.getY(),this.getRotation());
+        }
+    }
+
+
 
     public static void drawAll(Batch batch) { //NOTE: possibly merge with updateAll
         for (Enemy e : Enemy.enemies) {
@@ -104,12 +116,6 @@ public class Enemy extends Entity {
                 Enemy.enemies.remove(e);
             }
         }
-    }
-
-    @Override
-    public void destroy() {
-        //Remove enemy from list or whatever here
-
     }
 
     //Getters

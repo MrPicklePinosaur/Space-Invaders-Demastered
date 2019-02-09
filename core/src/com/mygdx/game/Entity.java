@@ -60,8 +60,6 @@ public abstract class Entity {
         this.body.setTransform(this.body.getPosition().x,this.body.getPosition().y,rotate); //rotate player body without touching position
     }
 
-    public abstract void destroy();
-
     //Getters
     public float getX() { return this.body.getPosition().x; }
     public float getY() { return this.body.getPosition().y; }
