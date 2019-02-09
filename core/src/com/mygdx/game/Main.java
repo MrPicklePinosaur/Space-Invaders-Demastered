@@ -58,6 +58,8 @@ public class Main extends ApplicationAdapter {
 		bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
 		tRegion = new TextureRegion(bg,0,0,100*400*24,100*400*24);
 
+
+
 	}
 
 	@Override
@@ -103,8 +105,6 @@ public class Main extends ApplicationAdapter {
 			System.out.println("New sector");
 		}
 		Enemy.updateAll(player);
-
-		//System.out.println("X: "+player.sprite.getX()+"Y: "+player.sprite.getY());
 
 		//update projectiles
 		Projectile.updateAll();

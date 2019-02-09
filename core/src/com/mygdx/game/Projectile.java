@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class Projectile extends Entity{
 
     private static ArrayList<Projectile> active_projectiles = new ArrayList<Projectile>();
+    private static ArrayList<Projectile> purge_projectiles = new ArrayList<Projectile>();
     public static final int tag_player = 0;
     public static final int tag_enemy = 1;
 
@@ -52,8 +53,7 @@ public class Projectile extends Entity{
 
             //check to see if projectile is to be deleted (either it hit something or it has reached its max range)
             if (Math.hypot(p.getX()-p.spawn_pos.x,p.getY()-p.spawn_pos.y) >= p.max_dist) { //if the projectile has travelled past its max range
-                AssetLoader.flagForPurge(p.getBody()); //add body to purge list
-                Projectile.active_projectiles.remove(p);
+                p.dispose();
             }
         }
     }
@@ -87,8 +87,8 @@ public class Projectile extends Entity{
 
     }
 
-    public void dispose() { //safely deletes self
-        AssetLoader.flagForPurge(this.body);
+    public void dispose() {
+        AssetLoader.flagForPurge(this.getBody()); //add body to purge list
         Projectile.active_projectiles.remove(this);
     }
 

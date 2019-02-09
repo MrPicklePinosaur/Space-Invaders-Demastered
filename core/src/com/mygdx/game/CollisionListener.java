@@ -32,7 +32,7 @@ public class CollisionListener implements ContactListener {
             if (p.getTag() == Projectile.tag_enemy) { //make sure that player is actually hit by a enemy's projectile
                 u.modHp(-5); //deal damage to enemy
                 UI.updateHealth(u); //update ui
-                //p.dispose();
+
             }
         }
         if (CollisionListener.fixtureMatch(fa,fb,Enemy.class,Projectile.class)) { //CASE 3: Enemy gets hit by player projectile
@@ -40,14 +40,14 @@ public class CollisionListener implements ContactListener {
             Projectile p = (Projectile) CollisionListener.isInstace(fa,fb,Projectile.class).getBody().getUserData();
             if (p.getTag() == Projectile.tag_player) { //make sure that enemy is actually hit by a player's projectile
                 e.modHp(-10); //deal damage to enemy
-                //p.dispose();
+
             }
         }
         if (CollisionListener.fixtureMatch(fa,fb,Enemy.class,Projectile.class)) { //CASE 4: Enemy gets hit by enemy projectile
             Enemy e = (Enemy) CollisionListener.isInstace(fa,fb,Enemy.class).getBody().getUserData(); //get the object of the fixtures
             Projectile p = (Projectile) CollisionListener.isInstace(fa,fb,Projectile.class).getBody().getUserData();
             if (p.getTag() == Projectile.tag_enemy) { //make sure that enemy is actually hit by a another enemies' projectile
-                //p.dispose();
+
             }
         }
     }

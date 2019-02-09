@@ -1,18 +1,17 @@
-{
-	"Enemies": [
-		{
-			"name": "grunt",
-			"speed": 100,
-			"max_hp": 100,
-			"projectile": null,
-			"ai_type": "circle"
-		},
-		{
-			"name": "asteroid",
-			"speed": 50,
-			"max_hp": 75,
-			"projectile": null,
-			"ai_type": "drift"
-		}
-	]
-}
+[
+	{
+		"name": "grunt",
+		"speed": 100,
+		"max_hp": 100,
+		"projectile": "basic",
+		"ai_type": "circle"
+	},
+	{
+		"name": "asteroid",
+		"speed": 50,
+		"max_hp": 75,
+		"projectile": "twin",
+		"ai_type": "drift"
+	}
+
+]
