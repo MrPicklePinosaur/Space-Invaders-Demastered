@@ -32,7 +32,7 @@ public class Map {
 
     //private static boolean placed = false; //used to determine if the random enemy position is valid
 
-    private static int DIVISION_SIZE = 1200;//1024; //size of each sector of map (in meters)
+    public static final int DIVISION_SIZE = 1200;//1024; //size of each sector of map (in meters)
                                     //changed to 1200 over 1024 as window size is 1200x800
                                     //could revert to 1024 if window is changed to 1024x768
 
@@ -152,7 +152,7 @@ public class Map {
         int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
         if(difficulty==0){
             //handle player rejection
-            System.out.println("Reached edge of map.");
+            //System.out.println("Reached edge of map.");
         }
     }
 
@@ -169,12 +169,15 @@ public class Map {
         }
 
         //System.out.println(sectors);
-        randObj = new Random();
-        int randChoice = randObj.nextInt(sectors.size());
+        int randChoice = Global.rand.nextInt(sectors.size());
         //System.out.println(randChoice+"\n"+sectors.get(randChoice));
         Vector2 startingSector = sectors.get(randChoice);
+        System.out.println(startingSector);
+        player.init(startingSector.x*DIVISION_SIZE/Global.PPM,startingSector.y*DIVISION_SIZE/Global.PPM,0);
         //sector + divisionsize/2
-        player.init(startingSector.x+Map.DIVISION_SIZE/2,startingSector.y+Map.DIVISION_SIZE/2,0);
+        //System.out.println(startingSector.x+" "+startingSector.y);
+
+        //System.out.println(player.getX()+" "+player.getY());
     }
 
     //Getters

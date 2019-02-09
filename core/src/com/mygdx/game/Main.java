@@ -43,7 +43,7 @@ public class Main extends ApplicationAdapter {
 		player = new Player(new Texture("ship-green.png"),200f); //create player object
 		oldSector = Map.getSector(player.getX(),player.getY());
 		currSector = new Vector2(-1,-1);
-		mapSprite = new Sprite(new Texture("space.png"));
+		mapSprite = new Sprite(new Texture("space.png"),Map.DIVISION_SIZE*24/Global.PPM,Map.DIVISION_SIZE*24/Global.PPM);
 		ui = new UI();
 		map = new Map();
 
