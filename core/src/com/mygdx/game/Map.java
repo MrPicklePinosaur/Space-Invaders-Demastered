@@ -90,7 +90,7 @@ public class Map {
 
     public void generateEnemy(Player player) { //places certain events/objects such as asteroid or gas stations in a specific difficulty level
         randObj = new Random();
-        Vector2 sector = Map.getSector(player.getX(),player.getY());
+        Vector2 sector = Map.getSector(player);
         int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
         if(difficulty!=0){
             //System.out.println("Enemy generation process started");
@@ -150,7 +150,7 @@ public class Map {
     }
 
     public void getBounds(Player player){
-        Vector2 sector = Map.getSector(player.getX(),player.getY());
+        Vector2 sector = Map.getSector(player);
         int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
         if(difficulty==0){
             //handle player rejection
@@ -175,7 +175,7 @@ public class Map {
         //System.out.println(randChoice+"\n"+sectors.get(randChoice));
         Vector2 startingSector = sectors.get(randChoice);
         System.out.println(startingSector);
-        player.init(startingSector.x*DIVISION_SIZE/Global.PPM*10,startingSector.y*DIVISION_SIZE/Global.PPM*10,0);
+        player.init((startingSector.x)*DIVISION_SIZE,(startingSector.y)*DIVISION_SIZE,0);
         //sector + divisionsize/2
         //System.out.println(startingSector.x+" "+startingSector.y);
 
@@ -183,9 +183,10 @@ public class Map {
     }
 
     //Getters
-    public static Vector2 getSector(float px, float py) { //returns the current location of player
-        float sectorX = px%Map.DIVISION_SIZE/Global.PPM;
-        float sectorY = py%Map.DIVISION_SIZE/Global.PPM;
+    public static Vector2 getSector(Player player) { //returns the current location of player
+        float sectorX = (float)(player.sprite.getX()/Map.DIVISION_SIZE);
+        float sectorY = (float)(player.sprite.getY()/Map.DIVISION_SIZE);
+        System.out.println(sectorX+" "+sectorY);
         return new Vector2(sectorX,sectorY);
     }
     public static int getDifficulty(int sx, int sy) { return map[sy][sx]; }//takes in coordinates of a sector and returns the difficulty

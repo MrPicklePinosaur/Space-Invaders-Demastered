@@ -66,7 +66,7 @@ public class UI {
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(lives,0+10,800-lives.getHeight()-10);
-        sector.draw(batch,"Sector: ("+Math.round(Map.getSector(player.getX(),player.getY()).x*100)/100d+", "+Math.round(Map.getSector(player.getX(),player.getY()).y*100)/100d+")",840,780,360,1,false);
+        sector.draw(batch,"Sector: ("+Math.round(Map.getSector(player).x*100)/100d+", "+Math.round(Map.getSector(player).y*100)/100d+")",840,780,360,1,false);
         highscore.draw(batch,"HIGHSCORE: "+Global.highscore,Global.SCREEN_WIDTH/2-600,50,1200,1,false);
         //sector.draw(batch,"Sector: (4069.00, 4069.00)",840,780,360,1,false);
         //updateHealth(); --> updateHealth call moved to main
