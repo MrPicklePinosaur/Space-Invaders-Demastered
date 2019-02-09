@@ -59,6 +59,7 @@ public class Main extends ApplicationAdapter {
 
 		//UPDATE STUFF
 		//Update Entities
+		//System.out.println(AssetLoader.importFromJSON("data/entity_stats.json"));
 		player.handleInput();
 		e.move(player);
 

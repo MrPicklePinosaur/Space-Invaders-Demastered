@@ -1,10 +1,11 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Json;
-
-//import org.json.simple.parser.*;
+import com.badlogic.gdx.utils.Json.*;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -16,20 +17,18 @@ public class AssetLoader {
 
     public AssetLoader() {
         this.assetManager = new AssetManager();
-        //this.parser = new JSONParser();
     }
-    /*
-    public void importFromJSON(String path) {
-        try {
-            FileReader fileReader = new FileReader(path);
 
-        }
-        catch() {
+    public static ArrayList<Object> importFromJSON(String path) {
+        Json json = new Json();
+        ArrayList<Object> outputList = new ArrayList<Object>(); //the data the user gets
+        ArrayList<JsonValue> inputList = json.fromJson(ArrayList.class, Gdx.files.internal(path)); //the data taken from the .json file
 
+        for (JsonValue v : inputList) {
+            outputList.add(json.readValue(Object.class,v));
         }
+        return outputList;
     }
-    */
-
 
     //MAnage bodies
     public static void sweepBodies() { //removes all bodies safely
