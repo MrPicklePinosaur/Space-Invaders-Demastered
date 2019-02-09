@@ -161,7 +161,7 @@ public class Map {
         }
     }
     //Getters
-    public Vector2 getSector(float px, float py) { //returns the current location of player
+    public static Vector2 getSector(float px, float py) { //returns the current location of player
         float sectorX = px%Map.DIVISION_SIZE/Global.PPM;
         float sectorY = py%Map.DIVISION_SIZE/Global.PPM;
         return new Vector2(sectorX,sectorY);

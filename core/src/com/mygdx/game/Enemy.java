@@ -76,7 +76,7 @@ public class Enemy extends Entity {
             if (this.theta > 360) {
                 this.theta = 0;
             }
-            System.out.println("circle time!");
+            //System.out.println("circle time!");
         }
     }
     public void move_drift() { //used for asteroids

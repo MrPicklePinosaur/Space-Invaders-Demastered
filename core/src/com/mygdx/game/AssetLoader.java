@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class AssetLoader {
     public AssetManager assetManager;
-    private JSONParser parser = new JSONParser();
+    //private JSONParser parser = new JSONParser();
 
     private static ArrayList<Body> purge_body = new ArrayList<Body>();
 

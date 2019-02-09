@@ -18,8 +18,8 @@ import com.badlogic.gdx.Input;
 
 public class Player extends Entity {
     private String name;
-    private float max_hp;
-    private float hp;
+    static float max_hp=60;
+    private float hp=max_hp;
     private int xp;
     private int lvl;
 
@@ -63,6 +63,7 @@ public class Player extends Entity {
     public int getXp() { return this.xp; }
     public int getLvl() {return this.lvl; }
     public float getHp() { return this.hp; }
+    public void changeHp(float hp){ this.hp+=hp; }
 
     //Setters
     public void addXp(float xpAmount) { //handles leveling up

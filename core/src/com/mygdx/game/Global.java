@@ -29,10 +29,11 @@ public class Global {
     public static float CAM_SIZE_Y = 400;
     public static float RESOLUTION = Global.CAM_SIZE_Y/Global.CAM_SIZE_X;
 
-    //user input
+    //user input + data
     public static float mx;
     public static float my;
     public static float angle; //the angle the mouse makes with the center of the screen
+    public static int highscore=0;
 
     public static void updateInput() { //call in every single render loop to update
         //Find out how far mouse is from center of screen

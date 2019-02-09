@@ -19,12 +19,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Main extends ApplicationAdapter {
-	SpriteBatch batch;
+	SpriteBatch batch;//,uiBatch;
 	Renderer r;
 	Player player;
-	Sprite map; //temp variable; clean up later
+	Vector2 oldSector,currSector;
+	Map map;
+	Sprite mapSprite; //temp variable; clean up later
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
 	Enemy e;
+	UI ui;
 
 	@Override
 	public void create() {
@@ -37,9 +40,12 @@ public class Main extends ApplicationAdapter {
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
 		player = new Player(new Texture("ship-green.png"),300f); //create player object
+		oldSector = Map.getSector(player.getX(),player.getY());
 		e = new Enemy(new Texture("2.png"),150f,1);
 		e.init(2f,2f,0); //place enemy in certain spot in world (replace later with spawning code)
-		map = new Sprite(new Texture("space.jpg"));
+		mapSprite = new Sprite(new Texture("space.png"));
+		ui = new UI();
+		map = new Map();
 	}
 
 	@Override
@@ -51,16 +57,44 @@ public class Main extends ApplicationAdapter {
 
 		batch.begin();
 		batch.setProjectionMatrix(r.cam.combined);
-		map.draw(batch);
+		mapSprite.draw(batch);
 		player.sprite.draw(batch); //draw player
 		e.sprite.draw(batch); //draw enemy
 		Projectile.drawAll(batch);
 		batch.end();
 
+
+		//UI DRAWING
+		//UI.batch.begin();
+		ui.draw(player);
+		//UI.batch.end();
+
+
 		//UPDATE STUFF
 		//Update Entities
 		player.handleInput();
 		e.move(player);
+
+		//UI things & tests
+		if(Gdx.input.isKeyJustPressed(Input.Keys.O) && player.getHp()-10>=0){
+			player.changeHp(-10);
+			UI.updateHealth(player);
+			System.out.println("Health decreased.");
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.P) && player.getHp()+10<=Player.max_hp){
+			player.changeHp(10);
+			UI.updateHealth(player);
+			System.out.println("Health increased.");
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+			Global.highscore++;
+			System.out.println("Highscore increased.");
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Global.highscore-1>=0){
+			Global.highscore--;
+			System.out.println("Highscore decreased.");
+		}
 
 		//Check for player shooting projectiles
 		//TODO: make this more effieient and move it to player class later
@@ -71,6 +105,15 @@ public class Main extends ApplicationAdapter {
 		}
 		//update projectiles
 		Projectile.updateAll();
+
+
+		//enemy spawning
+		currSector = Map.getSector(player.getX(),player.getY());
+		if((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y){
+			//map.generateEvent();
+			oldSector = currSector;
+			System.out.println("New sector");
+		}
 
 		//Update world and viewport
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
