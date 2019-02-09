@@ -33,7 +33,7 @@ public class Map {
 
     //private static boolean placed = false; //used to determine if the random enemy position is valid
 
-    public static final int DIVISION_SIZE = 1200;//1024; //size of each sector of map (in meters)
+    public static final int DIVISION_SIZE = 100;//1024; //size of each sector of map (in meters)
                                     //changed to 1200 over 1024 as window size is 1200x800
                                     //could revert to 1024 if window is changed to 1024x768
 
@@ -175,8 +175,8 @@ public class Map {
         int randChoice = Global.rand.nextInt(sectors.size());
         //System.out.println(randChoice+"\n"+sectors.get(randChoice));
         Vector2 startingSector = sectors.get(randChoice);
-        System.out.println(startingSector);
-        player.init((startingSector.x)*DIVISION_SIZE,(startingSector.y)*DIVISION_SIZE,0);
+        //System.out.println(startingSector);
+        player.init((startingSector.x)*DIVISION_SIZE+DIVISION_SIZE/2,(startingSector.y)*DIVISION_SIZE+DIVISION_SIZE/2,0);
         //sector + divisionsize/2
         //System.out.println(startingSector.x+" "+startingSector.y);
 
@@ -187,7 +187,7 @@ public class Map {
     public static Vector2 getSector(Player player) { //returns the current location of player
         float sectorX = (float)(player.sprite.getX()/Map.DIVISION_SIZE);
         float sectorY = (float)(player.sprite.getY()/Map.DIVISION_SIZE);
-        System.out.println(sectorX+" "+sectorY);
+        //System.out.println(sectorX+" "+sectorY);
         return new Vector2(sectorX,sectorY);
     }
     public static int getDifficulty(int sx, int sy) { return map[sy][sx]; }//takes in coordinates of a sector and returns the difficulty

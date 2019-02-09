@@ -15,9 +15,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import javax.xml.soap.Text;
 import java.util.Random;
 
 public class Main extends ApplicationAdapter {
@@ -29,6 +31,7 @@ public class Main extends ApplicationAdapter {
 	Sprite mapSprite; //temp variable; clean up later
 	UI ui;
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
+	Texture bg; TextureRegion tRegion;
 
 	@Override
 	public void create() {
@@ -49,6 +52,12 @@ public class Main extends ApplicationAdapter {
 
 		Map.randomPlayerSpawn(player);
 
+		bg = new Texture(Gdx.files.internal("repeatingSpace.png"));
+		//bg.setSize(bg.getWidth()/Global.PPM,bg.getHeight()/Global.PPM);
+		//bg.setFilter(Texture.TextureFilter.MipMapLinearLinear, Texture.TextureFilter.Linear);
+		bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+		tRegion = new TextureRegion(bg,0,0,100*400*24,100*400*24);
+
 	}
 
 	@Override
@@ -60,6 +69,7 @@ public class Main extends ApplicationAdapter {
 
 		batch.begin();
 		batch.setProjectionMatrix(r.cam.combined);
+		batch.draw(tRegion,0,0,100*24,100*24);
 		mapSprite.draw(batch);
 		player.sprite.draw(batch); //draw player
 		Enemy.drawAll(batch); //draw enemy
@@ -86,7 +96,7 @@ public class Main extends ApplicationAdapter {
 		//Update Enemies
 		//enemy spawning
 		currSector = Map.getSector(player);
-		if(((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y) && currSector.x!=0 && currSector.y!=0){
+		if(((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y || Enemy.enemies.size()==0) && currSector.x!=0 && currSector.y!=0){
 			map.generateEnemy(player);
 
 			oldSector = currSector;
@@ -94,6 +104,7 @@ public class Main extends ApplicationAdapter {
 		}
 		Enemy.updateAll(player);
 
+		//System.out.println("X: "+player.sprite.getX()+"Y: "+player.sprite.getY());
 
 		//update projectiles
 		Projectile.updateAll();
@@ -111,6 +122,7 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		bg.dispose();
 	}
 
 }

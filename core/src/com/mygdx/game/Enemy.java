@@ -104,6 +104,7 @@ public class Enemy extends Entity {
             e.update();
             if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500) {
                 e.dispose();
+                Global.highscore+=10;
             }
         }
     }
