@@ -39,7 +39,6 @@ public class CollisionListener implements ContactListener {
             System.out.println("Enemy hp: "+e.getHP());
             //if(e.getHP()>0)
         }
-
     }
 
     //Helper methods

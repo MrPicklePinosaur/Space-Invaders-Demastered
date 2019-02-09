@@ -13,14 +13,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Projectile extends Entity{
 
     private static ArrayList<Projectile> active_projectiles = new ArrayList<Projectile>();
-    private static ArrayList<Projectile> purge_projectiles = new ArrayList<Projectile>(); //projectiles that have despawned, ready to be disposed
 
     private Vector2 spawn_pos;
     private float max_dist = 2f; //max distance projectile can travel before despawning
@@ -60,10 +61,27 @@ public class Projectile extends Entity{
         }
     }
 
+    //FIRE PATTERNS:  spawns projectiles based on the current 'weapon' selected
+    public static void shoot(Texture texture,float speed,float x,float y,float angle) {
+        ArrayList<Vector3> spawnList = new ArrayList<Vector3>();
+        Projectile.shoot_twin(spawnList,x,y,angle);
 
-    public void destroy() {
+        for (Vector3 p_data : spawnList) { //for each projecctile to be spawned
+            Projectile p = new Projectile(texture,speed);
+            p.init(p_data.x,p_data.y,p_data.z);
+        }
     }
 
+    public static void shoot_basic(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots a basic bulley in direction enetiy is facing
+        spawnList.add(new Vector3(x,y,angle));
+    }
+    public static void shoot_twin(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots two bullets, 10 degrees apart
+        spawnList.add(new Vector3(x,y,angle+5*MathUtils.degreesToRadians));
+        spawnList.add(new Vector3(x,y,angle-5*MathUtils.degreesToRadians));
+    }
+    public static void shoot_shotgun() {
+
+    }
     //Setters
     @Override
     public void init(float posX,float posY,float angle) {

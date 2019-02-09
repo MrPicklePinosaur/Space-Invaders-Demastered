@@ -54,25 +54,6 @@ public class Player extends Entity {
         this.update(); //sync texture with body
     }
 
-    public void shoot() { //spawns projectiles based on the current 'weapon' selected
-
-    }
-
-    public void shoot_basic() {
-
-    }
-    public void shoot_twin() {
-
-    }
-    public void shoot_shotgun() {
-
-    }
-
-    @Override
-    public void destroy() {
-        //game over or respawn
-    }
-
     //Getters
     public int getXp() { return this.xp; }
     public int getLvl() {return this.lvl; }
