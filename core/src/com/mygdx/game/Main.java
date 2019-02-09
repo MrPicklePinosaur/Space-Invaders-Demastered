@@ -25,8 +25,8 @@ public class Main extends ApplicationAdapter {
 	Vector2 oldSector,currSector;
 	Map map;
 	Sprite mapSprite; //temp variable; clean up later
-	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
 	UI ui;
+	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
 
 	@Override
 	public void create() {
@@ -44,7 +44,6 @@ public class Main extends ApplicationAdapter {
 		mapSprite = new Sprite(new Texture("space.png"));
 		ui = new UI();
 		map = new Map();
-		//player = new Player(new Texture("ship-green.png"),300f); //create player object
 	}
 
 	@Override
@@ -62,33 +61,8 @@ public class Main extends ApplicationAdapter {
 		Projectile.drawAll(batch);
 		batch.end();
 
-
-		//UI DRAWING
-		//UI.batch.begin();
+		//Draw UI
 		ui.draw(player);
-		//UI.batch.end();
-
-
-		//UI things & tests
-		if(Gdx.input.isKeyJustPressed(Input.Keys.O) && player.getHp()-10>=0){
-			player.changeHp(-10);
-			UI.updateHealth(player);
-			System.out.println("Health decreased.");
-		}
-		if(Gdx.input.isKeyJustPressed(Input.Keys.P) && player.getHp()+10<=Player.max_hp){
-			player.changeHp(10);
-			UI.updateHealth(player);
-			System.out.println("Health increased.");
-		}
-
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-			Global.highscore++;
-			System.out.println("Highscore increased.");
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && Global.highscore-1>=0){
-			Global.highscore--;
-			System.out.println("Highscore decreased.");
-		}
 
 		//Check for player shooting projectiles
 		//TODO: make this more effieient and move it to player class later
@@ -98,19 +72,13 @@ public class Main extends ApplicationAdapter {
 		}
 
 		//UPDATE STUFF
-		//Update Entities
-		//System.out.println(AssetLoader.importFromJSON("data/entity_stats.json"));
 		//Update Player
 		player.handleInput();
+		map.getBounds(player);
 
 		//Update Enemies
 		Enemy.updateAll(player);
 		//map.generateEnemy(player);
-		//update projectiles
-		Projectile.updateAll();
-
-		map.getBounds(player);
-
 		//enemy spawning
 		//currSector = Map.getSector(player.getX(),player.getY());
 		if((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y){
@@ -120,13 +88,16 @@ public class Main extends ApplicationAdapter {
 			System.out.println("New sector");
 		}
 
+		//update projectiles
+		Projectile.updateAll();
+
 		//Update world and viewport
 		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 		AssetLoader.sweepBodies();
 		r.debugCam.render(Global.world,r.cam.combined);
 		r.moveCamera(player.sprite.getX(),player.sprite.getY());
-		//r.screenShake(2f);
 		r.cam.update(); //refresh camera
+		//r.screenShake(2f);
 		Global.updateInput();
 	}
 
@@ -134,6 +105,5 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 	}
-
 
 }

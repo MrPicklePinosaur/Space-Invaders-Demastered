@@ -1,13 +1,18 @@
+/*
+ ______     ______     ______     ______     ______      __         ______     ______     _____     ______     ______
+/\  __ \   /\  ___\   /\  ___\   /\  ___\   /\__  _\    /\ \       /\  __ \   /\  __ \   /\  __-.  /\  ___\   /\  == \
+\ \  __ \  \ \___  \  \ \___  \  \ \  __\   \/_/\ \/    \ \ \____  \ \ \/\ \  \ \  __ \  \ \ \/\ \ \ \  __\   \ \  __<
+ \ \_\ \_\  \/\_____\  \/\_____\  \ \_____\    \ \_\     \ \_____\  \ \_____\  \ \_\ \_\  \ \____-  \ \_____\  \ \_\ \_\
+  \/_/\/_/   \/_____/   \/_____/   \/_____/     \/_/      \/_____/   \/_____/   \/_/\/_/   \/____/   \/_____/   \/_/ /_/
+ */
+
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.Json.*;
 import com.badlogic.gdx.utils.JsonValue;
-
-import java.io.FileReader;
 import java.util.ArrayList;
 
 public class AssetLoader {

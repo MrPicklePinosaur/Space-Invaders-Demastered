@@ -1,8 +1,13 @@
+/*
+ ______     ______     __         __         __     ______     __     ______     __   __        __         __     ______     ______   ______     __   __     ______     ______
+/\  ___\   /\  __ \   /\ \       /\ \       /\ \   /\  ___\   /\ \   /\  __ \   /\ "-.\ \      /\ \       /\ \   /\  ___\   /\__  _\ /\  ___\   /\ "-.\ \   /\  ___\   /\  == \
+\ \ \____  \ \ \/\ \  \ \ \____  \ \ \____  \ \ \  \ \___  \  \ \ \  \ \ \/\ \  \ \ \-.  \     \ \ \____  \ \ \  \ \___  \  \/_/\ \/ \ \  __\   \ \ \-.  \  \ \  __\   \ \  __<
+ \ \_____\  \ \_____\  \ \_____\  \ \_____\  \ \_\  \/\_____\  \ \_\  \ \_____\  \ \_\\"\_\     \ \_____\  \ \_\  \/\_____\    \ \_\  \ \_____\  \ \_\\"\_\  \ \_____\  \ \_\ \_\
+  \/_____/   \/_____/   \/_____/   \/_____/   \/_/   \/_____/   \/_/   \/_____/   \/_/ \/_/      \/_____/   \/_/   \/_____/     \/_/   \/_____/   \/_/ \/_/   \/_____/   \/_/ /_/
+ */
 package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.sun.org.apache.bcel.internal.generic.ObjectType;
-import jdk.nashorn.internal.ir.PropertyKey;
 
 public class CollisionListener implements ContactListener {
 
@@ -26,6 +31,8 @@ public class CollisionListener implements ContactListener {
             Projectile p = (Projectile) CollisionListener.isInstace(fa,fb,Projectile.class).getBody().getUserData();
             if (p.getTag() == Projectile.tag_enemy) { //make sure that player is actually hit by a enemy's projectile
                 u.modHp(-10); //deal damage to enemy
+                UI.updateHealth(u); //update ui
+                AssetLoader.flagForPurge(p.getBody()); //delete projectile //TODO: some projecitles may pierce through entities
             }
         }
         if (CollisionListener.fixtureMatch(fa,fb,Enemy.class,Projectile.class)) { //CASE 3: Enemy gets hit by player projectile
@@ -33,6 +40,14 @@ public class CollisionListener implements ContactListener {
             Projectile p = (Projectile) CollisionListener.isInstace(fa,fb,Projectile.class).getBody().getUserData();
             if (p.getTag() == Projectile.tag_player) { //make sure that enemy is actually hit by a player's projectile
                 e.modHp(-10); //deal damage to enemy
+                AssetLoader.flagForPurge(p.getBody());
+            }
+        }
+        if (CollisionListener.fixtureMatch(fa,fb,Enemy.class,Projectile.class)) { //CASE 4: Enemy gets hit by enemy projectile
+            Enemy e = (Enemy) CollisionListener.isInstace(fa,fb,Enemy.class).getBody().getUserData(); //get the object of the fixtures
+            Projectile p = (Projectile) CollisionListener.isInstace(fa,fb,Projectile.class).getBody().getUserData();
+            if (p.getTag() == Projectile.tag_enemy) { //make sure that enemy is actually hit by a another enemies' projectile
+                AssetLoader.flagForPurge(p.getBody());
             }
         }
     }

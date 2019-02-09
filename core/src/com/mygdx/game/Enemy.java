@@ -12,13 +12,11 @@
 package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 
 import java.util.ArrayList;
 
@@ -26,7 +24,6 @@ public class Enemy extends Entity {
 
     static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
-    static int SHIP_SIZE=16;
     private float max_hp;
     private int hp;
     private float theta;
@@ -34,11 +31,9 @@ public class Enemy extends Entity {
         super(texture,speed);
         this.hp = difficulty;
         /*
-
         TODO: add difficulty scaling using difficulty arguement!
-
         */
-        //Create body for player - it is assumed that player has a circular fixture
+        //Create body for enemy - it is assumed that enemy has a circular fixture
         CircleShape circle = new CircleShape();
         circle.setRadius(this.sprite.getWidth()/2f);
         FixtureDef fdef = new FixtureDef();
@@ -56,17 +51,15 @@ public class Enemy extends Entity {
 
         e.init(pos.x,pos.y,0f);
         enemies.add(e);
-    }   //might not be necessary
-        //this method bleeds over in map
+    }
 
-    //Move
+    //AI stuffs
     public void move(Player player) {
         this.move_circle(player);
     }
 
     public void move_circle(Player player) { //enemy flies in direction of player, until it reaches a certain distance from player, then it will circle
         //TODO: enemies should have a variable called distFromPlayer, which is the distance away from the player they like to stay at
-        //TODO: Possibly make enemy rotation not instantenous
         //get angle ship needs to travel in
         float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
 
@@ -93,12 +86,10 @@ public class Enemy extends Entity {
 
     //Attacking AI //CURRENTLY BROKEN (ABS VALUE NOT RIGHT)
     public void shoot_at_player(float targetAngle) { //pass in player's angle relative to enemy
-        if (Math.abs(this.getRotation()-targetAngle)<10*MathUtils.degreesToRadians) { //if enemy is pointed with 10 degrees of player, shoot
+        if (Math.abs(this.getRotation()%(2*Math.PI)+2*Math.PI-targetAngle%(2*Math.PI)+2*Math.PI)<10*MathUtils.degreesToRadians) { //if enemy is pointed with 10 degrees of player, shoot
             Projectile.shoot(new Texture("player_bullet.png"),5f,Projectile.tag_enemy,this.getX(),this.getY(),this.getRotation());
         }
     }
-
-
 
     public static void drawAll(Batch batch) { //NOTE: possibly merge with updateAll
         for (Enemy e : Enemy.enemies) {

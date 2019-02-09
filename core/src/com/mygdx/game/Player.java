@@ -9,12 +9,10 @@
 //Handles player input
 
 package com.mygdx.game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.Input;
 
 public class Player extends Entity {
     private String name;
@@ -58,7 +56,6 @@ public class Player extends Entity {
     public int getXp() { return this.xp; }
     public int getLvl() {return this.lvl; }
     public float getHp() { return this.hp; }
-    public void changeHp(float hp){ this.hp+=hp; }
 
     //Setters
     public void addXp(float xpAmount) { //handles leveling up

@@ -24,10 +24,6 @@ public class Map {
     private static int UpperBound=2,LowerBound=1;    //min/max amt of enemies spawn in a certain sector; inclusive
     private static Random randObj;//eNum,eX,eY;   //eNum amt of enemies spawning in sector, eX/eY is starting location
     private static float eNum,eX,eY,eAng;
-    private static final int NOVICE = 0;
-    private static final int ADEPT = 1;
-    private static final int EXPERT = 2;
-    private static final int LEGENDARY = 3;
     private static final int radius = 1500/Global.PPM;
     private static HashMap<Integer,Integer> mapHash = new HashMap<Integer,Integer>();
 
