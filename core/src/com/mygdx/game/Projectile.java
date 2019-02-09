@@ -22,13 +22,16 @@ import java.util.ArrayList;
 public class Projectile extends Entity{
 
     private static ArrayList<Projectile> active_projectiles = new ArrayList<Projectile>();
+    public static final int tag_player = 0;
+    public static final int tag_enemy = 1;
 
     private Vector2 spawn_pos;
     private float max_dist = 2f; //max distance projectile can travel before despawning
+    private int tag; //determines who shot the projectile
 
-    public Projectile(Texture texture,float speed) {
+    public Projectile(Texture texture,float speed,int tag) {
         super(texture,speed);
-        //save spawn pos in constructor
+        this.tag = (tag == tag_player) ?  tag_player : tag_enemy; //determine who shot the projecilte
 
         //Create body for projectile - it is assumed that all projectiles have a rectangular fixtures
         PolygonShape rect = new PolygonShape();
@@ -62,12 +65,12 @@ public class Projectile extends Entity{
     }
 
     //FIRE PATTERNS:  spawns projectiles based on the current 'weapon' selected
-    public static void shoot(Texture texture,float speed,float x,float y,float angle) {
+    public static void shoot(Texture texture,float speed,int tag,float x,float y,float angle) {
         ArrayList<Vector3> spawnList = new ArrayList<Vector3>();
         Projectile.shoot_twin(spawnList,x,y,angle);
 
         for (Vector3 p_data : spawnList) { //for each projecctile to be spawned
-            Projectile p = new Projectile(texture,speed);
+            Projectile p = new Projectile(texture,speed,tag);
             p.init(p_data.x,p_data.y,p_data.z);
         }
     }
@@ -82,6 +85,10 @@ public class Projectile extends Entity{
     public static void shoot_shotgun() {
 
     }
+
+    //Getters
+    public int getTag() { return this.tag; }
+
     //Setters
     @Override
     public void init(float posX,float posY,float angle) {

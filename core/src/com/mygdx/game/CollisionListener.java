@@ -2,13 +2,9 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.sun.org.apache.bcel.internal.generic.ObjectType;
+import jdk.nashorn.internal.ir.PropertyKey;
 
 public class CollisionListener implements ContactListener {
-
-    public static final String player_id = "player";
-    public static final String enemy_id = "enemy";
-    public static final String player_projectile_id = "player_projectile";
-    public static final String enemy_projectile_id = "enemy_projectile";
 
     @Override
     public void beginContact(Contact c) {
@@ -25,26 +21,32 @@ public class CollisionListener implements ContactListener {
             3. enemy gets hit by player projectile (enemy takes dmg)
             4. enemy gets hit by enemy projectile (no one takes dmg and projectile <possibly> despawns)
         */
-        //System.out.println(enemyIsHit(fa,fb));
-        /*
-        if (enemyIsHit(fa,fb) != null) { //CASE 2: Player gets hit by enemy projectile
-            Enemy e = (Enemy) enemyIsHit(fa,fb).getBody().getUserData();
-            e.modHp(-10); //deal damage to enemy
-            System.out.println("Enemy hp: "+e.getHP());
+        if (CollisionListener.fixtureMatch(fa,fb,Player.class,Projectile.class)) { //CASE 2: Player gets hit by enemy projectile
+            Player u = (Player) CollisionListener.isInstace(fa,fb,Player.class).getBody().getUserData(); //get the object of the fixtures
+            Projectile p = (Projectile) CollisionListener.isInstace(fa,fb,Projectile.class).getBody().getUserData();
+            if (p.getTag() == Projectile.tag_enemy) { //make sure that player is actually hit by a enemy's projectile
+                u.modHp(-10); //deal damage to enemy
+            }
         }
-        */
-        if (enemyIsHit(fa,fb) != null) { //CASE 3: Enemy gets hit by player projectile
-            Enemy e = (Enemy) enemyIsHit(fa,fb).getBody().getUserData();
-            e.modHp(-10); //deal damage to enemy
-            System.out.println("Enemy hp: "+e.getHP());
-            //if(e.getHP()>0)
+        if (CollisionListener.fixtureMatch(fa,fb,Enemy.class,Projectile.class)) { //CASE 3: Enemy gets hit by player projectile
+            Enemy e = (Enemy) CollisionListener.isInstace(fa,fb,Enemy.class).getBody().getUserData(); //get the object of the fixtures
+            Projectile p = (Projectile) CollisionListener.isInstace(fa,fb,Projectile.class).getBody().getUserData();
+            if (p.getTag() == Projectile.tag_player) { //make sure that enemy is actually hit by a player's projectile
+                e.modHp(-10); //deal damage to enemy
+            }
         }
     }
 
     //Helper methods
-    public Fixture enemyIsHit(Fixture fa,Fixture fb) {
-        if (fa.getBody().getUserData() instanceof Projectile && fb.getBody().getUserData() instanceof Enemy) return fb;
-        if (fb.getBody().getUserData() instanceof Projectile && fa.getBody().getUserData() instanceof Enemy) return fa;
+    public static Boolean fixtureMatch(Fixture fa,Fixture fb,Class<?> cls1,Class<?> cls2) { //checks to see if two fixtures are two certain object types
+        if (cls1.isInstance(fa.getBody().getUserData()) && cls2.isInstance(fb.getBody().getUserData())) return true;
+        if (cls2.isInstance(fa.getBody().getUserData()) && cls1.isInstance(fb.getBody().getUserData())) return true;
+        return false;
+    }
+
+    public static Fixture isInstace(Fixture fa,Fixture fb,Class<?> cls) { //finds out which of the two fixtures is the type you want
+        if (cls.isInstance(fa.getBody().getUserData())) return fa;
+        if (cls.isInstance(fb.getBody().getUserData())) return fb;
         return null;
     }
 
