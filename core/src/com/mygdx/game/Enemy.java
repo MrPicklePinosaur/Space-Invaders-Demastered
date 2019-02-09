@@ -11,6 +11,7 @@
 
 package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -87,10 +88,16 @@ public class Enemy extends Entity {
 
     }
 
-    public void updateAll(Player player) {
+    public static void drawAll(Batch batch) { //NOTE: possibly merge with updateAll
+        for (Enemy e : Enemy.enemies) {
+            e.sprite.draw(batch);
+        }
+    }
+
+    public static void updateAll(Player player) {
         for(int i = Enemy.enemies.size()-1;i>=0;i--){
             Enemy e = Enemy.enemies.get(i);
-            this.update();
+            e.update();
             if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500){
                 AssetLoader.flagForPurge(e.body);
                 AssetLoader.sweepBodies();
@@ -98,6 +105,7 @@ public class Enemy extends Entity {
             }
         }
     }
+
     @Override
     public void destroy() {
         //Remove enemy from list or whatever here

@@ -60,7 +60,7 @@ public class Main extends ApplicationAdapter {
 		batch.setProjectionMatrix(r.cam.combined);
 		mapSprite.draw(batch);
 		player.sprite.draw(batch); //draw player
-		e.sprite.draw(batch); //draw enemy
+		Enemy.drawAll(batch); //draw enemy
 		Projectile.drawAll(batch);
 		batch.end();
 
@@ -70,12 +70,6 @@ public class Main extends ApplicationAdapter {
 		ui.draw(player);
 		//UI.batch.end();
 
-
-		//UPDATE STUFF
-		//Update Entities
-		//System.out.println(AssetLoader.importFromJSON("data/entity_stats.json"));
-		player.handleInput();
-		e.move(player);
 
 		//UI things & tests
 		if(Gdx.input.isKeyJustPressed(Input.Keys.O) && player.getHp()-10>=0){
@@ -105,9 +99,19 @@ public class Main extends ApplicationAdapter {
 			Projectile p = new Projectile(new Texture("player_bullet.png"),5f);
 			p.init(player.getX(),player.getY(),player.getRotation());
 		}
+
+		//UPDATE STUFF
+		//Update Entities
+		//System.out.println(AssetLoader.importFromJSON("data/entity_stats.json"));
+		//Update Player
+		player.handleInput();
+
+		//Update Enemies
+		e.move(player);
+		Enemy.updateAll(player);
+
 		//update projectiles
 		Projectile.updateAll();
-
 
 		//enemy spawning
 		currSector = Map.getSector(player.getX(),player.getY());
