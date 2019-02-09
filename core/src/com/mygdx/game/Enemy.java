@@ -49,7 +49,7 @@ public class Enemy extends Entity {
     }
 
     //Enemy Creation
-    public static void place_enemy(Player player, Vector2 pos, int difficulty) { //spawns an enemy between d and 2d from player
+    public static void place_enemy(Vector2 pos, int difficulty) { //spawns an enemy between d and 2d from player
         float speed = 0.5f*difficulty;
         Texture ship = new Texture(""+difficulty+".png");
         Enemy e = new Enemy(ship,speed,difficulty);

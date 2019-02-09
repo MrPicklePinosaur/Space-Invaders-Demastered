@@ -69,23 +69,25 @@ public class Map {
         for(int r=0;r<row;r++){
             for(int c=0;c<column;c++){
                 colour = new Color(mapPixels.getRGB(c,r));
-                if(colour.r==0.0f && colour.g==0.0f && colour.b==255f){
+                System.out.println("R: "+Math.round(colour.r*255)+" G: "+Math.round(colour.g*255)+" B: "+Math.round(colour.b*255));
+                if(Math.round(colour.r*255)==0.0f && Math.round(colour.g*255)==0.0f && Math.round(colour.b*255)==255f){
                     map[c][r] = 0;
                 }
-                if(colour.r==0f && colour.g==255f && colour.b==0f){
+                if(Math.round(colour.r*255)==0f && Math.round(colour.g*255)==255f && Math.round(colour.b*255)==0f){
                     map[c][r] = 1;
                 }
-                if(colour.r==255f && colour.g==175f && colour.b==0f){
+                if(Math.round(colour.r*255)==255f && Math.round(colour.g*255)==175f && Math.round(colour.b*255)==0f){
                     map[c][r] = 2;
                 }
-                if(colour.r==255f && colour.g==150f && colour.b==150f){
+                if(Math.round(colour.r*255)==255f && Math.round(colour.g*255)==150f && Math.round(colour.b*255)==150f){
                     map[c][r] = 3;
                 }
-                if(colour.r==255f && colour.g==0f && colour.b==0f){
+                if(Math.round(colour.r*255)==255f && Math.round(colour.g*255)==0f && Math.round(colour.b*255)==0f){
                     map[c][r] = 4;
                 }
             }
         }
+        System.out.println(Arrays.deepToString(map));
     }
 
     public void generateEnemy(Player player) { //places certain events/objects such as asteroid or gas stations in a specific difficulty level
@@ -134,7 +136,7 @@ public class Map {
                 eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
                 float posX = (float)Math.cos(eAng)*radius;
                 float posY = (float)Math.sin(eAng)*radius;
-                Enemy.place_enemy(player,new Vector2(posX,posY),difficulty);
+                Enemy.place_enemy(new Vector2(posX,posY),difficulty);
 
             }
 
@@ -144,6 +146,15 @@ public class Map {
             //however, we can just warn the player and let the auto boundary-rejection handle the player
             System.out.println("You are near the border of the forcefield!");   //Right now this is printed in the console
                                                                                 //Later will show up on-screen
+        }
+    }
+
+    public void getBounds(Player player){
+        Vector2 sector = Map.getSector(player.getX(),player.getY());
+        int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
+        if(difficulty==0){
+            //handle player rejection
+            System.out.println("Reached edge of map.");
         }
     }
 
