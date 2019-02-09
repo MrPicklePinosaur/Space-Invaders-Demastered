@@ -25,7 +25,7 @@ public class Map {
     private static int UpperBound=15,LowerBound=1;    //min/max amt of enemies spawn in a certain sector; inclusive
     private static Random randObj;//eNum,eX,eY;   //eNum amt of enemies spawning in sector, eX/eY is starting location
     private static float eNum,eX,eY,eAng;
-    private static final int radius = 1500/Global.PPM;
+    private static final int radius = 100/Global.PPM;
     private static HashMap<Integer,Integer> mapHash = new HashMap<Integer,Integer>();
 
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<Enemy>();
@@ -89,9 +89,11 @@ public class Map {
     }
 
     public void generateEnemy(Player player) { //places certain events/objects such as asteroid or gas stations in a specific difficulty level
+        randObj = new Random();
         Vector2 sector = Map.getSector(player.getX(),player.getY());
         int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
         if(difficulty!=0){
+            //System.out.println("Enemy generation process started");
             UpperBound = UpperBound*difficulty;
             eNum = randObj.nextInt((UpperBound - LowerBound) + 1) + LowerBound;
             for(int e=0;e<eNum;e++){
@@ -131,9 +133,9 @@ public class Map {
                     placed = true;
                     //}
                 }*/
-                eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
-                float posX = (float)Math.cos(eAng)*radius;
-                float posY = (float)Math.sin(eAng)*radius;
+                eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1))+(int)Math.toRadians((double)0);
+                float posX = player.getX()+(float)Math.cos(eAng)*radius;
+                float posY = player.getY()+(float)Math.sin(eAng)*radius;
                 Enemy.place_enemy(new Vector2(posX,posY),difficulty);
 
             }
@@ -152,7 +154,7 @@ public class Map {
         int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
         if(difficulty==0){
             //handle player rejection
-            //System.out.println("Reached edge of map.");
+            System.out.println("Reached edge of map.");
         }
     }
 
@@ -162,7 +164,7 @@ public class Map {
         for(int i=0;i<24;i++){  //TODO: remove hardcoded dimensions
             for(int j=0;j<24;j++){
                 //System.out.println(map[i][j]);
-                if(map[j][i]==1){
+                if(map[j][i]==1){   //TODO: changed map[j][i] to map[i][j]. Why does this do anything
                     sectors.add(new Vector2(j,i));
                 }
             }
@@ -186,6 +188,6 @@ public class Map {
         float sectorY = py%Map.DIVISION_SIZE/Global.PPM;
         return new Vector2(sectorX,sectorY);
     }
-    public static int getDifficulty(int sx, int sy) { return Map.map[sy][sx]; }//takes in coordinates of a sector and returns the difficulty
+    public static int getDifficulty(int sx, int sy) { return map[sy][sx]; }//takes in coordinates of a sector and returns the difficulty
 
 }

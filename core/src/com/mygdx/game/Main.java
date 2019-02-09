@@ -76,6 +76,8 @@ public class Main extends ApplicationAdapter {
 			Projectile.shoot(new Texture("player_bullet.png"),5f,Projectile.tag_player,player.getX(),player.getY(),player.getRotation());
 		}
 
+		//System.out.println("X: "+player.getX()*Global.PPM+" Y: "+player.getY()*Global.PPM);
+
 		//UPDATE STUFF
 		//Update Player
 		player.handleInput();
@@ -83,6 +85,7 @@ public class Main extends ApplicationAdapter {
 
 		//Update Enemies
 		Enemy.updateAll(player);
+		Enemy.moveAll(player);
 		//map.generateEnemy(player);
 		//enemy spawning
 		currSector = Map.getSector(player.getX(),player.getY());

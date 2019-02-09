@@ -109,6 +109,12 @@ public class Enemy extends Entity {
         }
     }
 
+    public static void moveAll(Player player){
+        /*for(Enemy e : Enemy.enemies){
+            e.move_circle(player);
+        }*/
+        //if(Enemy.enemies.size()>0){Enemy.enemies.get(0).move_circle(player);}
+    }
     //Getters
     public int getHP(){
         return this.hp;
