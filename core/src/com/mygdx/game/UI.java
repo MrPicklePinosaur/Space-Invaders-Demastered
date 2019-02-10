@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 
 import java.security.Key;
 
@@ -23,7 +24,12 @@ public class UI {
     static SpriteBatch batch;
     static Texture title;
     static Texture playButton,playButtonHover,playButtonClicked;
-    static Texture lives,PauseMenu;
+    static Texture lives,xp,PauseMenu;
+    static Texture classMenu;
+    static Texture gunnerHover,gunnerClicked;
+    static Texture shotgunnistHover,shotgunnistClicked;
+    static Texture sniperHover,sniperClicked;
+    static Texture rammerHover,rammerClicked;
     static Texture BackButtonHover,BackButtonClicked;
     static Texture Exit,ExitHover,ExitClicked;
     static Texture MusicHover,MusicClicked;
@@ -33,6 +39,7 @@ public class UI {
     static BitmapFont sector,highscore,score;
     static boolean isPaused = false;
     static boolean opening = false;
+    static boolean isClassPicked = false;
     static int menuX,menuY,playX,playY;
     static boolean musicPlaying=true;
     public UI(){
@@ -42,6 +49,15 @@ public class UI {
         playButtonHover = new Texture("PlayButtonHover.png");
         playButtonClicked = new Texture("PlayButtonClicked.png");
         lives = new Texture("lifebar.png");
+        classMenu = new Texture("classes.png");
+        gunnerHover = new Texture("gunnerHover.png");
+        gunnerClicked = new Texture("gunnerClicked.png");
+        shotgunnistHover = new Texture("shotgunnistHover.png");
+        shotgunnistClicked = new Texture("shotgunnistClicked.png");
+        sniperHover = new Texture("sniperHover.png");
+        sniperClicked = new Texture("sniperClicked.png");
+        rammerHover = new Texture("rammerHover.png");
+        rammerClicked = new Texture("rammerClicked.png");
         shapeRenderer = new ShapeRenderer();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("gomarice_no_continue.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -80,6 +96,7 @@ public class UI {
         Shadow color; only used if shadowOffset > 0
         public Color shadowColor = new Color(0, 0, 0, 0.75f);
         */
+        xp = new Texture("xp.png");
         PauseMenu = new Texture("PauseMenu.png");
 
         BackButtonHover = new Texture("BackButtonHover.png");
@@ -110,7 +127,10 @@ public class UI {
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float hpWidth = player.getHp();
         batch.begin();
-        batch.draw(lives,0+10,800-lives.getHeight()-10);
+        batch.draw(lives,10,800-lives.getHeight()-10);
+        batch.draw(xp,10,800-lives.getHeight()*2-30);
+        sector.draw(batch,"%: "+Math.round(player.getXp()/player.getLvl()*100)/100d,10+xp.getWidth()+10,800-lives.getHeight()*2-5,125,1,false);
+        sector.draw(batch,"Level: "+player.getLvl(),10+xp.getWidth()+10,800-lives.getHeight()*2-45,125,1,false);
         sector.draw(batch,"Sector: ("+Math.round(Map.getSector(player).x*100)/100d+", "+Math.round(Map.getSector(player).y*100)/100d+")",840,780,360,1,false);
         highscore.draw(batch,"HIGHSCORE: "+Global.highscore,Global.SCREEN_WIDTH/2-600,50,1200,1,false);
         score.draw(batch,"SCORE: "+Global.currScore,Global.SCREEN_WIDTH/2-600,100,1200,1,false);
@@ -171,7 +191,7 @@ public class UI {
         batch.end();
     }
 
-    public static void pauseMenu(int n){
+    public static void opening(){
         //opening scene
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -180,23 +200,23 @@ public class UI {
         shapeRenderer.end();
         batch.begin();
         batch.draw(title,playX,playY);
-        batch.draw(playButton,Global.SCREEN_WIDTH/2-playButton.getWidth()/2,playY/2);
-        batch.draw(Exit,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+        batch.draw(playButton,getRelCenter(playButton).x,playY/2);
+        batch.draw(Exit,getRelCenter(Exit).x,playY/4);
         //System.out.println(Global.mx+" "+Global.my);
         //(-117, -145) to (115,223)
         if(Global.mx>=-117 && Global.mx<=115 && Global.my<=-145 && Global.my>=-223){   //-75,97
-            batch.draw(playButtonHover,Global.SCREEN_WIDTH/2-playButton.getWidth()/2,playY/2);
+            batch.draw(playButtonHover,getRelCenter(playButton).x,playY/2);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                batch.draw(playButtonClicked,Global.SCREEN_WIDTH/2-playButton.getWidth()/2,playY/2);
+                batch.draw(playButtonClicked,getRelCenter(playButton).x,playY/2);
                 UI.isPaused = false;
                 opening = true;
             }
             //System.out.println(true);
         }
         if(Global.mx>=-78 && Global.mx<=78 && Global.my<=-250 && Global.my>=-315){   //-75,97
-            batch.draw(ExitHover,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+            batch.draw(ExitHover,getRelCenter(Exit).x,playY/4);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                batch.draw(ExitClicked,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+                batch.draw(ExitClicked,getRelCenter(Exit).x,playY/4);
                 Gdx.app.exit();
             }
         }
@@ -205,7 +225,7 @@ public class UI {
         //opening = true;
     }
 
-    public static void pauseMenu(Player player){
+    public static void Death(Player player){
         //Death screen
         UI.isPaused = true;
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -214,15 +234,15 @@ public class UI {
         shapeRenderer.rect(0,0,Global.SCREEN_WIDTH,Global.SCREEN_HEIGHT);
         shapeRenderer.end();
         batch.begin();
-        batch.draw(death,Global.SCREEN_WIDTH/2-death.getWidth()/2,Global.SCREEN_HEIGHT/2-death.getHeight()/2);
-        batch.draw(again,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
-        batch.draw(Exit,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+        batch.draw(death,getRelCenter(death).x,getRelCenter(death).y);
+        batch.draw(again,getRelCenter(again).x,playY/2);
+        batch.draw(Exit,getRelCenter(Exit).x,playY/4);
         //System.out.println(Global.mx+" "+Global.my);
         //(-117, -145) to (115,223)
         if(Global.mx>=-117 && Global.mx<=115 && Global.my<=-145 && Global.my>=-223){   //-75,97
-            batch.draw(againHover,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
+            batch.draw(againHover,getRelCenter(again).x,playY/2);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                batch.draw(againClicked,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
+                batch.draw(againClicked,getRelCenter(again).x,playY/2);
                 player.addXp(player.getXp()*-1);    //flushes xp
                 Global.currScore = 0;
                 Global.isDead = true;
@@ -236,11 +256,58 @@ public class UI {
         if(Global.mx>=-78 && Global.mx<=78 && Global.my<=-250 && Global.my>=-315){   //-75,97
             batch.draw(ExitHover,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                batch.draw(ExitClicked,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+                batch.draw(ExitClicked,getRelCenter(Exit).x,playY/4);
                 Gdx.app.exit();
             }
         }
         batch.end();
+    }
+
+    public static void pickClass(Player player){
+        batch.begin();
+        batch.draw(classMenu,getRelCenter(classMenu).x,getRelCenter(classMenu).y);
+        System.out.println(Global.mx+" "+Global.my);
+        if(Global.mx>=-344 && Global.mx<=-227 && Global.my<=-120 && Global.my>=-145){   //-344,-120
+            batch.draw(gunnerHover,getRelCenter(classMenu).x+56,800-getRelCenter(classMenu).y-320-gunnerHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(gunnerClicked,getRelCenter(classMenu).x+56,800-getRelCenter(classMenu).y-320-gunnerHover.getHeight());
+                AssetLoader.switchClasses(player,AssetLoader.class_gunner);
+                isClassPicked = true;
+                isPaused = false;
+            }
+        }
+        if(Global.mx>=-155 && Global.mx<=33 && Global.my<=-120 && Global.my>=-145){   //-75,97
+            batch.draw(shotgunnistHover,getRelCenter(classMenu).x+245,800-getRelCenter(classMenu).y-320-shotgunnistHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(shotgunnistClicked,getRelCenter(classMenu).x+245,800-getRelCenter(classMenu).y-320-shotgunnistHover.getHeight());
+                AssetLoader.switchClasses(player,AssetLoader.class_shotgunist);
+                isClassPicked = true;
+                isPaused = false;
+            }
+        }
+        if(Global.mx>=91 && Global.mx<=188 && Global.my<=-120 && Global.my>=-145){   //-75,97
+            batch.draw(sniperHover,getRelCenter(classMenu).x+491,800-getRelCenter(classMenu).y-320-sniperHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(sniperClicked,getRelCenter(classMenu).x+491,800-getRelCenter(classMenu).y-320-sniperHover.getHeight());
+                AssetLoader.switchClasses(player,AssetLoader.class_sniper);
+                isClassPicked = true;
+                isPaused = false;
+            }
+        }
+        if(Global.mx>=231 && Global.mx<=353 && Global.my<=-120 && Global.my>=-145){   //-75,97
+            batch.draw(rammerHover,getRelCenter(classMenu).x+631,800-getRelCenter(classMenu).y-320-rammerHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(rammerClicked,getRelCenter(classMenu).x+631,800-getRelCenter(classMenu).y-320-rammerHover.getHeight());
+                AssetLoader.switchClasses(player,AssetLoader.class_rammer);
+                isClassPicked = true;
+                isPaused = false;
+            }
+        }
+        batch.end();
+    }
+
+    public static Vector2 getRelCenter(Texture t){
+        return new Vector2(Global.SCREEN_WIDTH/2-t.getWidth()/2,Global.SCREEN_HEIGHT/2-t.getHeight()/2);
     }
 
     //pause state getter

@@ -103,15 +103,19 @@ public class Main extends ApplicationAdapter {
 
 		if(UI.isPaused()){
 			if(!UI.opening){
-				UI.pauseMenu(1);
+				UI.opening();
 			}
 			else{
 				if(player.getHp()>0){
-					UI.pauseMenu();
-					r.moveCamera(player);
-					r.cam.update(); //refresh camera
+					if(UI.isClassPicked || player.getLvl()!=5) {
+						UI.pauseMenu();
+						r.moveCamera(player);
+						r.cam.update(); //refresh camera
+					}else{
+						UI.pickClass(player);
+					}
 				}else{
-					UI.pauseMenu(player);
+					UI.Death(player);
 				}
 			}
 			Global.updateInput();
@@ -127,7 +131,7 @@ public class Main extends ApplicationAdapter {
 			map.getBounds(player);
 			player.regen();
 			if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-				player.modHp(-1000);
+				player.modHp(-1000);	//suicide button
 			}
 
 			//Update Enemies
@@ -140,7 +144,7 @@ public class Main extends ApplicationAdapter {
 				System.out.println("New sector");
 			}
 			Enemy.updateAll(player);
-			if(player.getHp()<=0){
+			if(player.getHp()<=0 || (player.getLvl()==5 && UI.isClassPicked==false)){
 				UI.isPaused = true;
 			}
 
@@ -168,6 +172,7 @@ public class Main extends ApplicationAdapter {
 		UI.playButtonHover.dispose();
 		UI.playButtonClicked.dispose();
 		UI.lives.dispose();
+		UI.xp.dispose();
 		UI.PauseMenu.dispose();
 		UI.BackButtonHover.dispose();
 		UI.BackButtonClicked.dispose();
@@ -187,6 +192,15 @@ public class Main extends ApplicationAdapter {
 		UI.again.dispose();
 		UI.againHover.dispose();
 		UI.againClicked.dispose();
+		UI.classMenu.dispose();
+		UI.gunnerHover.dispose();
+		UI.gunnerClicked.dispose();
+		UI.shotgunnistHover.dispose();
+		UI.shotgunnistClicked.dispose();
+		UI.sniperHover.dispose();
+		UI.sniperClicked.dispose();
+		UI.rammerHover.dispose();
+		UI.rammerClicked.dispose();
 		try {
 			if(Global.currScore>Global.highscore){
 				File file = new File("highscore.txt");

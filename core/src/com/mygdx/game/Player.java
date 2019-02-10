@@ -54,7 +54,7 @@ public class Player extends Entity {
 
         this.hp = this.max_hp;
         this.xp = 0;
-        this.lvl = 4;
+        this.lvl = 5;
 
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
