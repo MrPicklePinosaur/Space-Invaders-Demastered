@@ -26,6 +26,7 @@ public class Enemy extends Entity {
     static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
     private float max_hp;
+    private int dmg;
     private int shoot_frq; //its weird, but the higher the number, the low the shoot rate
     String ai_type;
     private float turn_speed;
@@ -37,9 +38,10 @@ public class Enemy extends Entity {
     private float theta;
     private Random rand = new Random();
 
-    public Enemy(Texture texture,float max_hp,int shoot_frq,String ai_type,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet) {
+    public Enemy(Texture texture,float max_hp,int dmg,int shoot_frq,String ai_type,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet) {
         super(texture,speed);
         this.max_hp = max_hp;
+        this.dmg = dmg;
         this.shoot_frq = shoot_frq;
         this.ai_type = ai_type;
         this.turn_speed = turn_speed;
@@ -70,6 +72,8 @@ public class Enemy extends Entity {
     public void move(Player player) {
         if (this.ai_type.equals(AssetLoader.ai_circle)) {
             this.move_circle(player);
+        } else if (this.ai_type.equals(AssetLoader.ai_kamikazi)) {
+            this.move_target(player);
         }
     }
 
@@ -100,13 +104,16 @@ public class Enemy extends Entity {
         if(isPositive){this.theta = absang;}else{this.theta = absang*-1;}
         this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle+this.theta)/Global.PPM,this.speed*MathUtils.sin(targetAngle+this.theta)/Global.PPM);
     }
+    public void move_target(Player player) {
+
+    }
 
     //Attacking AI - pass in player's angle relative to enemy
     public void shoot_at_player(float targetAngle) {//Give chance for enemy to shoot at player (if they are pointed at player of course)
         if (Math.abs(this.getRotation()-targetAngle)<10) { //if enemy is pointed with 10 degrees of player, shoot
             boolean shoot = Global.rand.nextInt(shoot_frq) == 0 ? true : false;
             if (shoot) {
-                Projectile.shoot(this.bullet,this.fire_pattern,Projectile.tag_enemy, this.getX(), this.getY(), this.getRotation());
+                Projectile.shoot(this.dmg,this.bullet,this.fire_pattern,Projectile.tag_enemy, this.getX(), this.getY(), this.getRotation());
             }
         }
     }
@@ -135,14 +142,15 @@ public class Enemy extends Entity {
     }
 
     //Getters
-    public float getHP(){
-        return this.hp;
-    }
+    public float getHP() { return this.hp; }
+    public float getDmg() { return this.dmg; }
+    public int getContactDmg() { return this.contact_dmg; }
 
     public double getDistFromPlayer(Player player){
         return Global.getDist(player.getX(),player.getY(),this.getX(),this.getY());
     }
 
+    //Setters
     public void modHp(float deltaHp) {
         this.hp += deltaHp;
         MathUtils.clamp(this.hp,0,this.max_hp);

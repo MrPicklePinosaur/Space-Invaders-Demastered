@@ -12,13 +12,20 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import oracle.jrockit.jfr.ActiveSettingEvent;
+
+import java.util.HashMap;
 
 public class Player extends Entity {
-    private static float max_hp;
-    private static float shoot_frq;
+    //private static HashMap<String,String> levelTree = new HashMap<String,String>();
+
+    private float max_hp;
+    private int dmg;
+    private int shoot_frq;
     private float turn_speed;
     private int contact_dmg;
     private String fire_pattern;
@@ -28,20 +35,23 @@ public class Player extends Entity {
     private int xp;
     private int lvl;
 
+    //Keep track of the amount of points the player has put into each stat
+    private int hp_points;
+    private int dmg_points;
+    private int spd_points;
+    private int turn_points;
+    private int reload_points;
+    private int contact_points;
+
     private Vector2 force;
 
-    public Player(Texture texture,float max_hp,int shoot_frq,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet) {
+    public Player(Texture texture,float speed,String className) {
         super(texture,speed);
-        this.max_hp = max_hp;
-        this.shoot_frq = shoot_frq;
-        this.turn_speed = turn_speed;
-        this.contact_dmg = contact_dmg;
-        this.fire_pattern = fire_pattern;
-        this.bullet = bullet;
+        AssetLoader.switchClasses(this,className);
 
         this.hp = this.max_hp;
         this.xp = 0;
-        this.lvl = 0;
+        this.lvl = 1;
 
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
@@ -59,28 +69,43 @@ public class Player extends Entity {
         //  NOTE: There may be no need for acceleration / decceleration, instead possibly use impulses and linear damping
 
         //Rotate ship using mouse
-        this.rotate(Global.angle,0.055f);
+        this.rotate(Global.angle, 0.055f);
         //Move player depending on the direction its facing
-        float vx = this.speed*MathUtils.cos(this.body.getAngle());
-        float vy = this.speed*MathUtils.sin(this.body.getAngle());
+        float vx = this.speed * MathUtils.cos(this.body.getAngle());
+        float vy = this.speed * MathUtils.sin(this.body.getAngle());
 
-        this.body.setLinearVelocity(vx/Global.PPM,vy/Global.PPM);
+        this.body.setLinearVelocity(vx / Global.PPM, vy / Global.PPM);
         this.update(); //sync texture with body
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) { //spawn projectile
             //Create new projectile object
-            Projectile.shoot(this.bullet,this.fire_pattern,Projectile.tag_player,this.getX(),this.getY(),this.getRotation());
+            Projectile.shoot(this.dmg, this.bullet, this.fire_pattern, Projectile.tag_player, this.getX(), this.getY(), this.getRotation());
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) { //player uses ability
+        this.useAbility();
+    }
+}
+    public void useAbility() {
+        //this.body.setTransform(this.getX()+Global.mx/Global.PPM,this.getY()+Global.my/Global.PPM,this.getRotation());
+
     }
 
     //Getters
     public int getXp() { return this.xp; }
     public int getLvl() {return this.lvl; }
     public float getHp() { return this.hp; }
+    public float getDmg() { return this.dmg; }
+    public int getContactDmg() { return this.contact_dmg; }
 
     //Setters
+    public void modHp(float deltaHp) {
+        this.hp += deltaHp;
+        MathUtils.clamp(this.hp,0,this.max_hp);
+    }
+
+    //Stuff for leveling up
     public void addXp(float xpAmount) { //handles leveling up
-        int lvlupReq = 1000; //amount of xp required to level up (its fixed for now, but make it so that the higher level you are, the harder it is to lvl up)
+        int lvlupReq = 100+this.lvl*200;  //amount of xp required to level up
 
         if (this.xp+xpAmount >= lvlupReq) { //if the player levels up
             //hp goes back to full
@@ -88,12 +113,42 @@ public class Player extends Entity {
             //TODO: level caps at 45 or sm
             this.lvl += 1;
             this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
-        } else { //otherwise level up like normal
+
+            //let player choose a stat to level up
+
+
+        } else { //otherwise gain xp like normal
             this.xp += xpAmount;
         }
     }
-    public void modHp(float deltaHp) {
-        this.hp += deltaHp;
-        MathUtils.clamp(this.hp,0,this.max_hp);
+    public void choosePoint(int hp_points,int dmg_points,int spd_points,int turn_points,int reload_points,int contact_points) { //user chooses a stat to put points into
+        this.hp_points+=hp_points*5;
+        this.dmg_points+=dmg_points*2;
+        this.spd_points+=spd_points*15;
+        this.turn_points+=turn_points*0.005;
+        this.reload_points+=reload_points*-10;
+        this.contact_points+=contact_points*2;
     }
+    public void setStats(String path,float max_hp,int dmg,int shoot_frq,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet) {
+        this.sprite = new Sprite(new Texture(path));
+        this.sprite.setSize(this.sprite.getWidth()/Global.PPM,this.sprite.getHeight()/Global.PPM);
+        this.sprite.setOrigin(sprite.getWidth()/2f,sprite.getHeight()/2f); //allows sprite to rotate around center
+        this.max_hp = max_hp;
+        this.dmg = dmg;
+        this.shoot_frq = shoot_frq;
+        this.speed = speed;
+        this.turn_speed = turn_speed;
+        this.contact_dmg = contact_dmg;
+        this.fire_pattern = fire_pattern;
+        this.bullet = bullet;
+    }
+    /*
+    public static void initLvlTree() {
+        levelTree.put("base","base");
+        levelTree.put("sniper","base");
+        levelTree.put("rammer","base");
+        levelTree.put("gunner","base");
+        levelTree.put("shotgunist","base");
+    }
+    */
 }

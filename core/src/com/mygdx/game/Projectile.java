@@ -27,14 +27,13 @@ public class Projectile extends Entity{
     public static final int tag_player = 0;
     public static final int tag_enemy = 1;
 
-    private float dmg;
+    private int dmg;
     private float max_dist; //max distance projectile can travel before despawning
-
 
     private Vector2 spawn_pos;
     private int tag; //determines who shot the projectile
 
-    public Projectile(Texture texture,float dmg,float speed,float max_dist,int tag) {
+    public Projectile(Texture texture,int dmg,float speed,float max_dist,int tag) {
         super(texture,speed);
         this.dmg = dmg;
         this.max_dist = max_dist;
@@ -73,7 +72,7 @@ public class Projectile extends Entity{
     }
 
     //FIRE PATTERNS:  spawns projectiles based on the current 'weapon' selected
-    public static void shoot(String bullet,String fire_pattern,int tag,float x,float y,float angle) {
+    public static void shoot(int dmg,String bullet,String fire_pattern,int tag,float x,float y,float angle) {
         ArrayList<Vector3> spawnList = new ArrayList<Vector3>();
 
         //Determine which firepattern player/enemy has
@@ -81,10 +80,12 @@ public class Projectile extends Entity{
             Projectile.shoot_cannon(spawnList, x, y, angle);
         } else if (fire_pattern.equals(AssetLoader.fire_twin)) {
             Projectile.shoot_twin(spawnList, x, y, angle);
+        } else if (fire_pattern.equals(AssetLoader.fire_shotgun)) {
+            Projectile.shoot_shotgun(spawnList, x, y, angle);
         }
 
         for (Vector3 p_data : spawnList) { //for each projecctile to be spawned
-            Projectile p = AssetLoader.create_projectile(bullet,tag);
+            Projectile p = AssetLoader.create_projectile(bullet,dmg,tag);
             p.init(p_data.x,p_data.y,p_data.z);
         }
     }
@@ -96,8 +97,10 @@ public class Projectile extends Entity{
         spawnList.add(new Vector3(x,y,angle+5*MathUtils.degreesToRadians));
         spawnList.add(new Vector3(x,y,angle-5*MathUtils.degreesToRadians));
     }
-    public static void shoot_shotgun() {
-
+    public static void shoot_shotgun(ArrayList<Vector3> spawnList,float x, float y, float angle) {
+        for (int i = -2; i < 3; i++) {
+            spawnList.add(new Vector3(x,y,angle+Global.rand.nextInt(20)*i*MathUtils.degreesToRadians));
+        }
     }
 
     public void dispose() {
