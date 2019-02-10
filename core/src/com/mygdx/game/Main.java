@@ -97,6 +97,9 @@ public class Main extends ApplicationAdapter {
 
 		if(UI.isPaused()){
 			UI.pauseMenu();
+			r.moveCamera(player);
+			r.cam.update(); //refresh camera
+			Global.updateInput();
 		}else {
 
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){

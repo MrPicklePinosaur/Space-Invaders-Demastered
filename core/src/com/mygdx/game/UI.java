@@ -10,6 +10,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,11 +21,17 @@ import java.security.Key;
 
 public class UI {
     static SpriteBatch batch;
-    static Texture lives;
+    static Texture lives,PauseMenu;
+    static Texture BackButtonHover,BackButtonClicked;
+    static Texture ExitHover,ExitClicked;
+    static Texture MusicHover,MusicClicked;
+    static Texture MusicMuted,MusicMutedHover,MusicMutedClicked;
     static ShapeRenderer shapeRenderer;
     static float x=60f;
     static BitmapFont sector,highscore,score;
     static boolean isPaused = false;
+    static int menuX,menuY;
+    static boolean musicPlaying=true;
     public UI(){
         batch = new SpriteBatch();
         lives = new Texture("lifebar.png");
@@ -66,6 +73,22 @@ public class UI {
         Shadow color; only used if shadowOffset > 0
         public Color shadowColor = new Color(0, 0, 0, 0.75f);
         */
+        PauseMenu = new Texture("PauseMenu.png");
+
+        BackButtonHover = new Texture("BackButtonHover.png");
+        BackButtonClicked = new Texture("BackButtonClicked.png");
+
+        ExitHover = new Texture("ExitHover.png");
+        ExitClicked = new Texture("ExitClicked.png");
+
+        MusicHover = new Texture("MusicHover.png");
+        MusicClicked = new Texture("MusicClicked.png");
+        MusicMuted = new Texture("MusicMuted.png");
+        MusicMutedHover = new Texture("MusicMutedHover.png");
+        MusicMutedClicked = new Texture("MusicMutedClicked.png");
+
+        menuX = Global.SCREEN_WIDTH/2-PauseMenu.getWidth()/2;
+        menuY = Global.SCREEN_HEIGHT/2-PauseMenu.getHeight()/2;
     }
     public static void draw(Player player){
         //Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
@@ -95,10 +118,46 @@ public class UI {
         UI.isPaused = true;
     }
     public static void pauseMenu(){
-        if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-            System.out.println(true);
-            //Global.delta = 1/60f;
+        batch.begin();
+        batch.draw(PauseMenu,menuX,menuY);
+        if(!musicPlaying){
+            batch.draw(MusicMuted,menuX+52,menuY+110);
         }
+        //Back button before top left: 56x53   Back button wxh: 150x59
+        //System.out.println(Global.mx+" "+Global.my);
+        //if(Global.mx>(menuX+56) && Global.mx<(menuX+207) && Global.my<(menuY+(Global.SCREEN_HEIGHT-53)) && Global.my>(menuY+(Global.SCREEN_HEIGHT-53-59))){
+        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=95 && Global.my>=41){   //-75,97
+            batch.draw(BackButtonHover,menuX+52,menuY+184);
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(BackButtonClicked,menuX+52,menuY+184);
+                UI.isPaused = false;
+            }
+            //System.out.println(true);
+        }
+        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=22 && Global.my>=-34){//-75,22
+            if(musicPlaying){
+                batch.draw(MusicHover,menuX+52,menuY+110);
+                if(Gdx.input.justTouched()){
+                    batch.draw(MusicClicked,menuX+52,menuY+110);
+                    musicPlaying = false;
+                }
+            }else{
+                batch.draw(MusicMutedHover,menuX+52,menuY+110);
+                if(Gdx.input.justTouched()){
+                    batch.draw(MusicMutedClicked,menuX+52,menuY+110);
+                    musicPlaying = true;
+                }
+            }
+        }
+        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=-48 && Global.my>=-113){   //-75,97
+            batch.draw(ExitHover,menuX+52,menuY+36);
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(ExitClicked,menuX+52,menuY+36);
+                Gdx.app.exit();
+            }
+            //System.out.println(true);
+        }
+        batch.end();
     }
 
     //pause state getter
