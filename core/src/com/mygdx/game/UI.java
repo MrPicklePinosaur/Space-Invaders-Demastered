@@ -24,6 +24,8 @@ public class UI {
     static SpriteBatch batch;
     static Texture title;
     static Texture playButton,playButtonHover,playButtonClicked;
+    static Texture Help,HelpHover,HelpClicked;
+    static Texture HelpScreen,HelpScreenHover,HelpScreenClicked;
     static Texture lives,xp,PauseMenu;
     static Texture classMenu;
     static Texture gunnerHover,gunnerClicked;
@@ -42,12 +44,19 @@ public class UI {
     static boolean isClassPicked = false;
     static int menuX,menuY,playX,playY;
     static boolean musicPlaying=true;
+    static boolean HelpScreenOpen = false;
     public UI(){
         batch = new SpriteBatch();
         title = new Texture("title.png");
         playButton = new Texture("PlayButton.png");
         playButtonHover = new Texture("PlayButtonHover.png");
         playButtonClicked = new Texture("PlayButtonClicked.png");
+        Help = new Texture("Help.png");
+        HelpHover = new Texture("HelpHover.png");
+        HelpClicked = new Texture("HelpClicked.png");
+        HelpScreen = new Texture("HelpScreen.png");
+        HelpScreenHover = new Texture("HelpScreenHover.png");
+        HelpScreenClicked = new Texture("HelpScreenClicked.png");
         lives = new Texture("lifebar.png");
         classMenu = new Texture("classes.png");
         gunnerHover = new Texture("gunnerHover.png");
@@ -199,25 +208,43 @@ public class UI {
         shapeRenderer.rect(0,0,Global.SCREEN_WIDTH,Global.SCREEN_HEIGHT);
         shapeRenderer.end();
         batch.begin();
-        batch.draw(title,playX,playY);
-        batch.draw(playButton,getRelCenter(playButton).x,playY/2);
+        batch.draw(title,playX,playY*3/2);
+        batch.draw(playButton,getRelCenter(playButton).x,playY);
+        batch.draw(Help,getRelCenter(Help).x,playY*3/5);
         batch.draw(Exit,getRelCenter(Exit).x,playY/4);
-        //System.out.println(Global.mx+" "+Global.my);
-        //(-117, -145) to (115,223)
-        if(Global.mx>=-117 && Global.mx<=115 && Global.my<=-145 && Global.my>=-223){   //-75,97
-            batch.draw(playButtonHover,getRelCenter(playButton).x,playY/2);
+        System.out.println(Global.mx+" "+Global.my);
+        //(-117, 24) to (115,-56)
+        if(Global.mx>=-117 && Global.mx<=118 && Global.my<=24 && Global.my>=-57){
+            batch.draw(playButtonHover,getRelCenter(playButton).x,playY);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                batch.draw(playButtonClicked,getRelCenter(playButton).x,playY/2);
+                batch.draw(playButtonClicked,getRelCenter(playButton).x,playY);
                 UI.isPaused = false;
                 opening = true;
             }
             //System.out.println(true);
         }
-        if(Global.mx>=-78 && Global.mx<=78 && Global.my<=-250 && Global.my>=-315){   //-75,97
+        if(Global.mx>=-90 && Global.mx<=90 && Global.my<=-125 && Global.my>=-200){
+            batch.draw(HelpHover,getRelCenter(Help).x,playY*3/5);
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(HelpClicked,getRelCenter(Help).x,playY*3/5);
+                HelpScreenOpen = true;
+            }
+        }
+        if(Global.mx>=-78 && Global.mx<=78 && Global.my<=-250 && Global.my>=-315){
             batch.draw(ExitHover,getRelCenter(Exit).x,playY/4);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(ExitClicked,getRelCenter(Exit).x,playY/4);
                 Gdx.app.exit();
+            }
+        }
+        if(HelpScreenOpen){
+            batch.draw(HelpScreen,getRelCenter(HelpScreen).x,getRelCenter(HelpScreen).y);
+            if(Global.mx>=513 && Global.mx<=533 && Global.my<=339 && Global.my>=316){
+                batch.draw(HelpScreenHover,1200-37-50,800-35-50);
+                if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                    batch.draw(HelpScreenClicked,1200-37-50,800-35-50);
+                    HelpScreenOpen = false;
+                }
             }
         }
         batch.end();
@@ -266,7 +293,7 @@ public class UI {
     public static void pickClass(Player player){
         batch.begin();
         batch.draw(classMenu,getRelCenter(classMenu).x,getRelCenter(classMenu).y);
-        System.out.println(Global.mx+" "+Global.my);
+        //System.out.println(Global.mx+" "+Global.my);
         if(Global.mx>=-344 && Global.mx<=-227 && Global.my<=-120 && Global.my>=-145){   //-344,-120
             batch.draw(gunnerHover,getRelCenter(classMenu).x+56,800-getRelCenter(classMenu).y-320-gunnerHover.getHeight());
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){

@@ -172,6 +172,12 @@ public class Main extends ApplicationAdapter {
 		UI.playButton.dispose();
 		UI.playButtonHover.dispose();
 		UI.playButtonClicked.dispose();
+		UI.Help.dispose();
+		UI.HelpHover.dispose();
+		UI.HelpClicked.dispose();
+		UI.HelpScreen.dispose();
+		UI.HelpScreenHover.dispose();
+		UI.HelpScreenClicked.dispose();
 		UI.lives.dispose();
 		UI.xp.dispose();
 		UI.PauseMenu.dispose();
