@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -132,8 +133,10 @@ public class Enemy extends Entity {
             e.move(player);
             e.update();
             if(e.getHP()<=0 || e.getDistFromPlayer(player)>800f/Global.PPM) {
-                player.addXp(e.xp); //give player xp
-                Global.currScore+=e.xp;
+                if(!Global.isDead) {
+                    player.addXp(e.xp); //give player xp
+                    Global.currScore += e.xp;
+                }
                 //Give chance to spawn hp box where enemy dies
 
                 int spawnHpBox = Global.rand.nextInt(Global.hpBoxChance);
@@ -142,6 +145,7 @@ public class Enemy extends Entity {
                 }
                 e.dispose();
             }
+            if(i==0 && Global.isDead){Global.isDead = false;}
         }
     }
 

@@ -129,9 +129,6 @@ public class Main extends ApplicationAdapter {
 			if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
 				player.modHp(-1000);
 			}
-			if(player.getHp()<=0){
-				UI.isPaused = true;
-			}
 
 			//Update Enemies
 			//enemy spawning
@@ -143,6 +140,9 @@ public class Main extends ApplicationAdapter {
 				System.out.println("New sector");
 			}
 			Enemy.updateAll(player);
+			if(player.getHp()<=0){
+				UI.isPaused = true;
+			}
 
 			//update projectiles
 			Projectile.updateAll();
