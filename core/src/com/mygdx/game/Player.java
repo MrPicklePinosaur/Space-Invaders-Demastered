@@ -56,6 +56,7 @@ public class Player extends Entity {
         this.xp = 0;
         this.lvl = 5;
 
+
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
         circle.setRadius(this.sprite.getWidth()/2f); //The fixture for the player is a circle with radius spriteWidth/2
@@ -132,9 +133,9 @@ public class Player extends Entity {
             this.lvl += 1;
             this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
             //this.choosePoint(1,0,0,0,0,0);
-            if (this.lvl >= 5) {
+            /*if (this.lvl >= 5) {
                 AssetLoader.switchClasses(this,AssetLoader.class_rammer);
-            }
+            }*/
             //let player choose a stat to level up
 
 
