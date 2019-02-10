@@ -13,9 +13,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -104,9 +106,13 @@ public class Main extends ApplicationAdapter {
 				UI.pauseMenu(1);
 			}
 			else{
-				UI.pauseMenu();
-				r.moveCamera(player);
-				r.cam.update(); //refresh camera
+				if(player.getHp()>0){
+					UI.pauseMenu();
+					r.moveCamera(player);
+					r.cam.update(); //refresh camera
+				}else{
+					UI.pauseMenu(player);
+				}
 			}
 			Global.updateInput();
 		}else {
@@ -120,6 +126,12 @@ public class Main extends ApplicationAdapter {
 			player.handleInput();
 			map.getBounds(player);
 			player.regen();
+			if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+				player.modHp(-1000);
+			}
+			if(player.getHp()<=0){
+				UI.isPaused = true;
+			}
 
 			//Update Enemies
 			//enemy spawning
@@ -150,6 +162,31 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		bg.dispose();
+		UI.batch.dispose();
+		UI.title.dispose();
+		UI.playButton.dispose();
+		UI.playButtonHover.dispose();
+		UI.playButtonClicked.dispose();
+		UI.lives.dispose();
+		UI.PauseMenu.dispose();
+		UI.BackButtonHover.dispose();
+		UI.BackButtonClicked.dispose();
+		UI.Exit.dispose();
+		UI.ExitHover.dispose();
+		UI.ExitClicked.dispose();
+		UI.MusicHover.dispose();
+		UI.MusicClicked.dispose();
+		UI.MusicMuted.dispose();
+		UI.MusicMutedHover.dispose();
+		UI.MusicMutedClicked.dispose();
+		UI.shapeRenderer.dispose();
+		UI.sector.dispose();
+		UI.highscore.dispose();
+		UI.score.dispose();
+		UI.death.dispose();
+		UI.again.dispose();
+		UI.againHover.dispose();
+		UI.againClicked.dispose();
 		try {
 			if(Global.currScore>Global.highscore){
 				File file = new File("highscore.txt");
