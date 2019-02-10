@@ -178,7 +178,7 @@ public class Player extends Entity {
     }
     public void reset() {
         hp = this.max_hp;
-        xp = this.xp;
+        xp = 0;
         this.lvl = 1;
         reload_counter = 0;
         reload = false;
