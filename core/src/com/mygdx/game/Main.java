@@ -55,7 +55,7 @@ public class Main extends ApplicationAdapter {
 
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
-		player = AssetLoader.create_player(AssetLoader.class_shotgunist); //create player object
+		player = AssetLoader.create_player(AssetLoader.class_base); //create player object
 		player.choosePoint(0,0,0,0,0,0);
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);
@@ -118,6 +118,7 @@ public class Main extends ApplicationAdapter {
 			//Update Player
 			player.handleInput();
 			map.getBounds(player);
+			player.regen();
 
 			//Update Enemies
 			//enemy spawning

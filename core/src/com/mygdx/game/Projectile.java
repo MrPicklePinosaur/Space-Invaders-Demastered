@@ -82,6 +82,8 @@ public class Projectile extends Entity{
             Projectile.shoot_twin(spawnList, x, y, angle);
         } else if (fire_pattern.equals(AssetLoader.fire_shotgun)) {
             Projectile.shoot_shotgun(spawnList, x, y, angle);
+        } else if (fire_pattern.equals(AssetLoader.fire_circle)) {
+            Projectile.shoot_circle(spawnList, x, y);
         }
 
         for (Vector3 p_data : spawnList) { //for each projecctile to be spawned
@@ -100,6 +102,11 @@ public class Projectile extends Entity{
     public static void shoot_shotgun(ArrayList<Vector3> spawnList,float x, float y, float angle) {
         for (int i = -2; i < 3; i++) {
             spawnList.add(new Vector3(x,y,angle+Global.rand.nextInt(20)*i*MathUtils.degreesToRadians));
+        }
+    }
+    public static void shoot_circle(ArrayList<Vector3> spawnList,float x, float y) {
+        for (int i = 0; i < 12; i++) {
+            spawnList.add(new Vector3(x,y,(30*i)*MathUtils.degreesToRadians));
         }
     }
 

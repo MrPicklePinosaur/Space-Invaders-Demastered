@@ -25,7 +25,7 @@ public class Map {
     private static float eNum,eAng;
     private static final int radius = 500/Global.PPM;
 
-    public static final int DIVISION_SIZE = 100;//1024; //size of each sector of map (in meters)
+    public static final int DIVISION_SIZE = 10;//1024; //size of each sector of map (in meters)
                                     //changed to 1200 over 1024 as window size is 1200x800
                                     //could revert to 1024 if window is changed to 1024x768
 
