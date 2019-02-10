@@ -28,6 +28,7 @@ public class UI {
     static Texture Exit,ExitHover,ExitClicked;
     static Texture MusicHover,MusicClicked;
     static Texture MusicMuted,MusicMutedHover,MusicMutedClicked;
+    static Texture death,again,againHover,againClicked;
     static ShapeRenderer shapeRenderer;
     static BitmapFont sector,highscore,score;
     static boolean isPaused = false;
@@ -93,6 +94,11 @@ public class UI {
         MusicMuted = new Texture("MusicMuted.png");
         MusicMutedHover = new Texture("MusicMutedHover.png");
         MusicMutedClicked = new Texture("MusicMutedClicked.png");
+
+        death = new Texture("death.png");
+        again = new Texture("again.png");
+        againHover = new Texture("againHover.png");
+        againClicked = new Texture("againClicked.png");
 
         menuX = Global.SCREEN_WIDTH/2-PauseMenu.getWidth()/2;
         menuY = Global.SCREEN_HEIGHT/2-PauseMenu.getHeight()/2;
@@ -166,6 +172,7 @@ public class UI {
     }
 
     public static void pauseMenu(int n){
+        //opening scene
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0,0,0,255);
@@ -196,6 +203,43 @@ public class UI {
         batch.end();
         //isPaused = false;
         //opening = true;
+    }
+
+    public static void pauseMenu(Player player){
+        //Death screen
+        UI.isPaused = true;
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0,0,0,255);
+        shapeRenderer.rect(0,0,Global.SCREEN_WIDTH,Global.SCREEN_HEIGHT);
+        shapeRenderer.end();
+        batch.begin();
+        batch.draw(death,Global.SCREEN_WIDTH/2-death.getWidth()/2,Global.SCREEN_HEIGHT/2-death.getHeight()/2);
+        batch.draw(again,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
+        batch.draw(Exit,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+        //System.out.println(Global.mx+" "+Global.my);
+        //(-117, -145) to (115,223)
+        if(Global.mx>=-117 && Global.mx<=115 && Global.my<=-145 && Global.my>=-223){   //-75,97
+            batch.draw(againHover,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(againClicked,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
+                //player.addXp(player.getXp()*-1);    //flushes xp
+                //Global.currScore = 0;
+                //Map.randomPlayerSpawn(player);
+                //AssetLoader.switchClasses(player,AssetLoader.class_base);
+                player.reset();
+                UI.isPaused = false;
+            }
+            //System.out.println(true);
+        }
+        if(Global.mx>=-78 && Global.mx<=78 && Global.my<=-250 && Global.my>=-315){   //-75,97
+            batch.draw(ExitHover,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(ExitClicked,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+                Gdx.app.exit();
+            }
+        }
+        batch.end();
     }
 
     //pause state getter
