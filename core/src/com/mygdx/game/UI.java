@@ -9,11 +9,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.security.Key;
 
 public class UI {
     static SpriteBatch batch;
@@ -21,6 +24,7 @@ public class UI {
     static ShapeRenderer shapeRenderer;
     static float x=60f;
     static BitmapFont sector,highscore,score;
+    static boolean isPaused = false;
     public UI(){
         batch = new SpriteBatch();
         lives = new Texture("lifebar.png");
@@ -86,6 +90,20 @@ public class UI {
         x = player.getHp();
         //System.out.println(true);
     }
+    public static void pause(){
+        //Global.delta = 0f;
+        UI.isPaused = true;
+    }
+    public static void pauseMenu(){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+            System.out.println(true);
+            //Global.delta = 1/60f;
+        }
+    }
+
+    //pause state getter
+    public static boolean isPaused(){return UI.isPaused;}
+
     /*public void dispose(){
         uiBatch.dispose();
     }*/

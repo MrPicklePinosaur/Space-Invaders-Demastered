@@ -107,6 +107,7 @@ public class Projectile extends Entity{
 
     //Getters
     public int getTag() { return this.tag; }
+    public float getDMG(){return this.dmg;}
 
     //Setters
     @Override

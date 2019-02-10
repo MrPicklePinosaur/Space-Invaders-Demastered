@@ -77,6 +77,8 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void render () {
 
+		//Is the game paused?
+
 		//DRAWING SPRITES TO SCREEN
 		Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -93,33 +95,42 @@ public class Main extends ApplicationAdapter {
 		//Draw UI
 		ui.draw(player);
 
-		//UPDATE STUFF
-		//Update Player
-		player.handleInput();
-		map.getBounds(player);
+		if(UI.isPaused()){
+			UI.pauseMenu();
+		}else {
 
-		//Update Enemies
-		//enemy spawning
-		currSector = Map.getSector(player);
-		if(((int)currSector.x!=(int)oldSector.x || (int)currSector.y!=(int)oldSector.y || Enemy.enemies.size()==0) && currSector.x!=0 && currSector.y!=0){
-			map.generateEnemy(player);
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+				UI.pause();
+			}
 
-			oldSector = currSector;
-			System.out.println("New sector");
+			//UPDATE STUFF
+			//Update Player
+			player.handleInput();
+			map.getBounds(player);
+
+			//Update Enemies
+			//enemy spawning
+			currSector = Map.getSector(player);
+			if (((int) currSector.x != (int) oldSector.x || (int) currSector.y != (int) oldSector.y || Enemy.enemies.size() == 0) && currSector.x != 0 && currSector.y != 0) {
+				map.generateEnemy(player);
+
+				oldSector = currSector;
+				System.out.println("New sector");
+			}
+			Enemy.updateAll(player);
+
+			//update projectiles
+			Projectile.updateAll();
+
+			//Update world and viewport
+			Global.world.step(Global.delta, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
+			AssetLoader.sweepBodies();
+			//r.debugCam.render(Global.world,r.cam.combined);
+			r.moveCamera(player);
+			r.cam.update(); //refresh camera
+			//r.screenShake(2f);
+			Global.updateInput();
 		}
-		Enemy.updateAll(player);
-
-		//update projectiles
-		Projectile.updateAll();
-
-		//Update world and viewport
-		Global.world.step(1/60f, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
-		AssetLoader.sweepBodies();
-		//r.debugCam.render(Global.world,r.cam.combined);
-		r.moveCamera(player);
-		r.cam.update(); //refresh camera
-		//r.screenShake(2f);
-		Global.updateInput();
 	}
 
 	@Override
