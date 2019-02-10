@@ -78,16 +78,16 @@ public class Map {
         //Determine enemy spawns based on difficulty level
         if (difficulty == 0) { //if difficult is zero, dont spawn any enemies
             return;
-        } else if (difficulty == 1) {
+        } else if (player.getLvl()<5) {
             upperBound = 10; lowerBound = 3;
             enemy_pool = AssetLoader.difficulty_one;
-        } else if (difficulty == 2) {
+        } else if (player.getLvl()>=5) {
             upperBound = 15; lowerBound = 5;
             enemy_pool = AssetLoader.difficulty_two;
-        } else if (difficulty == 3) {
+        } else if (player.getLvl()>=10) {
             upperBound = 20; lowerBound = 7;
             enemy_pool = AssetLoader.difficulty_three;
-        } else if (difficulty == 4) {
+        } else if (player.getLvl()>=15) {
             upperBound = 30; lowerBound = 10;
             enemy_pool = AssetLoader.difficulty_four;
         }

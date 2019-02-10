@@ -49,6 +49,7 @@ public class Projectile extends Entity{
         this.body = this.create(fdef,BodyDef.BodyType.KinematicBody);
         this.body.createFixture(fdef); //DONT FORGET TO DISPOSE OF fdef
         body.setUserData(this); //TODO: differentiate between player projeciltes and enemy projectiles (to prevent enemy friendly fire)
+        rect.dispose();
     }
 
     public static void updateAll() { //TODO: rewrite update all to loop in reverse
@@ -117,7 +118,7 @@ public class Projectile extends Entity{
 
     //Getters
     public int getTag() { return this.tag; }
-    public float getDMG(){return this.dmg;}
+    public float getDMG() { return this.dmg;}
 
     //Setters
     @Override

@@ -54,7 +54,7 @@ public class Player extends Entity {
 
         this.hp = this.max_hp;
         this.xp = 0;
-        this.lvl = 1;
+        this.lvl = 4;
 
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
@@ -65,6 +65,7 @@ public class Player extends Entity {
         this.body.createFixture(fdef);
 
         this.body.setUserData(this);
+        circle.dispose();
     }
 
     public void handleInput() {
@@ -131,8 +132,8 @@ public class Player extends Entity {
             this.lvl += 1;
             this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
             //this.choosePoint(1,0,0,0,0,0);
-            if (this.lvl >= 2) {
-                AssetLoader.switchClasses(this,AssetLoader.class_shotgunist);
+            if (this.lvl >= 5) {
+                AssetLoader.switchClasses(this,AssetLoader.class_rammer);
             }
             //let player choose a stat to level up
 
@@ -174,5 +175,23 @@ public class Player extends Entity {
     */
     public void regen() {
         this.modHp(0.1f);
+    }
+    public void reset() {
+        hp = this.max_hp;
+        xp = this.xp;
+        this.lvl = 1;
+        reload_counter = 0;
+        reload = false;
+        toggleAutoFire = false;
+
+        hp_points = 0;
+        dmg_points = 0;
+        spd_points = 0;
+        turn_points = 0;
+        reload_points = 0;
+        contact_points = 0;
+        Global.currScore = 0;
+        Map.randomPlayerSpawn(this);
+        AssetLoader.switchClasses(this,AssetLoader.class_base);
     }
 }

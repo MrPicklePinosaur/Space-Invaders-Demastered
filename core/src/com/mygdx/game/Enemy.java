@@ -37,7 +37,6 @@ public class Enemy extends Entity {
 
     private float hp;
     private float theta;
-    private Random rand = new Random();
 
     public Enemy(Texture texture,float max_hp,int dmg,int shoot_frq,String ai_type,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet,int xp) {
         super(texture,speed);
@@ -61,6 +60,7 @@ public class Enemy extends Entity {
         this.body = this.create(fdef,BodyDef.BodyType.DynamicBody);
 
         this.body.setUserData(this);
+        circle.dispose();
     }
 
     //Enemy Creation
@@ -101,8 +101,8 @@ public class Enemy extends Entity {
     }
     public void move_drift(Player player) { //used for asteroids
         float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
-        float absang = (float)Math.toRadians(rand.nextInt(50+1));
-        boolean isPositive = rand.nextBoolean();
+        float absang = (float)Math.toRadians(Global.rand.nextInt(50+1));
+        boolean isPositive = Global.rand.nextBoolean();
         if(isPositive){this.theta = absang;}else{this.theta = absang*-1;}
         this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle+this.theta)/Global.PPM,this.speed*MathUtils.sin(targetAngle+this.theta)/Global.PPM);
     }
@@ -131,10 +131,16 @@ public class Enemy extends Entity {
             Enemy e = Enemy.enemies.get(i);
             e.move(player);
             e.update();
-            if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500) {
+            if(e.getHP()<=0 || e.getDistFromPlayer(player)>800f/Global.PPM) {
                 player.addXp(e.xp); //give player xp
+                Global.currScore+=e.xp;
+                //Give chance to spawn hp box where enemy dies
+
+                int spawnHpBox = Global.rand.nextInt(Global.hpBoxChance);
+                if (spawnHpBox == 0) {
+                    player.modHp(20); //restore 20 hp
+                }
                 e.dispose();
-                Global.currScore+=10;
             }
         }
     }

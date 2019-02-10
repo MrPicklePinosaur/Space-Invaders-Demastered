@@ -35,7 +35,7 @@ public class Renderer {
         this.cam.translate(camShiftSpeed*Global.mx/Global.PPM,camShiftSpeed*Global.my/Global.PPM);
         //Lock camera to not go beyond a certain distance away from player
         float maxCamDist = 150/Global.PPM; //TODO: GET RID OF HARDCODED STUFF
-        if (!this.toggleLockedCamera) { maxCamDist = 0; }
+        if (this.toggleLockedCamera) { maxCamDist = 0; }
         this.cam.position.x = MathUtils.clamp(this.cam.position.x,px-maxCamDist,px+maxCamDist);
         this.cam.position.y = MathUtils.clamp(this.cam.position.y,py-maxCamDist,py+maxCamDist);
     }

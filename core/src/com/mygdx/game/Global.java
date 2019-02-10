@@ -30,6 +30,7 @@ public class Global {
     public static float CAM_SIZE_Y = 400;
     public static float RESOLUTION = Global.CAM_SIZE_Y/Global.CAM_SIZE_X;
     public static float delta = 1/60f;
+    public static int hpBoxChance = 15;
 
     //user input + data
     public static float mx;
