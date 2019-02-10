@@ -55,12 +55,14 @@ public class Main extends ApplicationAdapter {
 
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
-		player = AssetLoader.create_player(AssetLoader.class_rammer); //create player object
+		player = AssetLoader.create_player(AssetLoader.class_shotgunist); //create player object
 		player.choosePoint(0,0,0,0,0,0);
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);
 		mapSprite = new Sprite(new Texture("space.png"),Map.DIVISION_SIZE*24/Global.PPM,Map.DIVISION_SIZE*24/Global.PPM);
 		ui = new UI();
+		UI.isPaused = true;
+		//UI.opening();
 		map = new Map();
 
 		Map.randomPlayerSpawn(player);
@@ -97,9 +99,14 @@ public class Main extends ApplicationAdapter {
 		ui.draw(player);
 
 		if(UI.isPaused()){
-			UI.pauseMenu();
-			r.moveCamera(player);
-			r.cam.update(); //refresh camera
+			if(!UI.opening){
+				UI.pauseMenu(1);
+			}
+			else{
+				UI.pauseMenu();
+				r.moveCamera(player);
+				r.cam.update(); //refresh camera
+			}
 			Global.updateInput();
 		}else {
 

@@ -21,19 +21,26 @@ import java.security.Key;
 
 public class UI {
     static SpriteBatch batch;
+    static Texture title;
+    static Texture playButton,playButtonHover,playButtonClicked;
     static Texture lives,PauseMenu;
     static Texture BackButtonHover,BackButtonClicked;
-    static Texture ExitHover,ExitClicked;
+    static Texture Exit,ExitHover,ExitClicked;
     static Texture MusicHover,MusicClicked;
     static Texture MusicMuted,MusicMutedHover,MusicMutedClicked;
     static ShapeRenderer shapeRenderer;
     static float x=60f;
     static BitmapFont sector,highscore,score;
     static boolean isPaused = false;
-    static int menuX,menuY;
+    static boolean opening = false;
+    static int menuX,menuY,playX,playY;
     static boolean musicPlaying=true;
     public UI(){
         batch = new SpriteBatch();
+        title = new Texture("title.png");
+        playButton = new Texture("PlayButton.png");
+        playButtonHover = new Texture("PlayButtonHover.png");
+        playButtonClicked = new Texture("PlayButtonClicked.png");
         lives = new Texture("lifebar.png");
         shapeRenderer = new ShapeRenderer();
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("gomarice_no_continue.ttf"));
@@ -78,6 +85,7 @@ public class UI {
         BackButtonHover = new Texture("BackButtonHover.png");
         BackButtonClicked = new Texture("BackButtonClicked.png");
 
+        Exit = new Texture("Exit.png");
         ExitHover = new Texture("ExitHover.png");
         ExitClicked = new Texture("ExitClicked.png");
 
@@ -89,6 +97,8 @@ public class UI {
 
         menuX = Global.SCREEN_WIDTH/2-PauseMenu.getWidth()/2;
         menuY = Global.SCREEN_HEIGHT/2-PauseMenu.getHeight()/2;
+        playX = Global.SCREEN_WIDTH/2-title.getWidth()/2;
+        playY = Global.SCREEN_HEIGHT/2-title.getHeight()/2;
     }
     public static void draw(Player player){
         //Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
@@ -105,7 +115,9 @@ public class UI {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(255,0,0,255);
         //System.out.println(true);
-        shapeRenderer.rect(35+10-1, 800-14-17,x, 8);
+        if(x>0) {
+            shapeRenderer.rect(35 + 10 - 1, 800 - 14 - 17, x, 8);
+        }
         shapeRenderer.end();
     }
     public static void updateHealth(Player player){
@@ -160,8 +172,47 @@ public class UI {
         batch.end();
     }
 
+    public static void pauseMenu(int n){
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0,0,0,255);
+        shapeRenderer.rect(0,0,Global.SCREEN_WIDTH,Global.SCREEN_HEIGHT);
+        shapeRenderer.end();
+        batch.begin();
+        batch.draw(title,playX,playY);
+        batch.draw(playButton,Global.SCREEN_WIDTH/2-playButton.getWidth()/2,playY/2);
+        batch.draw(Exit,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+        //System.out.println(Global.mx+" "+Global.my);
+        //(-117, -145) to (115,223)
+        if(Global.mx>=-117 && Global.mx<=115 && Global.my<=-145 && Global.my>=-223){   //-75,97
+            batch.draw(playButtonHover,Global.SCREEN_WIDTH/2-playButton.getWidth()/2,playY/2);
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(playButtonClicked,Global.SCREEN_WIDTH/2-playButton.getWidth()/2,playY/2);
+                UI.isPaused = false;
+                opening = true;
+            }
+            //System.out.println(true);
+        }
+        if(Global.mx>=-78 && Global.mx<=78 && Global.my<=-250 && Global.my>=-315){   //-75,97
+            batch.draw(ExitHover,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(ExitClicked,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
+                Gdx.app.exit();
+            }
+        }
+        batch.end();
+        //isPaused = false;
+        //opening = true;
+    }
+
     //pause state getter
     public static boolean isPaused(){return UI.isPaused;}
+
+    /*public static void opening(){
+        batch.begin();
+        batch.draw(title,Global.SCREEN_WIDTH/2-title.getWidth()/2,Global.SCREEN_HEIGHT/2-title.getHeight()/2);
+        batch.end();
+    }*/
 
     /*public void dispose(){
         uiBatch.dispose();
