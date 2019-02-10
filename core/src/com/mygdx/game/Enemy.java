@@ -60,9 +60,8 @@ public class Enemy extends Entity {
     }
 
     //Enemy Creation
-    public static void place_enemy(Vector2 pos) { //spawns an enemy between d and 2d from player
-        Enemy e = AssetLoader.create_enemy("grunt");
-
+    public static void place_enemy(Vector2 pos,String enemyType) { //spawns an enemy between d and 2d from player
+        Enemy e = AssetLoader.create_enemy(enemyType);
         e.init(pos.x,pos.y,0f);
         enemies.add(e);
     }

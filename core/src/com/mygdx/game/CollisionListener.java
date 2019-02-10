@@ -24,7 +24,6 @@ public class CollisionListener implements ContactListener {
             1. player hits an enemy
             2. player gets hit by enemy projectile (player takes dmg)
             3. enemy gets hit by player projectile (enemy takes dmg)
-            4. enemy gets hit by enemy projectile (no one takes dmg and projectile <possibly> despawns)
         */
         if (CollisionListener.fixtureMatch(fa,fb,Player.class,Projectile.class)) { //CASE 2: Player gets hit by enemy projectile
             Player u = (Player) CollisionListener.isInstace(fa,fb,Player.class).getBody().getUserData(); //get the object of the fixtures

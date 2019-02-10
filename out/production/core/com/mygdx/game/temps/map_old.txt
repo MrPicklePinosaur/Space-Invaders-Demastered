@@ -1,0 +1,35 @@
+        /*
+            pX and pY are TEMPORARY PARAMETERS/ARGUEMENTS
+            Proper logic for getting eX,eY from randObj needs to be calculated
+
+            UPDATE: replaced pX,pY with player to give use to place_enemy method in Enemy class
+
+
+            LOGIC:
+            choose position by circle of arbitrary radius with center being player coordinates
+
+            FOR KILLLIST:
+            instead of doing for Enemy e : enemyList
+            loop by index (i.e. for loop or while with indexes) that goes in reverse to avoid crash
+
+            When removing:
+            trashcan.flagforpurge
+            trashcan.removebody(e.getBody)
+            THEN remove from enemy list
+
+
+            MAKE SURE TO TAKE IT OUT OF WHILE LOOP WE DONT NEED TO CHECK SPAWN COLLIDE ANYMORE
+            */
+            /*while(!placed) {
+                //eX = randObj.nextInt((((int)player.getX() + Map.DIVISION_SIZE) - ((int)player.getX() - Map.DIVISION_SIZE)) + 1) + ((int)player.getX() - Map.DIVISION_SIZE);//((int)sector.x*Map.DIVISION_SIZE);  //how to convert from sector back to number
+                //eY = randObj.nextInt((((int)player.getY() + Map.DIVISION_SIZE) - ((int)player.getY() - Map.DIVISION_SIZE)) + 1) + ((int)player.getY() - Map.DIVISION_SIZE);
+                eAng = randObj.nextInt((int)(Math.toRadians((double)360)-Math.toRadians((double)0)+1));
+                //if (){//(eX + Enemy.SHIP_SIZE/2F)>Enemy.SHIP_SIZE) {
+                    //enemyArrayList.add(new Enemy(,difficulty));
+                    //Enemy.place_enemy(player,(float)Global.getDist(player.getX(),player.getY(),player.getX()-Global.SCREEN_WIDTH,player.getY()-Global.SCREEN_HEIGHT),difficulty);
+                float posX = Math.cos(eAng);
+                float posY = ;
+                Enemy.place_enemy(player,new Vector2(posX,posY),difficulty);
+                placed = true;
+                //}
+            }*/
