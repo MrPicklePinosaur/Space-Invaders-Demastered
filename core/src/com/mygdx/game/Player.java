@@ -190,8 +190,6 @@ public class Player extends Entity {
         turn_points = 0;
         reload_points = 0;
         contact_points = 0;
-        Global.currScore = 0;
-        Map.randomPlayerSpawn(this);
         AssetLoader.switchClasses(this,AssetLoader.class_base);
     }
 }
