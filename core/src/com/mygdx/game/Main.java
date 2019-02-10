@@ -62,6 +62,8 @@ public class Main extends ApplicationAdapter {
 		currSector = new Vector2(-1,-1);
 		mapSprite = new Sprite(new Texture("space.png"),Map.DIVISION_SIZE*24/Global.PPM,Map.DIVISION_SIZE*24/Global.PPM);
 		ui = new UI();
+		UI.isPaused = true;
+		//UI.opening();
 		map = new Map();
 
 		Map.randomPlayerSpawn(player);
@@ -98,9 +100,14 @@ public class Main extends ApplicationAdapter {
 		ui.draw(player);
 
 		if(UI.isPaused()){
-			UI.pauseMenu();
-			r.moveCamera(player);
-			r.cam.update(); //refresh camera
+			if(!UI.opening){
+				UI.pauseMenu(1);
+			}
+			else{
+				UI.pauseMenu();
+				r.moveCamera(player);
+				r.cam.update(); //refresh camera
+			}
 			Global.updateInput();
 		}else {
 
