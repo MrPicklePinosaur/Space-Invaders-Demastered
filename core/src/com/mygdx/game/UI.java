@@ -225,6 +225,7 @@ public class UI {
                 batch.draw(againClicked,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
                 player.addXp(player.getXp()*-1);    //flushes xp
                 Global.currScore = 0;
+                Global.isDead = true;
                 Map.randomPlayerSpawn(player);
                 //AssetLoader.switchClasses(player,AssetLoader.class_base);
                 player.reset();
