@@ -20,6 +20,7 @@ public class Global {
 
     public static World world;
     public static AssetLoader assetLoader = new AssetLoader();
+    public static Renderer r;
     //Some random vars
     public static int SCREEN_WIDTH = 1200;
     public static int SCREEN_HEIGHT = 800;

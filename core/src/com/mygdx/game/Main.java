@@ -41,6 +41,7 @@ public class Main extends ApplicationAdapter {
 		Global.world = new World(new Vector2(0,0),true);
 		Global.world.setContactListener(new CollisionListener());
 		r = new Renderer(batch);
+		Global.r = r;
 		batch = new SpriteBatch();
 
 		try{
@@ -55,7 +56,7 @@ public class Main extends ApplicationAdapter {
 
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
-		player = AssetLoader.create_player(AssetLoader.class_gunner); //create player object
+		player = AssetLoader.create_player(AssetLoader.class_base); //create player object
 		player.choosePoint(0,0,0,0,0,0);
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);

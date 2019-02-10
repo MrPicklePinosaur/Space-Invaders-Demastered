@@ -33,12 +33,13 @@ public class Enemy extends Entity {
     private int contact_dmg;
     private String fire_pattern;
     private String bullet;
+    private int xp; //amount of xp rewarded for killing this enemy
 
     private float hp;
     private float theta;
     private Random rand = new Random();
 
-    public Enemy(Texture texture,float max_hp,int dmg,int shoot_frq,String ai_type,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet) {
+    public Enemy(Texture texture,float max_hp,int dmg,int shoot_frq,String ai_type,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet,int xp) {
         super(texture,speed);
         this.max_hp = max_hp;
         this.dmg = dmg;
@@ -48,6 +49,7 @@ public class Enemy extends Entity {
         this.contact_dmg = contact_dmg;
         this.fire_pattern = fire_pattern;
         this.bullet = bullet;
+        this.xp = xp;
 
         this.hp = this.max_hp;
 
@@ -130,6 +132,7 @@ public class Enemy extends Entity {
             e.move(player);
             e.update();
             if(e.getHP()<=0 || e.getDistFromPlayer(player)>1500) {
+                player.addXp(e.xp); //give player xp
                 e.dispose();
                 Global.currScore+=10;
             }

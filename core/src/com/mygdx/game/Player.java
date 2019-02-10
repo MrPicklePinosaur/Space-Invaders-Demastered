@@ -34,6 +34,9 @@ public class Player extends Entity {
     private float hp;
     private int xp;
     private int lvl;
+    private int reload_counter = 0;
+    private boolean reload; //is the player currently reloading
+    private boolean toggleAutoFire = false;
 
     //Keep track of the amount of points the player has put into each stat
     private int hp_points;
@@ -77,14 +80,28 @@ public class Player extends Entity {
         this.body.setLinearVelocity(vx / Global.PPM, vy / Global.PPM);
         this.update(); //sync texture with body
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) { //spawn projectile
+        if ((Gdx.input.isButtonPressed(Input.Buttons.LEFT) || this.toggleAutoFire) && this.reload == false) { //spawn projectile
             //Create new projectile object
             Projectile.shoot(this.dmg, this.bullet, this.fire_pattern, Projectile.tag_player, this.getX(), this.getY(), this.getRotation());
+            this.reload = true;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) { //player uses ability
-        this.useAbility();
+            this.useAbility();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) { //player toggles auto fire
+            this.toggleAutoFire = this.toggleAutoFire == true ? false : true;
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.L)) { //player toggles camera lock mode
+            Global.r.toggleLockedCamera();
+        }
+
+        if (this.reload==true) { reload_counter++; }
+        if (reload_counter >= this.shoot_frq) {
+            this.reload_counter = 0;
+            this.reload = false;
+        }
     }
-}
+
     public void useAbility() {
         //this.body.setTransform(this.getX()+Global.mx/Global.PPM,this.getY()+Global.my/Global.PPM,this.getRotation());
 
@@ -105,7 +122,7 @@ public class Player extends Entity {
 
     //Stuff for leveling up
     public void addXp(float xpAmount) { //handles leveling up
-        int lvlupReq = 100+this.lvl*200;  //amount of xp required to level up
+        int lvlupReq = this.lvl*100;  //amount of xp required to level up
 
         if (this.xp+xpAmount >= lvlupReq) { //if the player levels up
             //hp goes back to full
@@ -113,7 +130,10 @@ public class Player extends Entity {
             //TODO: level caps at 45 or sm
             this.lvl += 1;
             this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
-
+            //this.choosePoint(1,0,0,0,0,0);
+            if (this.lvl >= 2) {
+                AssetLoader.switchClasses(this,AssetLoader.class_shotgunist);
+            }
             //let player choose a stat to level up
 
 
@@ -126,7 +146,8 @@ public class Player extends Entity {
         this.dmg_points+=dmg_points*2;
         this.spd_points+=spd_points*15;
         this.turn_points+=turn_points*0.005;
-        this.reload_points+=reload_points*-10;
+        this.reload_points-=reload_points*2;
+        this.reload_points = MathUtils.clamp(this.reload_points,0,1000000000);
         this.contact_points+=contact_points*2;
     }
     public void setStats(String path,float max_hp,int dmg,int shoot_frq,float speed,float turn_speed,int contact_dmg,String fire_pattern,String bullet) {
