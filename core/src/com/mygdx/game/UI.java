@@ -223,9 +223,9 @@ public class UI {
             batch.draw(againHover,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(againClicked,Global.SCREEN_WIDTH/2-again.getWidth()/2,playY/2);
-                //player.addXp(player.getXp()*-1);    //flushes xp
-                //Global.currScore = 0;
-                //Map.randomPlayerSpawn(player);
+                player.addXp(player.getXp()*-1);    //flushes xp
+                Global.currScore = 0;
+                Map.randomPlayerSpawn(player);
                 //AssetLoader.switchClasses(player,AssetLoader.class_base);
                 player.reset();
                 UI.isPaused = false;
