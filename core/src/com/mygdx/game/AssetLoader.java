@@ -28,18 +28,23 @@ public class AssetLoader {
     //ENEMY CONSTANTS
     //enemy builds
     public static final String enemy_grunt = "grunt";
+    public static final String enemy_strongGrunt = "strongGrunt";
     public static final String enemy_twingunner = "twingunner";
     public static final String enemy_bomber = "bomber";
     public static final String enemy_popper = "popper";
+    public static final String enemy_rammer = "rammer";
+    public static final String enemy_shotgunist = "shotgunist";
     //enemy ai types
     public static final String ai_circle = "circle";
     public static final String ai_kamikazi = "kamikazi";
+    public static final String ai_rammer = "rammer";
 
     //PROJECTILE CONSTATNS
     //Bullet types
     public static final String projectile_blueRay = "blueRay";
     public static final String projectile_yellowRay = "yellowRay";
     public static final String projectile_longYellowRay = "longYellowRay";
+    public static final String projectile_orangeBall = "orangeBall";
 
     //Fire types / fire patterns
     public static final String fire_cannon = "cannon";
@@ -48,8 +53,8 @@ public class AssetLoader {
     public static final String fire_circle = "circle";
 
     //SPAWN-POOL CONSTANTS
-    public static final String[] difficulty_one = {enemy_grunt,enemy_twingunner};
-    public static final String[] difficulty_two = {enemy_twingunner,enemy_popper};
+    public static final String[] difficulty_one = {enemy_grunt,enemy_twingunner,enemy_shotgunist};
+    public static final String[] difficulty_two = {enemy_twingunner,enemy_popper,enemy_rammer,enemy_shotgunist};
     public static final String[] difficulty_three = {enemy_grunt};
     public static final String[] difficulty_four = {enemy_grunt};
 
@@ -84,6 +89,18 @@ public class AssetLoader {
             fire_pattern = AssetLoader.fire_cannon;
             bullet = AssetLoader.projectile_blueRay;
             xp = 20;
+        } else if (enemyName.equals(AssetLoader.enemy_strongGrunt)) { //the most basic enemy
+            path = "ship-green.png";
+            max_hp = 80;
+            dmg = 25;
+            speed = 100;
+            turn_speed = 0.06f;
+            shoot_frq = 150;
+            ai_type = AssetLoader.ai_circle;
+            contact_dmg = 10;
+            fire_pattern = AssetLoader.fire_cannon;
+            bullet = AssetLoader.projectile_blueRay;
+            xp = 40;
         } else if (enemyName.equals(AssetLoader.enemy_twingunner)) { //a bit stronger than the normal enemy
             path = "4.png";
             max_hp = 100;
@@ -118,8 +135,32 @@ public class AssetLoader {
             ai_type = AssetLoader.ai_circle; //TODO: possibly change to kamikazi
             contact_dmg = 5;
             fire_pattern = AssetLoader.fire_circle;
-            bullet = AssetLoader.projectile_yellowRay;
+            bullet = AssetLoader.projectile_orangeBall;
             xp = 40;
+        } else if (enemyName.equals(AssetLoader.enemy_rammer)) { //tries to ram into player (high body damage
+            path = "player_rammer.png";
+            max_hp = 150;
+            dmg = 0;
+            speed = 90;
+            turn_speed = 0.06f;
+            shoot_frq = 100000;
+            ai_type = AssetLoader.ai_rammer;
+            contact_dmg = 20;
+            fire_pattern = AssetLoader.fire_circle;
+            bullet = AssetLoader.projectile_yellowRay;
+            xp = 80;
+        } else if (enemyName.equals(AssetLoader.enemy_shotgunist)) {
+            path = "player_shotgunist.png";
+            max_hp = 130;
+            dmg = 7;
+            speed = 100;
+            turn_speed = 0.07f;
+            shoot_frq = 200;
+            ai_type = AssetLoader.ai_circle;
+            contact_dmg = 10;
+            fire_pattern = AssetLoader.fire_shotgun;
+            bullet = AssetLoader.projectile_yellowRay;
+            xp = 80;
         }
 
 
@@ -147,6 +188,11 @@ public class AssetLoader {
             path = "long_yellow_shot.png";
             speed = 15f;
             max_dist = 2.5f;
+        }
+        else if (projectileName.equals(AssetLoader.projectile_orangeBall)) {
+            path = "orange_ball.png";
+            speed = 1f;
+            max_dist = 0.5f;
         }
 
         return new Projectile(new Texture(path),p_dmg,speed,max_dist,tag);

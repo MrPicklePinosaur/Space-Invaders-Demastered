@@ -77,6 +77,8 @@ public class Enemy extends Entity {
             this.move_circle(player);
         } else if (this.ai_type.equals(AssetLoader.ai_kamikazi)) {
             this.move_target(player);
+        } else if (this.ai_type.equals(AssetLoader.ai_rammer)) {
+            this.move_target(player);
         }
     }
 
@@ -108,7 +110,8 @@ public class Enemy extends Entity {
         this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle+this.theta)/Global.PPM,this.speed*MathUtils.sin(targetAngle+this.theta)/Global.PPM);
     }
     public void move_target(Player player) {
-
+        float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
+        this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle+this.theta)/Global.PPM,this.speed*MathUtils.sin(targetAngle+this.theta)/Global.PPM);
     }
 
     //Attacking AI - pass in player's angle relative to enemy
@@ -135,7 +138,6 @@ public class Enemy extends Entity {
             if(e.getHP()<=0 || e.getDistFromPlayer(player)>800f/Global.PPM) {
                 if(!Global.isDead) {
                     player.addXp(e.xp); //give player xp
-                    Global.currScore += e.xp;
                 }
                 //Give chance to spawn hp box where enemy dies
 
