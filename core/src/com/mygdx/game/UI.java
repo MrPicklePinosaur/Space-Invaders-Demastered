@@ -212,7 +212,7 @@ public class UI {
         batch.draw(playButton,getRelCenter(playButton).x,playY);
         batch.draw(Help,getRelCenter(Help).x,playY*3/5);
         batch.draw(Exit,getRelCenter(Exit).x,playY/4);
-        System.out.println(Global.mx+" "+Global.my);
+        //System.out.println(Global.mx+" "+Global.my);
         //(-117, 24) to (115,-56)
         if(Global.mx>=-117 && Global.mx<=118 && Global.my<=24 && Global.my>=-57){
             batch.draw(playButtonHover,getRelCenter(playButton).x,playY);

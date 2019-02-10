@@ -53,7 +53,7 @@ public class AssetLoader {
     public static final String fire_circle = "circle";
 
     //SPAWN-POOL CONSTANTS
-    public static final String[] difficulty_one = {enemy_grunt,enemy_twingunner,enemy_shotgunist};
+    public static final String[] difficulty_one = {enemy_grunt,enemy_twingunner};
     public static final String[] difficulty_two = {enemy_twingunner,enemy_popper,enemy_rammer,enemy_shotgunist};
     public static final String[] difficulty_three = {enemy_grunt};
     public static final String[] difficulty_four = {enemy_grunt};

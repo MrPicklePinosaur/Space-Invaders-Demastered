@@ -59,6 +59,7 @@ public class Main extends ApplicationAdapter {
 		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
 		player = AssetLoader.create_player(AssetLoader.class_base); //create player object
+		System.out.println(player.getLvl());
 		player.choosePoint(0,0,0,0,0,0);
 		//player.addXp(0);
 		oldSector = Map.getSector(player);
@@ -85,9 +86,10 @@ public class Main extends ApplicationAdapter {
 	public void render () {
 
 		//Is the game paused?
+		//System.out.println(player.getLvl());
 
 		//DRAWING SPRITES TO SCREEN
-		Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
+		Gdx.gl.glClearColor(0, 0, 0, 1); //refre\h screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
