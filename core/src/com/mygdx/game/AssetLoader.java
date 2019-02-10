@@ -30,6 +30,7 @@ public class AssetLoader {
     public static final String enemy_grunt = "grunt";
     public static final String enemy_twingunner = "twingunner";
     public static final String enemy_bomber = "bomber";
+    public static final String enemy_popper = "popper";
     //enemy ai types
     public static final String ai_circle = "circle";
     public static final String ai_kamikazi = "kamikazi";
@@ -44,9 +45,10 @@ public class AssetLoader {
     public static final String fire_cannon = "cannon";
     public static final String fire_twin = "twin";
     public static final String fire_shotgun = "shotgun";
+    public static final String fire_circle = "circle";
 
     //SPAWN-POOL CONSTANTS
-    public static final String[] difficulty_one = {enemy_grunt,enemy_twingunner};
+    public static final String[] difficulty_one = {enemy_grunt,enemy_twingunner,enemy_popper};
     public static final String[] difficulty_two = {enemy_grunt};
     public static final String[] difficulty_three = {enemy_grunt};
     public static final String[] difficulty_four = {enemy_grunt};
@@ -60,7 +62,7 @@ public class AssetLoader {
         //Default stuffs
         String path = "missing_texture.png";
         float max_hp = 100;
-        int dmg = 10;
+        int dmg = 5;
         float speed = 100;
         float turn_speed = 0.055f;
         int shoot_frq = 100;
@@ -70,7 +72,7 @@ public class AssetLoader {
         String bullet = AssetLoader.projectile_blueRay;
 
         if (enemyName.equals(AssetLoader.enemy_grunt)) { //the most basic enemy
-            path = "1.png";
+            path = "3.png";
             max_hp = 50;
             dmg = 10;
             speed = 75;
@@ -83,16 +85,16 @@ public class AssetLoader {
         } else if (enemyName.equals(AssetLoader.enemy_twingunner)) { //a bit stronger than the normal enemy
             path = "4.png";
             max_hp = 100;
-            dmg = 10;
+            dmg = 7;
             speed = 60;
             turn_speed = 0.050f;
             shoot_frq = 150;
             ai_type = AssetLoader.ai_circle;
-            contact_dmg = 5;
+            contact_dmg = 3;
             fire_pattern = AssetLoader.fire_twin;
             bullet = AssetLoader.projectile_blueRay;
         } else if (enemyName.equals(AssetLoader.enemy_bomber)) { //suicide bomber
-            path = "3.png";
+            path = "4.png";
             max_hp = 50;
             dmg = 0;
             speed = 100;
@@ -102,6 +104,17 @@ public class AssetLoader {
             contact_dmg = 50;
             fire_pattern = AssetLoader.fire_cannon;
             bullet = AssetLoader.projectile_blueRay;
+        } else if (enemyName.equals(AssetLoader.enemy_popper)) { //suicide bomber
+            path = "4.png";
+            max_hp = 150;
+            dmg = 1;
+            speed = 70;
+            turn_speed = 0.04f;
+            shoot_frq = 110;
+            ai_type = AssetLoader.ai_circle; //TODO: possibly change to kamikazi
+            contact_dmg = 5;
+            fire_pattern = AssetLoader.fire_circle;
+            bullet = AssetLoader.projectile_yellowRay;
         }
 
 
@@ -135,14 +148,14 @@ public class AssetLoader {
     }
 
     public static Player create_player(String className) {
-        String path = "2.png";
+        String path = "player_base.png";
         float speed = 120;
         return new Player(new Texture(path),speed,className);
     }
 
     public static void switchClasses(Player player,String className) {
-        String path = "1.png";
-        float max_hp = 100;
+        String path = "player_base.png";
+        float max_hp = 200;
         int dmg = 20;
         float speed = 120;
         float turn_speed = 0.05f;
@@ -153,8 +166,8 @@ public class AssetLoader {
 
         if (className.equals(AssetLoader.class_base)) { }
         else if (className.equals(AssetLoader.class_sniper)) {
-            path = "2.png";
-            max_hp = 85;
+            path = "player_sniper.png";
+            max_hp = 180;
             dmg = 40;
             speed = 140;
             turn_speed = 0.07f;
@@ -163,8 +176,8 @@ public class AssetLoader {
             fire_pattern = AssetLoader.fire_cannon;
             bullet = AssetLoader.projectile_longYellowRay;
         } else if (className.equals(AssetLoader.class_rammer)) {
-            path = "3.png";
-            max_hp = 150;
+            path = "player_rammer.png";
+            max_hp = 250;
             dmg = 0;
             speed = 150;
             turn_speed = 0.06f;
@@ -173,8 +186,8 @@ public class AssetLoader {
             fire_pattern = AssetLoader.fire_cannon;
             bullet = AssetLoader.projectile_blueRay;
         } else if (className.equals(AssetLoader.class_gunner)) {
-            path = "4.png";
-            max_hp = 130;
+            path = "player_gunner.png";
+            max_hp = 220;
             dmg = 12;
             speed = 120;
             turn_speed = 0.055f;
@@ -183,8 +196,8 @@ public class AssetLoader {
             fire_pattern = AssetLoader.fire_twin;
             bullet = AssetLoader.projectile_blueRay;
         } else if (className.equals(AssetLoader.class_shotgunist)) {
-            path = "4.png";
-            max_hp = 140;
+            path = "player_shotgunist.png";
+            max_hp = 220;
             dmg = 7;
             speed = 140;
             turn_speed = 0.06f;

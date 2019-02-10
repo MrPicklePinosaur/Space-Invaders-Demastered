@@ -27,7 +27,6 @@ public class UI {
     static Texture MusicHover,MusicClicked;
     static Texture MusicMuted,MusicMutedHover,MusicMutedClicked;
     static ShapeRenderer shapeRenderer;
-    static float x=60f;
     static BitmapFont sector,highscore,score;
     static boolean isPaused = false;
     static int menuX,menuY;
@@ -93,6 +92,7 @@ public class UI {
     public static void draw(Player player){
         //Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        float hpWidth = player.getHp();
         batch.begin();
         batch.draw(lives,0+10,800-lives.getHeight()-10);
         sector.draw(batch,"Sector: ("+Math.round(Map.getSector(player).x*100)/100d+", "+Math.round(Map.getSector(player).y*100)/100d+")",840,780,360,1,false);
@@ -105,13 +105,8 @@ public class UI {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(255,0,0,255);
         //System.out.println(true);
-        shapeRenderer.rect(35+10-1, 800-14-17,x, 8);
+        shapeRenderer.rect(35+10-1, 800-14-17,hpWidth, 8);
         shapeRenderer.end();
-    }
-    public static void updateHealth(Player player){
-        //34+60width,13+8height for changeable part
-        x = player.getHp();
-        //System.out.println(true);
     }
     public static void pause(){
         //Global.delta = 0f;
