@@ -118,7 +118,7 @@ public class Player extends Entity {
     //Setters
     public void modHp(float deltaHp) {
         this.hp += deltaHp;
-        this.hp = MathUtils.clamp(this.hp,0,this.max_hp);
+        this.hp = MathUtils.clamp(this.hp,-5,this.max_hp);
     }
 
     //Stuff for leveling up
