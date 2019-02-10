@@ -60,6 +60,7 @@ public class Main extends ApplicationAdapter {
 		//Create Player
 		player = AssetLoader.create_player(AssetLoader.class_base); //create player object
 		player.choosePoint(0,0,0,0,0,0);
+		//player.addXp(0);
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);
 		mapSprite = new Sprite(new Texture("space.png"),Map.DIVISION_SIZE*24/Global.PPM,Map.DIVISION_SIZE*24/Global.PPM);

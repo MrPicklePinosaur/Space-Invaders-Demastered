@@ -54,7 +54,8 @@ public class Player extends Entity {
 
         this.hp = this.max_hp;
         this.xp = 0;
-        this.lvl = 5;
+        this.lvl = 4;
+        this.lvl = 1;
 
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
@@ -124,7 +125,7 @@ public class Player extends Entity {
     //Stuff for leveling up
     public void addXp(float xpAmount) { //handles leveling up
         int lvlupReq = this.lvl*100;  //amount of xp required to level up
-
+        Global.currScore += xpAmount;
         if (this.xp+xpAmount >= lvlupReq) { //if the player levels up
             //hp goes back to full
             this.hp = this.max_hp;
