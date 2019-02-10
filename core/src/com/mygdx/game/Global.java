@@ -28,6 +28,7 @@ public class Global {
     public static float CAM_SIZE_X = 400; //in meters, dont forget to divide by PPM later
     public static float CAM_SIZE_Y = 400;
     public static float RESOLUTION = Global.CAM_SIZE_Y/Global.CAM_SIZE_X;
+    public static float delta = 1/60f;
 
     //user input + data
     public static float mx;
