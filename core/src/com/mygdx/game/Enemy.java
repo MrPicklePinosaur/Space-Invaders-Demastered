@@ -8,6 +8,7 @@
  */
 //Subclass of Entity
 // Handles all enemy shaninigans
+// The higher your level, the more enemies spawn, and the harder they are (up to a certain level)
 
 package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
