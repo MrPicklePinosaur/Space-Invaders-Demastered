@@ -152,8 +152,6 @@ public class UI {
         playY = Global.SCREEN_HEIGHT/2-title.getHeight()/2;
     }
     public static void draw(Player player){
-        //Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float hpWidth = player.getHp();
         batch.begin();
         batch.draw(lives,10,800-lives.getHeight()-10);
@@ -163,13 +161,10 @@ public class UI {
         sector.draw(batch,"Sector: ("+Math.round(Map.getSector(player).x*100)/100d+", "+Math.round(Map.getSector(player).y*100)/100d+")",840,780,360,1,false);
         highscore.draw(batch,"HIGHSCORE: "+Global.highscore,Global.SCREEN_WIDTH/2-600,50,1200,1,false);
         score.draw(batch,"SCORE: "+Global.currScore,Global.SCREEN_WIDTH/2-600,100,1200,1,false);
-        //sector.draw(batch,"Sector: (4069.00, 4069.00)",840,780,360,1,false);
-        //updateHealth(); --> updateHealth call moved to main
         batch.end();
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(255,0,0,255);
-        //System.out.println(true);
         shapeRenderer.rect(35+10-1, 800-14-17,hpWidth, 8);
         shapeRenderer.end();
     }
@@ -179,18 +174,14 @@ public class UI {
         if(!musicPlaying){
             batch.draw(MusicMuted,menuX+52,menuY+110);
         }
-        //Back button before top left: 56x53   Back button wxh: 150x59
-        //System.out.println(Global.mx+" "+Global.my);
-        //if(Global.mx>(menuX+56) && Global.mx<(menuX+207) && Global.my<(menuY+(Global.SCREEN_HEIGHT-53)) && Global.my>(menuY+(Global.SCREEN_HEIGHT-53-59))){
-        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=95 && Global.my>=41){   //-75,97
+        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=95 && Global.my>=41){
             batch.draw(BackButtonHover,menuX+52,menuY+184);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(BackButtonClicked,menuX+52,menuY+184);
                 UI.isPaused = false;
             }
-            //System.out.println(true);
         }
-        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=22 && Global.my>=-34){//-75,22
+        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=22 && Global.my>=-34){
             if(musicPlaying){
                 batch.draw(MusicHover,menuX+52,menuY+110);
                 if(Gdx.input.justTouched()){
@@ -207,13 +198,12 @@ public class UI {
                 }
             }
         }
-        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=-48 && Global.my>=-113){   //-75,97
+        if(Global.mx>=-75 && Global.mx<=75 && Global.my<=-48 && Global.my>=-113){
             batch.draw(ExitHover,menuX+52,menuY+36);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(ExitClicked,menuX+52,menuY+36);
                 Gdx.app.exit();
             }
-            //System.out.println(true);
         }
         batch.end();
     }
@@ -230,8 +220,6 @@ public class UI {
         batch.draw(playButton,getRelCenter(playButton).x,playY);
         batch.draw(Help,getRelCenter(Help).x,playY*3/5);
         batch.draw(Exit,getRelCenter(Exit).x,playY/4);
-        //System.out.println(Global.mx+" "+Global.my);
-        //(-117, 24) to (115,-56)
         if(Global.mx>=-117 && Global.mx<=118 && Global.my<=24 && Global.my>=-57){
             batch.draw(playButtonHover,getRelCenter(playButton).x,playY);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
@@ -239,7 +227,6 @@ public class UI {
                 UI.isPaused = false;
                 opening = true;
             }
-            //System.out.println(true);
         }
         if(Global.mx>=-90 && Global.mx<=90 && Global.my<=-125 && Global.my>=-200){
             batch.draw(HelpHover,getRelCenter(Help).x,playY*3/5);
@@ -266,8 +253,6 @@ public class UI {
             }
         }
         batch.end();
-        //isPaused = false;
-        //opening = true;
     }
 
     public static void Death(Player player){
@@ -282,9 +267,7 @@ public class UI {
         batch.draw(death,getRelCenter(death).x,getRelCenter(death).y);
         batch.draw(again,getRelCenter(again).x,playY/2);
         batch.draw(Exit,getRelCenter(Exit).x,playY/4);
-        //System.out.println(Global.mx+" "+Global.my);
-        //(-117, -145) to (115,223)
-        if(Global.mx>=-117 && Global.mx<=115 && Global.my<=-145 && Global.my>=-223){   //-75,97
+        if(Global.mx>=-117 && Global.mx<=115 && Global.my<=-145 && Global.my>=-223){
             batch.draw(againHover,getRelCenter(again).x,playY/2);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(againClicked,getRelCenter(again).x,playY/2);
@@ -292,13 +275,11 @@ public class UI {
                 Global.currScore = 0;
                 Global.isDead = true;
                 Map.randomPlayerSpawn(player);
-                //AssetLoader.switchClasses(player,AssetLoader.class_base);
                 player.reset();
                 UI.isPaused = false;
             }
-            //System.out.println(true);
         }
-        if(Global.mx>=-78 && Global.mx<=78 && Global.my<=-250 && Global.my>=-315){   //-75,97
+        if(Global.mx>=-78 && Global.mx<=78 && Global.my<=-250 && Global.my>=-315){
             batch.draw(ExitHover,Global.SCREEN_WIDTH/2-Exit.getWidth()/2,playY/4);
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(ExitClicked,getRelCenter(Exit).x,playY/4);
@@ -311,41 +292,36 @@ public class UI {
     public static void pickClass(Player player){
         batch.begin();
         batch.draw(classMenu,getRelCenter(classMenu).x,getRelCenter(classMenu).y);
-        //System.out.println(Global.mx+" "+Global.my);
-        if(Global.mx>=-344 && Global.mx<=-227 && Global.my<=-120 && Global.my>=-145){   //-344,-120
+        if(Global.mx>=-344 && Global.mx<=-227 && Global.my<=-120 && Global.my>=-145){
             batch.draw(gunnerHover,getRelCenter(classMenu).x+56,800-getRelCenter(classMenu).y-320-gunnerHover.getHeight());
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(gunnerClicked,getRelCenter(classMenu).x+56,800-getRelCenter(classMenu).y-320-gunnerHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_gunner);
                 isClassPicked = true;
-                //isPaused = false;
             }
         }
-        if(Global.mx>=-155 && Global.mx<=33 && Global.my<=-120 && Global.my>=-145){   //-75,97
+        if(Global.mx>=-155 && Global.mx<=33 && Global.my<=-120 && Global.my>=-145){
             batch.draw(shotgunnistHover,getRelCenter(classMenu).x+245,800-getRelCenter(classMenu).y-320-shotgunnistHover.getHeight());
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(shotgunnistClicked,getRelCenter(classMenu).x+245,800-getRelCenter(classMenu).y-320-shotgunnistHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_shotgunist);
                 isClassPicked = true;
-                //isPaused = false;
             }
         }
-        if(Global.mx>=91 && Global.mx<=188 && Global.my<=-120 && Global.my>=-145){   //-75,97
+        if(Global.mx>=91 && Global.mx<=188 && Global.my<=-120 && Global.my>=-145){
             batch.draw(sniperHover,getRelCenter(classMenu).x+491,800-getRelCenter(classMenu).y-320-sniperHover.getHeight());
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(sniperClicked,getRelCenter(classMenu).x+491,800-getRelCenter(classMenu).y-320-sniperHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_sniper);
                 isClassPicked = true;
-                //isPaused = false;
             }
         }
-        if(Global.mx>=231 && Global.mx<=353 && Global.my<=-120 && Global.my>=-145){   //-75,97
+        if(Global.mx>=231 && Global.mx<=353 && Global.my<=-120 && Global.my>=-145){
             batch.draw(rammerHover,getRelCenter(classMenu).x+631,800-getRelCenter(classMenu).y-320-rammerHover.getHeight());
             if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
                 batch.draw(rammerClicked,getRelCenter(classMenu).x+631,800-getRelCenter(classMenu).y-320-rammerHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_rammer);
                 isClassPicked = true;
-                //isPaused = false;
             }
         }
         batch.end();
@@ -427,14 +403,4 @@ public class UI {
 
     //pause state getter
     public static boolean isPaused(){return UI.isPaused;}
-
-    /*public static void opening(){
-        batch.begin();
-        batch.draw(title,Global.SCREEN_WIDTH/2-title.getWidth()/2,Global.SCREEN_HEIGHT/2-title.getHeight()/2);
-        batch.end();
-    }*/
-
-    /*public void dispose(){
-        uiBatch.dispose();
-    }*/
 }

@@ -48,7 +48,6 @@ public class Map {
         for(int r=0;r<row;r++){
             for(int c=0;c<column;c++){
                 colour = new Color(mapPixels.getRGB(c,r));
-                //System.out.println("R: "+Math.round(colour.getRed()*255)+" G: "+Math.round(colour.getGreen()*255)+" B: "+Math.round(colour.getBlue()*255));
                 if(colour.getRed()==0 && colour.getGreen()==0 && colour.getBlue()==255){
                     map[r][c] = 0;
                 }
@@ -78,7 +77,7 @@ public class Map {
         String[] enemy_pool = new String[1];
 
         //Determine enemy spawns based on difficulty level
-        if (difficulty == 0) { //if difficult is zero, dont spawn any enemies
+        if (difficulty == 0) { //if difficult is zero, dont spawn any enemies -- sectors with 0 value are just the border of the game
             return;
         } else if (player.getLvl()<5) {
             upperBound = 5; lowerBound = 3;
@@ -106,19 +105,11 @@ public class Map {
         }
     }
 
-    public void getBounds(Player player){
-        Vector2 sector = Map.getSector(player);
-        int difficulty = Map.getDifficulty((int)sector.x,(int)sector.y);
-        if(difficulty==0){
-            //handle player rejection
-        }
-    }
-
     public static void randomPlayerSpawn(Player player){
         ArrayList<Vector2> sectors = new ArrayList<Vector2>();
         for(int i=0;i<24;i++){  //TODO: remove hardcoded dimensions
             for(int j=0;j<24;j++){
-                if(map[j][i]==1){   //TODO: changed map[j][i] to map[i][j]. Why does this do anything
+                if(map[j][i]==4){   //TODO: changed map[j][i] to map[i][j]. Why does this do anything
                     sectors.add(new Vector2(j,i));
                 }
             }

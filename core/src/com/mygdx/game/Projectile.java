@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class Projectile extends Entity{
 
-    private static ArrayList<Projectile> active_projectiles = new ArrayList<Projectile>(); //all the projecitles that should be added
+    private static ArrayList<Projectile> active_projectiles = new ArrayList<Projectile>(); //all the projectiles that should be added
     public static final int tag_player = 0; //determines who shot the projectile
     public static final int tag_enemy = 1;
 
@@ -61,7 +61,7 @@ public class Projectile extends Entity{
         }
     }
 
-    //NOTEL i dont like drawing in class, possibly relocate (this code is also redundant)
+    //NOTE: i dont like drawing in class, possibly relocate (this code is also redundant)
     public static void drawAll(Batch batch) {
         for (Projectile p : Projectile.active_projectiles) {
             p.sprite.draw(batch); //simply draw all projectiles
@@ -89,7 +89,7 @@ public class Projectile extends Entity{
         }
     }
 
-    public static void shoot_cannon(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots a basic bulley in direction enetiy is facing
+    public static void shoot_cannon(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots a basic bullet in direction enetiy is facing
         spawnList.add(new Vector3(x,y,angle));
     }
     public static void shoot_twin(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots two bullets, 10 degrees apart
@@ -127,6 +127,6 @@ public class Projectile extends Entity{
         //Place projectile in world
         this.body.setTransform(this.spawn_pos.x,this.spawn_pos.y,angle);
         this.body.setLinearVelocity(this.speed*MathUtils.cos(angle),this.speed*MathUtils.sin(angle));
-        Projectile.active_projectiles.add(this); //add this projectile to active prokectile list
+        Projectile.active_projectiles.add(this); //add this projectile to active projectile list
     }
 }

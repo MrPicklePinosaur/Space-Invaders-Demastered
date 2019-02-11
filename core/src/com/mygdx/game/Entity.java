@@ -43,7 +43,6 @@ public abstract class Entity {
     public void update() { //Sync sprite with body (sprite follows body)
         //Sync position
         Vector2 bodyPos = this.body.getPosition(); //get body position
-        //this.body.getWorldCenter()
         this.sprite.setPosition(bodyPos.x-this.sprite.getWidth()/2f,bodyPos.y-this.sprite.getHeight()/2f);
 
         //Sync rotation

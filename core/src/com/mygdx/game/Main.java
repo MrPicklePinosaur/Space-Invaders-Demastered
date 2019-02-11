@@ -27,12 +27,12 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main extends ApplicationAdapter {
-	SpriteBatch batch;//,uiBatch;
+	SpriteBatch batch;
 	Renderer r;
 	Player player;
 	Vector2 oldSector,currSector;
 	Map map;
-	Sprite mapSprite; //temp variable; clean up later
+	//Sprite mapSprite; //temp variable; clean up later
 	UI ui;
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
 	Texture bg; TextureRegion tRegion;
@@ -62,20 +62,16 @@ public class Main extends ApplicationAdapter {
 		player = AssetLoader.create_player(AssetLoader.class_base); //create player object
 		System.out.println(player.getLvl());
 		player.choosePoint(0,0,0,0,0,0);
-		//player.addXp(0);
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);
-		mapSprite = new Sprite(new Texture("space.png"),Map.DIVISION_SIZE*24/Global.PPM,Map.DIVISION_SIZE*24/Global.PPM);
+		//mapSprite = new Sprite(new Texture("space.png"),Map.DIVISION_SIZE*24/Global.PPM,Map.DIVISION_SIZE*24/Global.PPM);
 		ui = new UI();
 		UI.isPaused = true;
-		//UI.opening();
 		map = new Map();
 
 		Map.randomPlayerSpawn(player);
 
 		bg = new Texture(Gdx.files.internal("repeatingSpace.png"));
-		//bg.setSize(bg.getWidth()/Global.PPM,bg.getHeight()/Global.PPM);
-		//bg.setFilter(Texture.TextureFilter.MipMapLinearLinear, Texture.TextureFilter.Linear);
 		bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
 		tRegion = new TextureRegion(bg,0,0,100*400*24,100*400*24);
 
@@ -87,17 +83,15 @@ public class Main extends ApplicationAdapter {
 	public void render () {
 		if (UI.opening == false) { MusicPlayer.setSong(MusicPlayer.music_title); }
 		if (UI.opening == true) { MusicPlayer.setSong(MusicPlayer.music_battle); }
-		//Is the game paused?
-		//System.out.println(player.getLvl());
 
 		//DRAWING SPRITES TO SCREEN
-		Gdx.gl.glClearColor(0, 0, 0, 1); //refre\h screen
+		Gdx.gl.glClearColor(0, 0, 0, 1); //refresh screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
 		batch.setProjectionMatrix(r.cam.combined);
 		batch.draw(tRegion,0,0,100*24,100*24);
-		mapSprite.draw(batch);
+		//mapSprite.draw(batch);
 		player.sprite.draw(batch); //draw player
 		Enemy.drawAll(batch); //draw enemy
 		Projectile.drawAll(batch);
@@ -138,14 +132,12 @@ public class Main extends ApplicationAdapter {
 			//UPDATE STUFF
 			//Update Player
 			player.handleInput();
-			map.getBounds(player);
 			player.regen();
 			if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
 				player.modHp(-1000);	//suicide button
 			}
 
-			//Update Enemies
-			//enemy spawning
+			//Update Enemies -- enemy spawning
 			currSector = Map.getSector(player);
 			if (((int) currSector.x != (int) oldSector.x || (int) currSector.y != (int) oldSector.y || Enemy.enemies.size() == 0) && currSector.x != 0 && currSector.y != 0) {
 				map.generateEnemy(player);
@@ -167,7 +159,6 @@ public class Main extends ApplicationAdapter {
 			//r.debugCam.render(Global.world,r.cam.combined);
 			r.moveCamera(player);
 			r.cam.update(); //refresh camera
-			//r.screenShake(2f);
 			Global.updateInput();
 		}
 	}

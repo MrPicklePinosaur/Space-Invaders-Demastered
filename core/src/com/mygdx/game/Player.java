@@ -18,8 +18,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Player extends Entity {
-    //private static HashMap<String,String> levelTree = new HashMap<String,String>();
-
     private float max_hp;
     private int dmg;
     private int shoot_frq;
@@ -122,10 +120,6 @@ public class Player extends Entity {
             UI.isPaused = true;
             Global.mustLevelUp = true;
             this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
-            //this.choosePoint(1,0,0,0,0,0);
-            /*if (this.lvl >= 5) {
-                AssetLoader.switchClasses(this,AssetLoader.class_rammer);
-            }*/
             //let player choose a stat to level up
         } else { //otherwise gain xp like normal
             this.xp += xpAmount;
