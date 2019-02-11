@@ -35,7 +35,7 @@ public abstract class Entity {
         BodyDef bdef = new BodyDef();
         bdef.type = bodyType;
         Body new_body = Global.world.createBody(bdef);
-        new_body.createFixture(fdef); //DONT FORGET TO DISPOSE OF fdef
+        new_body.createFixture(fdef);
 
         return new_body;
     }

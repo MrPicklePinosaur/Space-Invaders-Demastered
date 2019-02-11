@@ -1,3 +1,4 @@
+//     =-=-=-=-=-=-=-= SPACE INVADERS: DEMASTERED =-=-=-=-=-=-=-=
 /*
  ______     ______     __         __         __     ______     __     ______     __   __        __         __     ______     ______   ______     __   __     ______     ______
 /\  ___\   /\  __ \   /\ \       /\ \       /\ \   /\  ___\   /\ \   /\  __ \   /\ "-.\ \      /\ \       /\ \   /\  ___\   /\__  _\ /\  ___\   /\ "-.\ \   /\  ___\   /\  == \
@@ -5,6 +6,8 @@
  \ \_____\  \ \_____\  \ \_____\  \ \_____\  \ \_\  \/\_____\  \ \_\  \ \_____\  \ \_\\"\_\     \ \_____\  \ \_\  \/\_____\    \ \_\  \ \_____\  \ \_\\"\_\  \ \_____\  \ \_\ \_\
   \/_____/   \/_____/   \/_____/   \/_____/   \/_/   \/_____/   \/_/   \/_____/   \/_/ \/_/      \/_____/   \/_/   \/_____/     \/_/   \/_____/   \/_/ \/_/   \/_____/   \/_/ /_/
  */
+//  Handles all collisions and what should happen with a collision occurs
+
 package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
@@ -13,6 +16,7 @@ public class CollisionListener implements ContactListener {
 
     @Override
     public void beginContact(Contact c) {
+        //Get the two participating fixtures in the collision
         Fixture fa = c.getFixtureA();
         Fixture fb = c.getFixtureB();
 
@@ -49,6 +53,7 @@ public class CollisionListener implements ContactListener {
 
     //Helper methods
     public static Boolean fixtureMatch(Fixture fa,Fixture fb,Class<?> cls1,Class<?> cls2) { //checks to see if two fixtures are two certain object types
+        //checks to see if both of the fixtures are instances of the classes provided
         if (cls1.isInstance(fa.getBody().getUserData()) && cls2.isInstance(fb.getBody().getUserData())) return true;
         if (cls2.isInstance(fa.getBody().getUserData()) && cls1.isInstance(fb.getBody().getUserData())) return true;
         return false;

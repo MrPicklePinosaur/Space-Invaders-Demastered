@@ -1,3 +1,4 @@
+//     =-=-=-=-=-=-=-= SPACE INVADERS: DEMASTERED =-=-=-=-=-=-=-=
 /*
  ______   ______     ______       __     ______     ______     ______   __     __         ______
 /\  == \ /\  == \   /\  __ \     /\ \   /\  ___\   /\  ___\   /\__  _\ /\ \   /\ \       /\  ___\
@@ -15,29 +16,24 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
-import oracle.jrockit.jfr.ActiveSettingEvent;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Projectile extends Entity{
 
-    private static ArrayList<Projectile> active_projectiles = new ArrayList<Projectile>();
-    private static ArrayList<Projectile> purge_projectiles = new ArrayList<Projectile>();
-    public static final int tag_player = 0;
+    private static ArrayList<Projectile> active_projectiles = new ArrayList<Projectile>(); //all the projecitles that should be added
+    public static final int tag_player = 0; //determines who shot the projectile
     public static final int tag_enemy = 1;
 
     private int dmg;
     private float max_dist; //max distance projectile can travel before despawning
 
-    private Vector2 spawn_pos;
+    private Vector2 spawn_pos; //the position at which the projectile was spawned (used for projectile travel distance)
     private int tag; //determines who shot the projectile
 
     public Projectile(Texture texture,int dmg,float speed,float max_dist,int tag) {
         super(texture,speed);
         this.dmg = dmg;
         this.max_dist = max_dist;
-
         this.tag = (tag == tag_player) ?  tag_player : tag_enemy; //determine who shot the projecilte
 
         //Create body for projectile - it is assumed that all projectiles have a rectangular fixtures
@@ -68,7 +64,7 @@ public class Projectile extends Entity{
     //NOTEL i dont like drawing in class, possibly relocate (this code is also redundant)
     public static void drawAll(Batch batch) {
         for (Projectile p : Projectile.active_projectiles) {
-            p.sprite.draw(batch);
+            p.sprite.draw(batch); //simply draw all projectiles
         }
     }
 
@@ -97,16 +93,18 @@ public class Projectile extends Entity{
         spawnList.add(new Vector3(x,y,angle));
     }
     public static void shoot_twin(ArrayList<Vector3> spawnList,float x, float y, float angle) { //shoots two bullets, 10 degrees apart
-        spawnList.add(new Vector3(x,y,angle+5*MathUtils.degreesToRadians));
-        spawnList.add(new Vector3(x,y,angle-5*MathUtils.degreesToRadians));
+        //bullets shoot from either side of entity
+        float gunDist = 0.07f;
+        spawnList.add(new Vector3(x+MathUtils.cos(angle+90*MathUtils.degreesToRadians)*gunDist,y+MathUtils.sin(angle+90*MathUtils.degreesToRadians)*gunDist,angle));
+        spawnList.add(new Vector3(x+MathUtils.cos(angle-90*MathUtils.degreesToRadians)*gunDist,y+MathUtils.sin(angle-90*MathUtils.degreesToRadians)*gunDist,angle-5*MathUtils.degreesToRadians));
     }
     public static void shoot_shotgun(ArrayList<Vector3> spawnList,float x, float y, float angle) {
-        for (int i = -2; i < 3; i++) {
+        for (int i = -2; i < 3; i++) { //there are 5 bullets in the shotgun, and they shoot at a random angle
             spawnList.add(new Vector3(x,y,angle+Global.rand.nextInt(20)*i*MathUtils.degreesToRadians));
         }
     }
     public static void shoot_circle(ArrayList<Vector3> spawnList,float x, float y) {
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 12; i++) { //shoots twelve bullets around entity
             spawnList.add(new Vector3(x,y,(30*i)*MathUtils.degreesToRadians));
         }
     }
@@ -122,7 +120,7 @@ public class Projectile extends Entity{
 
     //Setters
     @Override
-    public void init(float posX,float posY,float angle) {
+    public void init(float posX,float posY,float angle) { //place projectile in the world
         super.init(posX,posY,angle);
         this.spawn_pos = new Vector2(posX,posY); //save spawn location of projectile (to determine travel distance and such)
 

@@ -1,3 +1,4 @@
+//     =-=-=-=-=-=-=-= SPACE INVADERS: DEMASTERED =-=-=-=-=-=-=-=
 /*
  __    __     ______     ______
 /\ "-./  \   /\  __ \   /\  == \
@@ -6,6 +7,7 @@
   \/_/  \/_/   \/_/\/_/   \/_/
  */
 //Holds the position of various important landmarks/structures around the world
+// Also handles difficulty and enemy spawning
 
 package com.mygdx.game;
 
@@ -79,16 +81,16 @@ public class Map {
         if (difficulty == 0) { //if difficult is zero, dont spawn any enemies
             return;
         } else if (player.getLvl()<5) {
-            upperBound = 10; lowerBound = 3;
+            upperBound = 5; lowerBound = 3;
             enemy_pool = AssetLoader.difficulty_one;
         } else if (player.getLvl()>=5) {
-            upperBound = 15; lowerBound = 5;
+            upperBound = 7; lowerBound = 4;
             enemy_pool = AssetLoader.difficulty_two;
         } else if (player.getLvl()>=10) {
-            upperBound = 20; lowerBound = 7;
+            upperBound = 10; lowerBound = 5;
             enemy_pool = AssetLoader.difficulty_three;
         } else if (player.getLvl()>=15) {
-            upperBound = 30; lowerBound = 10;
+            upperBound = 12; lowerBound = 7;
             enemy_pool = AssetLoader.difficulty_four;
         }
 

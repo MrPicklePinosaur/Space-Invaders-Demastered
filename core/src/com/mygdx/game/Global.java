@@ -30,11 +30,11 @@ public class Global {
     public static float CAM_SIZE_Y = 400;
     public static float RESOLUTION = Global.CAM_SIZE_Y/Global.CAM_SIZE_X;
     public static float delta = 1/60f;
-    public static int hpBoxChance = 15;
+    public static int hpBoxChance = 15; //chance that an enemy will give player Hp upon death
 
     //user input + data
-    public static float mx;
-    public static float my;
+    public static float mx; //mouse X
+    public static float my; //mouse Y
     public static float angle; //the angle the mouse makes with the center of the screen
     public static int highscore;
     public static int currScore=0;

@@ -44,6 +44,7 @@ public class Main extends ApplicationAdapter {
 		Global.world.setContactListener(new CollisionListener());
 		r = new Renderer(batch);
 		Global.r = r;
+
 		batch = new SpriteBatch();
 
 		try{
@@ -84,7 +85,8 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-
+		if (UI.opening == false) { MusicPlayer.setSong(MusicPlayer.music_title); }
+		if (UI.opening == true) { MusicPlayer.setSong(MusicPlayer.music_battle); }
 		//Is the game paused?
 		//System.out.println(player.getLvl());
 

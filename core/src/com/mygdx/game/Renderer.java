@@ -7,6 +7,7 @@
   \/_/ /_/   \/_____/   \/_/ \/_/   \/____/   \/_____/   \/_/ /_/   \/_____/   \/_/ /_/
  */
 //       'Your go-to class for anything graphic'
+//     Special effects like camera shift and screenshake
 
 package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
@@ -32,7 +33,7 @@ public class Renderer {
         float px = player.getX();
         float py = player.getY();
         float camShiftSpeed = player.getSpeed()/256f/Global.PPM;
-        this.cam.translate(camShiftSpeed*Global.mx/Global.PPM,camShiftSpeed*Global.my/Global.PPM);
+        this.cam.translate(camShiftSpeed*Global.mx/Global.PPM,camShiftSpeed*Global.my/Global.PPM); //shift camera depending on direction of mouse
         //Lock camera to not go beyond a certain distance away from player
         float maxCamDist = 150/Global.PPM; //TODO: GET RID OF HARDCODED STUFF
         if (this.toggleLockedCamera) { maxCamDist = 0; }

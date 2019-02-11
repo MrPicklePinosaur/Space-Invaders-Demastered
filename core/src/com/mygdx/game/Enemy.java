@@ -20,7 +20,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Enemy extends Entity {
 
@@ -29,7 +28,7 @@ public class Enemy extends Entity {
     private float max_hp;
     private int dmg;
     private int shoot_frq; //its weird, but the higher the number, the low the shoot rate
-    String ai_type;
+    String ai_type; //constant that determines the enmies ai (can be found in AssetLoader)
     private float turn_speed;
     private int contact_dmg;
     private String fire_pattern;
@@ -55,24 +54,25 @@ public class Enemy extends Entity {
 
         //Create body for enemy - it is assumed that enemy has a circular fixture
         CircleShape circle = new CircleShape();
-        circle.setRadius(this.sprite.getWidth()/2f);
+        circle.setRadius(this.sprite.getWidth()/2f); //create a circular fixture that encompasses the enemies sprite
         FixtureDef fdef = new FixtureDef();
         fdef.shape = circle;
         this.body = this.create(fdef,BodyDef.BodyType.DynamicBody);
 
-        this.body.setUserData(this);
+        this.body.setUserData(this); //set identifier for enemy
         circle.dispose();
     }
 
     //Enemy Creation
     public static void place_enemy(Vector2 pos,String enemyType) { //spawns an enemy between d and 2d from player
-        Enemy e = AssetLoader.create_enemy(enemyType);
-        e.init(pos.x,pos.y,0f);
-        enemies.add(e);
+        Enemy e = AssetLoader.create_enemy(enemyType); //create enemy body from AssetLoader prefab
+        e.init(pos.x,pos.y,0f); //place enemy in world
+        enemies.add(e); //add enemy to active list
     }
 
     //AI stuffs
     public void move(Player player) {
+        //determine enemy ai
         if (this.ai_type.equals(AssetLoader.ai_circle)) {
             this.move_circle(player);
         } else if (this.ai_type.equals(AssetLoader.ai_kamikazi)) {
@@ -99,7 +99,7 @@ public class Enemy extends Entity {
                 this.theta = 0;
             }
 
-            this.shoot_at_player(targetAngle);
+            this.shoot_at_player(targetAngle); //shoot at player
         }
     }
     public void move_drift(Player player) { //used for asteroids
@@ -110,6 +110,7 @@ public class Enemy extends Entity {
         this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle+this.theta)/Global.PPM,this.speed*MathUtils.sin(targetAngle+this.theta)/Global.PPM);
     }
     public void move_target(Player player) {
+        //get angle of player relative to player
         float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
         this.body.setLinearVelocity(this.speed*MathUtils.cos(targetAngle+this.theta)/Global.PPM,this.speed*MathUtils.sin(targetAngle+this.theta)/Global.PPM);
     }
@@ -117,7 +118,7 @@ public class Enemy extends Entity {
     //Attacking AI - pass in player's angle relative to enemy
     public void shoot_at_player(float targetAngle) {//Give chance for enemy to shoot at player (if they are pointed at player of course)
         if (Math.abs(this.getRotation()-targetAngle)<10) { //if enemy is pointed with 10 degrees of player, shoot
-            boolean shoot = Global.rand.nextInt(shoot_frq) == 0 ? true : false;
+            boolean shoot = Global.rand.nextInt(shoot_frq) == 0 ? true : false; //shoot delay
             if (shoot) {
                 Projectile.shoot(this.dmg,this.bullet,this.fire_pattern,Projectile.tag_enemy, this.getX(), this.getY(), this.getRotation());
             }
@@ -126,15 +127,15 @@ public class Enemy extends Entity {
 
     public static void drawAll(Batch batch) { //NOTE: possibly merge with updateAll
         for (Enemy e : Enemy.enemies) {
-            e.sprite.draw(batch);
+            e.sprite.draw(batch); //simply draws all enemies in active list
         }
     }
 
     public static void updateAll(Player player) {
-        for(int i = Enemy.enemies.size()-1;i>=0;i--){
+        for(int i = Enemy.enemies.size()-1;i>=0;i--){ //iterate throguh enemies backwards to avoid list remobal issues
             Enemy e = Enemy.enemies.get(i);
-            e.move(player);
-            e.update();
+            e.move(player); //perform ai
+            e.update(); //sync sprite with fixture
             if(e.getHP()<=0 || e.getDistFromPlayer(player)>800f/Global.PPM) {
                 if(!Global.isDead) {
                     player.addXp(e.xp); //give player xp
@@ -147,28 +148,25 @@ public class Enemy extends Entity {
                 }
                 e.dispose();
             }
-            if(i==0 && Global.isDead){Global.isDead = false;}
+            if(i==0 && Global.isDead){Global.isDead = false;} //figure out if all enemies in world are dead
         }
     }
 
     public void dispose() { //safely deletes self
         AssetLoader.flagForPurge(this.body);
-        Enemy.enemies.remove(this);
+        Enemy.enemies.remove(this); //remvoe enemy from existance
     }
 
     //Getters
     public float getHP() { return this.hp; }
     public float getDmg() { return this.dmg; }
     public int getContactDmg() { return this.contact_dmg; }
-
-    public double getDistFromPlayer(Player player){
-        return Global.getDist(player.getX(),player.getY(),this.getX(),this.getY());
-    }
+    public double getDistFromPlayer(Player player){ return Global.getDist(player.getX(),player.getY(),this.getX(),this.getY()); }
 
     //Setters
     public void modHp(float deltaHp) {
         this.hp += deltaHp;
-        this.hp = MathUtils.clamp(this.hp,0,this.max_hp);
+        this.hp = MathUtils.clamp(this.hp,0,this.max_hp); //clamp hp
     }
 
 }
