@@ -86,7 +86,6 @@ public class Enemy extends Entity {
         //TODO: enemies should have a variable called distFromPlayer, which is the distance away from the player they like to stay at
         //get angle ship needs to travel in
         float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
-        //System.out.println(true);
         //Update enemy
         this.rotate(targetAngle,this.turn_speed); //enemy tries to face player
         if(Global.getDist(player.getX(),player.getY(),this.getX(),this.getY())>(250/Global.PPM)){

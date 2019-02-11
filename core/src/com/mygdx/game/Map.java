@@ -129,7 +129,6 @@ public class Map {
     public static Vector2 getSector(Player player) { //returns the current location of player
         float sectorX = (float)(player.sprite.getX()/Map.DIVISION_SIZE);
         float sectorY = (float)(player.sprite.getY()/Map.DIVISION_SIZE);
-        //System.out.println(sectorX+" "+sectorY);
         return new Vector2(sectorX,sectorY);
     }
     public static int getDifficulty(int sx, int sy) { return map[sy][sx]; }//takes in coordinates of a sector and returns the difficulty

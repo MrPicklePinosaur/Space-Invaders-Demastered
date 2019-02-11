@@ -318,6 +318,7 @@ public class UI {
                 batch.draw(gunnerClicked,getRelCenter(classMenu).x+56,800-getRelCenter(classMenu).y-320-gunnerHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_gunner);
                 isClassPicked = true;   //if player picks the double gun class, give them that classes attributes
+                UI.isPaused = false;
             }
         }
         if(Global.mx>=-155 && Global.mx<=33 && Global.my<=-120 && Global.my>=-145){
@@ -326,6 +327,7 @@ public class UI {
                 batch.draw(shotgunnistClicked,getRelCenter(classMenu).x+245,800-getRelCenter(classMenu).y-320-shotgunnistHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_shotgunist);
                 isClassPicked = true;   //if player picks the shotgun class, give them that classes attributes
+                UI.isPaused = false;
             }
         }
         if(Global.mx>=91 && Global.mx<=188 && Global.my<=-120 && Global.my>=-145){
@@ -334,6 +336,7 @@ public class UI {
                 batch.draw(sniperClicked,getRelCenter(classMenu).x+491,800-getRelCenter(classMenu).y-320-sniperHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_sniper);
                 isClassPicked = true;   //if the player picks the sniper class, give them that classes attributes
+                UI.isPaused = false;
             }
         }
         if(Global.mx>=231 && Global.mx<=353 && Global.my<=-120 && Global.my>=-145){
@@ -343,6 +346,7 @@ public class UI {
                 AssetLoader.switchClasses(player,AssetLoader.class_rammer);
                 isClassPicked = true;   //if player picks the rammer (run directly into enemies) class,
                                         // give them that classes attributes
+                UI.isPaused = false;
             }
         }
         batch.end();
@@ -367,7 +371,7 @@ public class UI {
                 batch.draw(MaxHPClicked,getRelCenter(StatsMenu).x+123,800-getRelCenter(StatsMenu).y-153-MaxHPHover.getHeight());
                 player.choosePoint(1,0,0,0,0,0);
                 Global.mustLevelUp = false;
-                isPaused = false;   //raise the players maximum health stat
+                UI.isPaused = false;   //raise the players maximum health stat
             }
         }
         if(Global.mx>=-90 && Global.mx<=5 && Global.my<=47 && Global.my>=26){
@@ -376,7 +380,7 @@ public class UI {
                 batch.draw(DamageClicked,getRelCenter(StatsMenu).x+310,800-getRelCenter(StatsMenu).y-153-DamageHover.getHeight());
                 player.choosePoint(0,1,0,0,0,0);
                 Global.mustLevelUp = false;
-                isPaused = false;   //raise the players damage per shot stat
+                UI.isPaused = false;   //raise the players damage per shot stat
             }
         }
         if(Global.mx>=106 && Global.mx<=277 && Global.my<=47 && Global.my>=26){
@@ -385,7 +389,7 @@ public class UI {
                 batch.draw(ReloadSpeedClicked,getRelCenter(StatsMenu).x+506,800-getRelCenter(StatsMenu).y-153-ReloadSpeedHover.getHeight());
                 player.choosePoint(0,0,1,0,0,0);
                 Global.mustLevelUp = false;
-                isPaused = false;   //increase the player's shot speed
+                UI.isPaused = false;   //increase the player's shot speed
             }
         }
         if(Global.mx>=-296 && Global.mx<=-162 && Global.my<=-94 && Global.my>=-116){
@@ -394,7 +398,7 @@ public class UI {
                 batch.draw(ShipSpeedClicked,getRelCenter(StatsMenu).x+104,800-getRelCenter(StatsMenu).y-294-ShipSpeedHover.getHeight());
                 player.choosePoint(0,0,0,1,0,0);
                 Global.mustLevelUp = false;
-                isPaused = false;   //increase the player's ship speed
+                UI.isPaused = false;   //increase the player's ship speed
             }
         }
         if(Global.mx>=-107 && Global.mx<=34 && Global.my<=-94 && Global.my>=-116){
@@ -403,7 +407,7 @@ public class UI {
                 batch.draw(TurnSpeedClicked,getRelCenter(StatsMenu).x+293,800-getRelCenter(StatsMenu).y-294-TurnSpeedHover.getHeight());
                 player.choosePoint(0,0,0,0,1,0);
                 Global.mustLevelUp = false;
-                isPaused = false;   //increase the player's turn speed
+                UI.isPaused = false;   //increase the player's turn speed
             }
         }
         if(Global.mx>=88 && Global.mx<=294 && Global.my<=-94 && Global.my>=-116){
@@ -412,7 +416,7 @@ public class UI {
                 batch.draw(ContactDamageClicked,getRelCenter(StatsMenu).x+488,800-getRelCenter(StatsMenu).y-294-ContactDamageHover.getHeight());
                 player.choosePoint(0,0,0,0,0,1);
                 Global.mustLevelUp = false;
-                isPaused = false;   //increase the amount of damage the player does when ramming into enemies
+                UI.isPaused = false;   //increase the amount of damage the player does when ramming into enemies
             }
         }
 

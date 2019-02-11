@@ -117,8 +117,8 @@ public class Player extends Entity {
             this.hp = this.max_hp;
             //TODO: level caps at 45 or sm
             this.lvl += 1;
-            UI.isPaused = true;
             Global.mustLevelUp = true;
+            UI.isPaused = true; //if the player reaches level 5 and needs to pick a class, bring up the class menu
             this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
             //let player choose a stat to level up
         } else { //otherwise gain xp like normal

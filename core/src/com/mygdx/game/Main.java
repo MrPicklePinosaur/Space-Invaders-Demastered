@@ -56,10 +56,8 @@ public class Main extends ApplicationAdapter {
 			inFile.close();
 		}catch(IOException ioe){System.out.println("highscore.txt does not exist");}
 
-		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
 		player = AssetLoader.create_player(AssetLoader.class_base); //create player object
-		System.out.println(player.getLvl());
 		player.choosePoint(0,0,0,0,0,0);
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);
@@ -105,27 +103,30 @@ public class Main extends ApplicationAdapter {
 			}
 			else{
 				if(player.getHp()>0){	//if player is alive
-					if(UI.isClassPicked || player.getLvl()!=5  || Global.mustLevelUp) {
-						if(Global.mustLevelUp){
-							UI.statMenu(player);	//if the player needs to level up
-													//(while they don't have to worry about choosing their class)
-													// bring up the level screen
-						}else {
-							//we only let camera move during this method
-							//because it looks cool
-							//but in the other places where we could, it would be really distracting
-							//as in those places the choices made by the player are important
-							//this is just an aesthetic decision
-							UI.pauseMenu();
-							Global.r.moveCamera(player);
-							Global.r.cam.update();
-						}
-					}else{
+					if(Global.mustLevelUp==false){
+						//we only let camera move during this method
+						//because it looks cool
+						//but in the other places where we could, it would be really distracting
+						//as in those places the choices made by the player are important
+						//this is just an aesthetic decision
+						UI.pauseMenu();
+						Global.r.moveCamera(player);
+						Global.r.cam.update();
+					}
+					if(Global.mustLevelUp==true && (player.getLvl()!=5 || UI.isClassPicked==true)) {
+						UI.statMenu(player);    //if the player needs to level up
+												//(while they don't have to worry about choosing their class)
+												// bring up the level up stat screen
+					}
+					if(Global.mustLevelUp==true && player.getLvl()==5 && UI.isClassPicked==false){
 						//if the player needs to pick their class, then they must have just reached level 5
 						//therefore, let the pick their class BEFORE they choose the stat they want to level up,
 						//as the stats they choose to improve will depend on the class they choose
 						UI.pickClass(player);
-						UI.statMenu(player);
+						if(UI.isClassPicked==true){
+							UI.isPaused = true;
+							UI.statMenu(player);
+						}
 					}
 				}else{	//if player isn't alive, run the death screen
 					UI.Death(player);
@@ -152,10 +153,9 @@ public class Main extends ApplicationAdapter {
 				map.generateEnemy(player);
 
 				oldSector = currSector;
-				System.out.println("New sector");
 			}
 			Enemy.updateAll(player);
-			if(player.getHp()<=0 || (player.getLvl()==5 && UI.isClassPicked==false)){
+			if(player.getHp()<=0){
 				UI.isPaused = true;	//if the player's health falls below 0, call the death menu by pausing the game
 			}
 
