@@ -32,7 +32,6 @@ public class Main extends ApplicationAdapter {
 	Player player;
 	Vector2 oldSector,currSector;
 	Map map;
-	//Sprite mapSprite; //temp variable; clean up later
 	UI ui;
 	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
 	Texture bg; TextureRegion tRegion;
@@ -89,7 +88,7 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		batch.setProjectionMatrix(r.cam.combined);
+		batch.setProjectionMatrix(Global.r.cam.combined);
 		batch.draw(tRegion,0,0,100*24,100*24);
 		//mapSprite.draw(batch);
 		player.sprite.draw(batch); //draw player
@@ -97,36 +96,46 @@ public class Main extends ApplicationAdapter {
 		Projectile.drawAll(batch);
 		batch.end();
 
-		//Draw UI
+		//Draw UI for the game
 		ui.draw(player);
 
-		if(UI.isPaused()){
+		if(UI.isPaused()){	//if the game needs to be paused for any reason, handle whatever needs to be done
 			if(!UI.opening){
-				UI.opening();
+				UI.opening();	//if the opening screen hasn't been ran yet (at start of game), do that
 			}
 			else{
-				if(player.getHp()>0){
+				if(player.getHp()>0){	//if player is alive
 					if(UI.isClassPicked || player.getLvl()!=5  || Global.mustLevelUp) {
 						if(Global.mustLevelUp){
-							UI.statMenu(player);
+							UI.statMenu(player);	//if the player needs to level up
+													//(while they don't have to worry about choosing their class)
+													// bring up the level screen
 						}else {
+							//we only let camera move during this method
+							//because it looks cool
+							//but in the other places where we could, it would be really distracting
+							//as in those places the choices made by the player are important
+							//this is just an aesthetic decision
 							UI.pauseMenu();
-							r.moveCamera(player);
-							r.cam.update(); //refresh camera
+							Global.r.moveCamera(player);
+							Global.r.cam.update();
 						}
 					}else{
+						//if the player needs to pick their class, then they must have just reached level 5
+						//therefore, let the pick their class BEFORE they choose the stat they want to level up,
+						//as the stats they choose to improve will depend on the class they choose
 						UI.pickClass(player);
 						UI.statMenu(player);
 					}
-				}else{
+				}else{	//if player isn't alive, run the death screen
 					UI.Death(player);
 				}
 			}
 			Global.updateInput();
-		}else {
+		}else {	//run the game
 
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-				UI.isPaused = true;
+				UI.isPaused = true;	//if the player wants to pause the game, let them
 			}
 
 			//UPDATE STUFF
@@ -147,7 +156,7 @@ public class Main extends ApplicationAdapter {
 			}
 			Enemy.updateAll(player);
 			if(player.getHp()<=0 || (player.getLvl()==5 && UI.isClassPicked==false)){
-				UI.isPaused = true;
+				UI.isPaused = true;	//if the player's health falls below 0, call the death menu by pausing the game
 			}
 
 			//update projectiles
@@ -156,9 +165,9 @@ public class Main extends ApplicationAdapter {
 			//Update world and viewport
 			Global.world.step(Global.delta, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
 			AssetLoader.sweepBodies();
-			//r.debugCam.render(Global.world,r.cam.combined);
-			r.moveCamera(player);
-			r.cam.update(); //refresh camera
+			//Global.r.debugCam.render(Global.world,Global.r.cam.combined);
+			Global.r.moveCamera(player);
+			Global.r.cam.update(); //refresh camera
 			Global.updateInput();
 		}
 	}
@@ -167,62 +176,9 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		bg.dispose();
-		UI.batch.dispose();
-		UI.title.dispose();
-		UI.playButton.dispose();
-		UI.playButtonHover.dispose();
-		UI.playButtonClicked.dispose();
-		UI.Help.dispose();
-		UI.HelpHover.dispose();
-		UI.HelpClicked.dispose();
-		UI.HelpScreen.dispose();
-		UI.HelpScreenHover.dispose();
-		UI.HelpScreenClicked.dispose();
-		UI.lives.dispose();
-		UI.xp.dispose();
-		UI.PauseMenu.dispose();
-		UI.BackButtonHover.dispose();
-		UI.BackButtonClicked.dispose();
-		UI.Exit.dispose();
-		UI.ExitHover.dispose();
-		UI.ExitClicked.dispose();
-		UI.MusicHover.dispose();
-		UI.MusicClicked.dispose();
-		UI.MusicMuted.dispose();
-		UI.MusicMutedHover.dispose();
-		UI.MusicMutedClicked.dispose();
-		UI.shapeRenderer.dispose();
-		UI.sector.dispose();
-		UI.highscore.dispose();
-		UI.score.dispose();
-		UI.death.dispose();
-		UI.again.dispose();
-		UI.againHover.dispose();
-		UI.againClicked.dispose();
-		UI.classMenu.dispose();
-		UI.gunnerHover.dispose();
-		UI.gunnerClicked.dispose();
-		UI.shotgunnistHover.dispose();
-		UI.shotgunnistClicked.dispose();
-		UI.sniperHover.dispose();
-		UI.sniperClicked.dispose();
-		UI.rammerHover.dispose();
-		UI.rammerClicked.dispose();
-		UI.StatsMenu.dispose();
-		UI.MaxHPHover.dispose();
-		UI.MaxHPClicked.dispose();
-		UI.DamageHover.dispose();
-		UI.DamageClicked.dispose();
-		UI.ReloadSpeedHover.dispose();
-		UI.ReloadSpeedClicked.dispose();
-		UI.ShipSpeedHover.dispose();
-		UI.ShipSpeedClicked.dispose();
-		UI.TurnSpeedHover.dispose();
-		UI.TurnSpeedClicked.dispose();
-		UI.ContactDamageHover.dispose();
-		UI.ContactDamageClicked.dispose();
+		UI.disposeAll();	//disposes all ui textures
 		try {
-			if(Global.currScore>Global.highscore){
+			if(Global.currScore>Global.highscore){	//if the player broke the local highscore record, replace highscore
 				File file = new File("highscore.txt");
 				if(file.delete()){System.out.println("highscore change process started");}else{System.out.println("highscore.txt doesnt exist");}
 				if(file.createNewFile()){System.out.println("highscore.txt created");}else{System.out.println("highscore.txt already exists");}

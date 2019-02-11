@@ -23,13 +23,13 @@ import java.util.*;
 public class Map {
 
     private static BufferedImage mapPixels;
-    private static Random randObj;//eNum,eX,eY;   //eNum amt of enemies spawning in sector, eX/eY is starting location
-    private static float eNum,eAng;
-    private static final int radius = 500/Global.PPM;
+    private static Random randObj;  //used when determining how many enemies will be spawned
+    private static float eNum,eAng; //eNum is how many enemies will be spawned, eAng helps determine their location
+                                    // (more information on it is written where it is used in this class)
+    private static final int radius = 500/Global.PPM;   //the radius within an imaginary circle that
+                                                        // the enemies can spawn within
 
-    public static final int DIVISION_SIZE = 10;//1024; //size of each sector of map (in meters)
-                                    //changed to 1200 over 1024 as window size is 1200x800
-                                    //could revert to 1024 if window is changed to 1024x768
+    public static final int DIVISION_SIZE = 10; //size of each sector of map (in meters)
 
     private static int[][] map =  new int[24][24];
 
@@ -43,10 +43,13 @@ public class Map {
         }catch(IOException e){
             System.out.println("map.png isn't where it should be.");
         }
-        int row = 24;int column = 24;
+        int row = 24;int column = 24;   //how many pixels there are in the map image, and therefore how many sectors (24x24)
         Color colour;
         for(int r=0;r<row;r++){
             for(int c=0;c<column;c++){
+                //checks the color of each single pixel in the map, and assigns it a difficulty based on that
+                //since we added levelling this method of assigning difficult to enemies is now obsolete
+                //but this is still used to determine boundaries for the player
                 colour = new Color(mapPixels.getRGB(c,r));
                 if(colour.getRed()==0 && colour.getGreen()==0 && colour.getBlue()==255){
                     map[r][c] = 0;
@@ -107,10 +110,12 @@ public class Map {
 
     public static void randomPlayerSpawn(Player player){
         ArrayList<Vector2> sectors = new ArrayList<Vector2>();
-        for(int i=0;i<24;i++){  //TODO: remove hardcoded dimensions
+        for(int i=0;i<24;i++){
             for(int j=0;j<24;j++){
-                if(map[j][i]==4){   //TODO: changed map[j][i] to map[i][j]. Why does this do anything
-                    sectors.add(new Vector2(j,i));
+                if(map[j][i]==4){
+                    sectors.add(new Vector2(j,i));  //gives the possible sectors the player can spawn in that have a
+                                                    //map value that corresponds to 4, which is in the 4 centermost
+                                                    //sectors
                 }
             }
         }

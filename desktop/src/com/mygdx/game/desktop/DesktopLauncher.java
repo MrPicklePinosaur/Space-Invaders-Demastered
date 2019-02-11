@@ -8,6 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.resizable = false;
+		config.title = "Space Invaders: Demastered";
 		new LwjglApplication(new Main(), config);
 	}
 }
