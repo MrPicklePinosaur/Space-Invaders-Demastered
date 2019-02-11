@@ -123,7 +123,7 @@ public class Main extends ApplicationAdapter {
 			//Update Enemies -- enemy spawning
 			currSector = Map.getSector(player); ///get the position of the player
 			//If player moves to a new sector, or there are no enemies left, spawn new enemies
-			if (((int) currSector.x != (int) oldSector.x || (int) currSector.y != (int) oldSector.y || Enemy.enemies.size() == 0) && currSector.x != 0 && currSector.y != 0) {
+			if (Enemy.enemies.size() == 0 && Map.getDifficulty((int)currSector.x,(int)currSector.y) != 0) {
 				map.generateEnemy(player); //spawn new enemies
 				oldSector = currSector; //update current sector
 			}
