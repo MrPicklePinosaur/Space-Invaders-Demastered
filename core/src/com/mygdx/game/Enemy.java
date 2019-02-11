@@ -82,6 +82,7 @@ public class Enemy extends Entity {
 
     public void move_circle(Player player) { //enemy flies in direction of player, until it reaches a certain distance from player, then it will circle
         //TODO: enemies should have a variable called distFromPlayer, which is the distance away from the player they like to stay at
+        //Done
         //get angle ship needs to travel in
         float targetAngle = MathUtils.atan2(player.body.getPosition().y-this.body.getPosition().y,player.body.getPosition().x-this.body.getPosition().x);
         //Update enemy

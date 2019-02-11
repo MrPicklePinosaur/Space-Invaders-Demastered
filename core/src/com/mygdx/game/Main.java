@@ -33,7 +33,6 @@ public class Main extends ApplicationAdapter {
 	Vector2 oldSector,currSector;
 	Map map;
 	UI ui;
-	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
 	Texture bg; TextureRegion tRegion;
 
 	@Override
