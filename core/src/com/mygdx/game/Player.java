@@ -54,7 +54,7 @@ public class Player extends Entity {
 
         this.hp = this.max_hp;
         this.xp = 0;
-        this.lvl = 5;
+        this.lvl = 1;
 
 
         //Create body for player - it is assumed that player has a circular fixture
@@ -131,6 +131,8 @@ public class Player extends Entity {
             this.hp = this.max_hp;
             //TODO: level caps at 45 or sm
             this.lvl += 1;
+            UI.isPaused = true;
+            Global.mustLevelUp = true;
             this.xp = (int)(this.xp+xpAmount)%1000; //additional xp carries over
             //this.choosePoint(1,0,0,0,0,0);
             /*if (this.lvl >= 5) {

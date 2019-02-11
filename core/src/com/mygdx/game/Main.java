@@ -110,12 +110,17 @@ public class Main extends ApplicationAdapter {
 			}
 			else{
 				if(player.getHp()>0){
-					if(UI.isClassPicked || player.getLvl()!=5) {
-						UI.pauseMenu();
-						r.moveCamera(player);
-						r.cam.update(); //refresh camera
+					if(UI.isClassPicked || player.getLvl()!=5  || Global.mustLevelUp) {
+						if(Global.mustLevelUp){
+							UI.statMenu(player);
+						}else {
+							UI.pauseMenu();
+							r.moveCamera(player);
+							r.cam.update(); //refresh camera
+						}
 					}else{
 						UI.pickClass(player);
+						UI.statMenu(player);
 					}
 				}else{
 					UI.Death(player);
@@ -210,6 +215,19 @@ public class Main extends ApplicationAdapter {
 		UI.sniperClicked.dispose();
 		UI.rammerHover.dispose();
 		UI.rammerClicked.dispose();
+		UI.StatsMenu.dispose();
+		UI.MaxHPHover.dispose();
+		UI.MaxHPClicked.dispose();
+		UI.DamageHover.dispose();
+		UI.DamageClicked.dispose();
+		UI.ReloadSpeedHover.dispose();
+		UI.ReloadSpeedClicked.dispose();
+		UI.ShipSpeedHover.dispose();
+		UI.ShipSpeedClicked.dispose();
+		UI.TurnSpeedHover.dispose();
+		UI.TurnSpeedClicked.dispose();
+		UI.ContactDamageHover.dispose();
+		UI.ContactDamageClicked.dispose();
 		try {
 			if(Global.currScore>Global.highscore){
 				File file = new File("highscore.txt");

@@ -39,6 +39,7 @@ public class Global {
     public static int highscore;
     public static int currScore=0;
     public static boolean isDead = false;
+    public static boolean mustLevelUp = false;
 
     public static void updateInput() { //call in every single render loop to update
         //Find out how far mouse is from center of screen

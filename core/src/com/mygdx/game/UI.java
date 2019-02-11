@@ -27,6 +27,13 @@ public class UI {
     static Texture Help,HelpHover,HelpClicked;
     static Texture HelpScreen,HelpScreenHover,HelpScreenClicked;
     static Texture lives,xp,PauseMenu;
+    static Texture StatsMenu;
+    static Texture MaxHPHover,MaxHPClicked;
+    static Texture DamageHover,DamageClicked;
+    static Texture ReloadSpeedHover,ReloadSpeedClicked;
+    static Texture ShipSpeedHover,ShipSpeedClicked;
+    static Texture TurnSpeedHover,TurnSpeedClicked;
+    static Texture ContactDamageHover,ContactDamageClicked;
     static Texture classMenu;
     static Texture gunnerHover,gunnerClicked;
     static Texture shotgunnistHover,shotgunnistClicked;
@@ -58,6 +65,19 @@ public class UI {
         HelpScreenHover = new Texture("HelpScreenHover.png");
         HelpScreenClicked = new Texture("HelpScreenClicked.png");
         lives = new Texture("lifebar.png");
+        StatsMenu = new Texture("StatsMenu.png");
+        MaxHPHover = new Texture("MaxHPHover.png");
+        MaxHPClicked = new Texture("MaxHPClicked.png");
+        DamageHover = new Texture("DamageHover.png");
+        DamageClicked = new Texture("DamageClicked.png");
+        ReloadSpeedHover = new Texture("ReloadSpeedHover.png");
+        ReloadSpeedClicked = new Texture("ReloadSpeedClicked.png");
+        ShipSpeedHover = new Texture("ShipSpeedHover.png");
+        ShipSpeedClicked = new Texture("ShipSpeedClicked.png");
+        TurnSpeedHover = new Texture("TurnSpeedHover.png");
+        TurnSpeedClicked = new Texture("TurnSpeedClicked.png");
+        ContactDamageHover = new Texture("ContactDamageHover.png");
+        ContactDamageClicked = new Texture("ContactDamageClicked.png");
         classMenu = new Texture("classes.png");
         gunnerHover = new Texture("gunnerHover.png");
         gunnerClicked = new Texture("gunnerClicked.png");
@@ -300,7 +320,7 @@ public class UI {
                 batch.draw(gunnerClicked,getRelCenter(classMenu).x+56,800-getRelCenter(classMenu).y-320-gunnerHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_gunner);
                 isClassPicked = true;
-                isPaused = false;
+                //isPaused = false;
             }
         }
         if(Global.mx>=-155 && Global.mx<=33 && Global.my<=-120 && Global.my>=-145){   //-75,97
@@ -309,7 +329,7 @@ public class UI {
                 batch.draw(shotgunnistClicked,getRelCenter(classMenu).x+245,800-getRelCenter(classMenu).y-320-shotgunnistHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_shotgunist);
                 isClassPicked = true;
-                isPaused = false;
+                //isPaused = false;
             }
         }
         if(Global.mx>=91 && Global.mx<=188 && Global.my<=-120 && Global.my>=-145){   //-75,97
@@ -318,7 +338,7 @@ public class UI {
                 batch.draw(sniperClicked,getRelCenter(classMenu).x+491,800-getRelCenter(classMenu).y-320-sniperHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_sniper);
                 isClassPicked = true;
-                isPaused = false;
+                //isPaused = false;
             }
         }
         if(Global.mx>=231 && Global.mx<=353 && Global.my<=-120 && Global.my>=-145){   //-75,97
@@ -327,9 +347,79 @@ public class UI {
                 batch.draw(rammerClicked,getRelCenter(classMenu).x+631,800-getRelCenter(classMenu).y-320-rammerHover.getHeight());
                 AssetLoader.switchClasses(player,AssetLoader.class_rammer);
                 isClassPicked = true;
+                //isPaused = false;
+            }
+        }
+        batch.end();
+    }
+
+    public static void statMenu(Player player){
+        batch.begin();
+        System.out.println(Global.mx+" "+Global.my);
+        /*
+        Max hp
+        Damage
+        Reload Speed
+        Ship Speed
+        Turn Speed
+        Contact Damage
+        */
+        batch.draw(StatsMenu,getRelCenter(StatsMenu).x,getRelCenter(StatsMenu).y);
+        if(Global.mx>=-277 && Global.mx<=-190 && Global.my<=47 && Global.my>=26){
+            batch.draw(MaxHPHover,getRelCenter(StatsMenu).x+123,800-getRelCenter(StatsMenu).y-153-MaxHPHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(MaxHPClicked,getRelCenter(StatsMenu).x+123,800-getRelCenter(StatsMenu).y-153-MaxHPHover.getHeight());
+                player.choosePoint(1,0,0,0,0,0);
+                Global.mustLevelUp = false;
                 isPaused = false;
             }
         }
+        if(Global.mx>=-90 && Global.mx<=5 && Global.my<=47 && Global.my>=26){
+            batch.draw(DamageHover,getRelCenter(StatsMenu).x+310,800-getRelCenter(StatsMenu).y-153-DamageHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(DamageClicked,getRelCenter(StatsMenu).x+310,800-getRelCenter(StatsMenu).y-153-DamageHover.getHeight());
+                player.choosePoint(0,1,0,0,0,0);
+                Global.mustLevelUp = false;
+                isPaused = false;
+            }
+        }
+        if(Global.mx>=106 && Global.mx<=277 && Global.my<=47 && Global.my>=26){
+            batch.draw(ReloadSpeedHover,getRelCenter(StatsMenu).x+506,800-getRelCenter(StatsMenu).y-153-ReloadSpeedHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(ReloadSpeedClicked,getRelCenter(StatsMenu).x+506,800-getRelCenter(StatsMenu).y-153-ReloadSpeedHover.getHeight());
+                player.choosePoint(0,0,1,0,0,0);
+                Global.mustLevelUp = false;
+                isPaused = false;
+            }
+        }
+        if(Global.mx>=-296 && Global.mx<=-162 && Global.my<=-94 && Global.my>=-116){
+            batch.draw(ShipSpeedHover,getRelCenter(StatsMenu).x+104,800-getRelCenter(StatsMenu).y-294-ShipSpeedHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(ShipSpeedClicked,getRelCenter(StatsMenu).x+104,800-getRelCenter(StatsMenu).y-294-ShipSpeedHover.getHeight());
+                player.choosePoint(0,0,0,1,0,0);
+                Global.mustLevelUp = false;
+                isPaused = false;
+            }
+        }
+        if(Global.mx>=-107 && Global.mx<=34 && Global.my<=-94 && Global.my>=-116){
+            batch.draw(TurnSpeedHover,getRelCenter(StatsMenu).x+293,800-getRelCenter(StatsMenu).y-294-TurnSpeedHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(TurnSpeedClicked,getRelCenter(StatsMenu).x+293,800-getRelCenter(StatsMenu).y-294-TurnSpeedHover.getHeight());
+                player.choosePoint(0,0,0,0,1,0);
+                Global.mustLevelUp = false;
+                isPaused = false;
+            }
+        }
+        if(Global.mx>=88 && Global.mx<=294 && Global.my<=-94 && Global.my>=-116){
+            batch.draw(ContactDamageHover,getRelCenter(StatsMenu).x+488,800-getRelCenter(StatsMenu).y-294-ContactDamageHover.getHeight());
+            if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                batch.draw(ContactDamageClicked,getRelCenter(StatsMenu).x+488,800-getRelCenter(StatsMenu).y-294-ContactDamageHover.getHeight());
+                player.choosePoint(0,0,0,0,0,1);
+                Global.mustLevelUp = false;
+                isPaused = false;
+            }
+        }
+
         batch.end();
     }
 
