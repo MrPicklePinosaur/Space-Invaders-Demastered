@@ -45,7 +45,7 @@ public class Player extends Entity {
         AssetLoader.switchClasses(this,className); //set player stats depending on its class
         this.hp = this.max_hp;
         this.xp = 0;
-        this.lvl = 1;
+        this.lvl = 11;
 
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
