@@ -44,8 +44,8 @@ public class Player extends Entity {
         super(texture,speed);
         AssetLoader.switchClasses(this,className); //set player stats depending on its class
         this.hp = this.max_hp;
-        this.xp = 490;
-        this.lvl = 4;
+        this.xp = 0;
+        this.lvl = 1;
 
         //Create body for player - it is assumed that player has a circular fixture
         CircleShape circle = new CircleShape();
@@ -64,7 +64,7 @@ public class Player extends Entity {
         //  NOTE: There may be no need for acceleration / decceleration, instead possibly use impulses and linear damping
 
         //Rotate ship using mouse
-        this.rotate(Global.angle, 0.055f);
+        this.rotate(Global.angle, this.turn_speed);
         //Move player depending on the direction its facing
         float vx = this.speed * MathUtils.cos(this.body.getAngle());
         float vy = this.speed * MathUtils.sin(this.body.getAngle());
