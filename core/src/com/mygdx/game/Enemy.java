@@ -137,7 +137,9 @@ public class Enemy extends Entity {
             e.update(); //sync sprite with fixture
             if(e.getHP()<=0 || e.getDistFromPlayer(player)>800f/Global.PPM) {
                 if(!Global.isDead) {
-                    player.addXp(e.xp); //give player xp
+                    if(e.getHP()<=0){
+                        player.addXp(e.xp); //give player xp\
+                    }
                 }
                 //Give chance to spawn hp box where enemy dies
 
