@@ -14,7 +14,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Player extends Entity {
@@ -86,6 +85,9 @@ public class Player extends Entity {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.L)) { //player toggles camera lock mode
             Global.r.toggleLockedCamera();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.K)){
+            this.modHp(-1000000);	//suicide button
         }
 
         if (this.reload==true) { reload_counter++; } //makes plauer shooting dependent on its reload stat

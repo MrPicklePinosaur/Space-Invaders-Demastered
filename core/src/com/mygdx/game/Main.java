@@ -13,17 +13,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-
-import javax.xml.soap.Text;
 import java.io.*;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main extends ApplicationAdapter {
@@ -32,51 +26,43 @@ public class Main extends ApplicationAdapter {
 	Player player;
 	Vector2 oldSector,currSector;
 	Map map;
-	//Sprite mapSprite; //temp variable; clean up later
 	UI ui;
-	//NOTE: USE ASSETMANAGER TO MAKE DISPOSING EASIER
-	Texture bg; TextureRegion tRegion;
+	Texture bg;
+	TextureRegion tRegion;
 
 	@Override
 	public void create() {
 		Gdx.graphics.setWindowedMode(Global.SCREEN_WIDTH, Global.SCREEN_HEIGHT); //change window resolution
 		Global.world = new World(new Vector2(0,0),true);
 		Global.world.setContactListener(new CollisionListener());
-		r = new Renderer(batch);
-		Global.r = r;
-
+		Global.r = new Renderer(batch);
 		batch = new SpriteBatch();
 
-		try{
+		try{ //read save file
 			Scanner inFile = new Scanner(new BufferedReader(new FileReader("highscore.txt")));
 			int highscore;
 			while(inFile.hasNextInt()){
-				highscore = inFile.nextInt();
+				highscore = inFile.nextInt(); //set highscore depending on savedat
 				Global.highscore = highscore;
 			}
 			inFile.close();
-		}catch(IOException ioe){System.out.println("highscore.txt does not exist");}
+		}catch(IOException ioe){System.out.println("highscore.txt does not exist");} //in case file doesnt exist
 
-		System.out.println("Width: "+Gdx.graphics.getWidth()+"\nHeight: "+Gdx.graphics.getHeight());
 		//Create Player
 		player = AssetLoader.create_player(AssetLoader.class_base); //create player object
-		System.out.println(player.getLvl());
 		player.choosePoint(0,0,0,0,0,0);
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);
-		//mapSprite = new Sprite(new Texture("space.png"),Map.DIVISION_SIZE*24/Global.PPM,Map.DIVISION_SIZE*24/Global.PPM);
 		ui = new UI();
 		UI.isPaused = true;
 		map = new Map();
 
-		Map.randomPlayerSpawn(player);
+		Map.randomPlayerSpawn(player); //spawn player in a random location
 
+		//load map sprites
 		bg = new Texture(Gdx.files.internal("repeatingSpace.png"));
 		bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
 		tRegion = new TextureRegion(bg,0,0,100*400*24,100*400*24);
-
-
-
 	}
 
 	@Override
@@ -89,7 +75,7 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		batch.setProjectionMatrix(r.cam.combined);
+		batch.setProjectionMatrix(Global.r.cam.combined);
 		batch.draw(tRegion,0,0,100*24,100*24);
 		//mapSprite.draw(batch);
 		player.sprite.draw(batch); //draw player
@@ -111,8 +97,8 @@ public class Main extends ApplicationAdapter {
 							UI.statMenu(player);
 						}else {
 							UI.pauseMenu();
-							r.moveCamera(player);
-							r.cam.update(); //refresh camera
+							Global.r.moveCamera(player);
+							Global.r.cam.update(); //refresh camera
 						}
 					}else{
 						UI.pickClass(player);
@@ -133,19 +119,17 @@ public class Main extends ApplicationAdapter {
 			//Update Player
 			player.handleInput();
 			player.regen();
-			if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-				player.modHp(-1000);	//suicide button
-			}
 
 			//Update Enemies -- enemy spawning
-			currSector = Map.getSector(player);
+			currSector = Map.getSector(player); ///get the position of the player
+			//If player moves to a new sector, or there are no enemies left, spawn new enemies
 			if (((int) currSector.x != (int) oldSector.x || (int) currSector.y != (int) oldSector.y || Enemy.enemies.size() == 0) && currSector.x != 0 && currSector.y != 0) {
-				map.generateEnemy(player);
-
-				oldSector = currSector;
-				System.out.println("New sector");
+				map.generateEnemy(player); //spawn new enemies
+				oldSector = currSector; //update current sector
 			}
+
 			Enemy.updateAll(player);
+
 			if(player.getHp()<=0 || (player.getLvl()==5 && UI.isClassPicked==false)){
 				UI.isPaused = true;
 			}
@@ -155,16 +139,17 @@ public class Main extends ApplicationAdapter {
 
 			//Update world and viewport
 			Global.world.step(Global.delta, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
-			AssetLoader.sweepBodies();
+			AssetLoader.sweepBodies(); //clean up all the 'dead' bodies
 			//r.debugCam.render(Global.world,r.cam.combined);
-			r.moveCamera(player);
-			r.cam.update(); //refresh camera
-			Global.updateInput();
+			Global.r.moveCamera(player); //camera follows player
+			Global.r.cam.update(); //refresh camera
+			Global.updateInput(); //update global inputs, like mouse position
 		}
 	}
 
 	@Override
 	public void dispose () {
+		//this is so sad there are so many lines
 		batch.dispose();
 		bg.dispose();
 		UI.batch.dispose();
@@ -221,7 +206,8 @@ public class Main extends ApplicationAdapter {
 		UI.TurnSpeedClicked.dispose();
 		UI.ContactDamageHover.dispose();
 		UI.ContactDamageClicked.dispose();
-		try {
+
+		try { //write to highscore file if player gets new highscore
 			if(Global.currScore>Global.highscore){
 				File file = new File("highscore.txt");
 				if(file.delete()){System.out.println("highscore change process started");}else{System.out.println("highscore.txt doesnt exist");}
@@ -232,7 +218,7 @@ public class Main extends ApplicationAdapter {
 				hsWriter.close();
 			}
 		}catch(IOException ioe){
-			System.out.println("cannot write to highscore.txt");
+			System.out.println("cannot write to highscore.txt"); //if file cannot be found
 		}
 	}
 
