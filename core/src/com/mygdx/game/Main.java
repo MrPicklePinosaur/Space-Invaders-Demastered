@@ -132,7 +132,7 @@ public class Main extends ApplicationAdapter {
 		}else {
 
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-				UI.pause();
+				UI.isPaused = true;
 			}
 
 			//UPDATE STUFF

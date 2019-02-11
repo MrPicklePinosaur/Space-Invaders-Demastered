@@ -173,10 +173,6 @@ public class UI {
         shapeRenderer.rect(35+10-1, 800-14-17,hpWidth, 8);
         shapeRenderer.end();
     }
-    public static void pause(){
-        //Global.delta = 0f;
-        UI.isPaused = true;
-    }
     public static void pauseMenu(){
         batch.begin();
         batch.draw(PauseMenu,menuX,menuY);
@@ -199,12 +195,14 @@ public class UI {
                 batch.draw(MusicHover,menuX+52,menuY+110);
                 if(Gdx.input.justTouched()){
                     batch.draw(MusicClicked,menuX+52,menuY+110);
+                    MusicPlayer.toggleMute();
                     musicPlaying = false;
                 }
             }else{
                 batch.draw(MusicMutedHover,menuX+52,menuY+110);
                 if(Gdx.input.justTouched()){
                     batch.draw(MusicMutedClicked,menuX+52,menuY+110);
+                    MusicPlayer.toggleMute();
                     musicPlaying = true;
                 }
             }
