@@ -57,7 +57,7 @@ public class Main extends ApplicationAdapter {
 		}catch(IOException ioe){System.out.println("highscore.txt does not exist");}
 
 		//Create Player
-		player = AssetLoader.create_player(AssetLoader.class_sniper); //create player object
+		player = AssetLoader.create_player(AssetLoader.class_base); //create player object
 		player.choosePoint(0,0,0,0,0,0);
 		oldSector = Map.getSector(player);
 		currSector = new Vector2(-1,-1);
