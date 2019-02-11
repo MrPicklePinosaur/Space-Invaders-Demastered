@@ -85,13 +85,13 @@ public class Map {
         } else if (player.getLvl()<5) {
             upperBound = 5; lowerBound = 3;
             enemy_pool = AssetLoader.difficulty_one;
-        } else if (player.getLvl()>=5) {
+        } else if (player.getLvl()<10) {
             upperBound = 7; lowerBound = 4;
             enemy_pool = AssetLoader.difficulty_two;
-        } else if (player.getLvl()>=10) {
+        } else if (player.getLvl()<15) {
             upperBound = 10; lowerBound = 5;
             enemy_pool = AssetLoader.difficulty_three;
-        } else if (player.getLvl()>=15) {
+        } else if (player.getLvl()<20) {
             upperBound = 12; lowerBound = 7;
             enemy_pool = AssetLoader.difficulty_four;
         }
