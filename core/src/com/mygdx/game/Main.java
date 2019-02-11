@@ -13,17 +13,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-
-import javax.xml.soap.Text;
 import java.io.*;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main extends ApplicationAdapter {
@@ -45,7 +39,7 @@ public class Main extends ApplicationAdapter {
 
 		batch = new SpriteBatch();
 
-		try{
+		try{ //read save file
 			Scanner inFile = new Scanner(new BufferedReader(new FileReader("highscore.txt")));
 			int highscore;
 			while(inFile.hasNextInt()){
@@ -70,9 +64,6 @@ public class Main extends ApplicationAdapter {
 		bg = new Texture(Gdx.files.internal("repeatingSpace.png"));
 		bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
 		tRegion = new TextureRegion(bg,0,0,100*400*24,100*400*24);
-
-
-
 	}
 
 	@Override
@@ -142,15 +133,11 @@ public class Main extends ApplicationAdapter {
 			//Update Player
 			player.handleInput();
 			player.regen();
-			if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-				player.modHp(-1000);	//suicide button
-			}
 
 			//Update Enemies -- enemy spawning
 			currSector = Map.getSector(player);
-			if (((int) currSector.x != (int) oldSector.x || (int) currSector.y != (int) oldSector.y || Enemy.enemies.size() == 0) && currSector.x != 0 && currSector.y != 0) {
+			if (Enemy.enemies.size() == 0 && Map.getDifficulty((int)currSector.x,(int)currSector.y) !=0 ) {
 				map.generateEnemy(player);
-
 				oldSector = currSector;
 			}
 			Enemy.updateAll(player);
@@ -163,9 +150,9 @@ public class Main extends ApplicationAdapter {
 
 			//Update world and viewport
 			Global.world.step(Global.delta, 6, 2); //NOTE: GET RID OF HARDCODED VALUES LATER
-			AssetLoader.sweepBodies();
+			AssetLoader.sweepBodies(); //c;eam up all the dead bodies
 			//Global.r.debugCam.render(Global.world,Global.r.cam.combined);
-			Global.r.moveCamera(player);
+			Global.r.moveCamera(player); //camera follows player
 			Global.r.cam.update(); //refresh camera
 			Global.updateInput();
 		}

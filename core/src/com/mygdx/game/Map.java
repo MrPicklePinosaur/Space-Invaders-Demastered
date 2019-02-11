@@ -96,7 +96,6 @@ public class Map {
             enemy_pool = AssetLoader.difficulty_four;
         }
 
-        upperBound = upperBound*difficulty;
         eNum = randObj.nextInt((upperBound - lowerBound) + 1) + lowerBound;
 
         //Spawn enemies
